@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Data", "HMS.Data\HMS.Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Data.Test", "HMS.Data.Test\HMS.Data.Test.csproj", "{A89C8A27-35D0-4F4B-83A5-1AB048722AC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMS.Service", "HMS.Service\HMS.Service.csproj", "{B40DF64D-7545-463E-B377-ABB13107E1D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A89C8A27-35D0-4F4B-83A5-1AB048722AC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A89C8A27-35D0-4F4B-83A5-1AB048722AC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A89C8A27-35D0-4F4B-83A5-1AB048722AC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B40DF64D-7545-463E-B377-ABB13107E1D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B40DF64D-7545-463E-B377-ABB13107E1D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B40DF64D-7545-463E-B377-ABB13107E1D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B40DF64D-7545-463E-B377-ABB13107E1D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

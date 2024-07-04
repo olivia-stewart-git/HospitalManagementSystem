@@ -8,20 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HMS.Data
 {
-    internal class HMSDbContext : DbContext 
+    public class HMSDbContext : DbContext 
     {
-        public string DbPath { get; }
-        public DbSet<RoleModel> Roles { get; set; }
-
-
-        public HMSDbContext()
-        {
-	        var folder = Environment.SpecialFolder.LocalApplicationData;
-	        var path = Environment.GetFolderPath(folder);
-	        DbPath = System.IO.Path.Join(path, "HMS.db");
-        }
+        public DbSet<UserModel> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-	        => options.UseSqlite($"Data Source={DbPath};");
+	        => options.UseSqlServer($"Data Source=.;Server=localhost;Initial Catalog=HospitalDb;User Id=myUsername;Password=myPassword;Trusted_Connection=true");
     }
 }

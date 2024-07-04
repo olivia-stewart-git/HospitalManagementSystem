@@ -12,14 +12,14 @@ namespace HMS.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Roles",
+                name: "Users",
                 columns: table => new
                 {
-                    RM_Id = table.Column<Guid>(type: "TEXT", nullable: false)
+                    USR_PK = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.RM_Id);
+                    table.PrimaryKey("PK_Users", x => x.USR_PK);
                 });
         }
 
@@ -27,7 +27,7 @@ namespace HMS.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Users");
         }
     }
 }
