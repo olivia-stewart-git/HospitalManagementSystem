@@ -9,9 +9,4 @@ namespace HMS.Data
     public interface IUnitOfWorkFactory
     {
     }
-
-    public class UnitOfWorkFactory : IUnitOfWorkFactory
-    {
-        
-    }
 }
