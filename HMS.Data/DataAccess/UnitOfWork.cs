@@ -1,6 +1,6 @@
 ﻿namespace HMS.Data.DataAccess;
 
-public class UnitOfWork : IDisposable
+public class UnitOfWork : IUnitOfWork
 {
 	readonly HMSDbContext dbContext;
 
@@ -11,11 +11,11 @@ public class UnitOfWork : IDisposable
 
 	readonly Dictionary<Type, object> repositoryMap = [];
 
-	public Repository<T> GetRepository<T>() where T : class
+	public IRepository<T> GetRepository<T>() where T : class
 	{
 		if (repositoryMap.TryGetValue(typeof(T), out var repository))
 		{
-			return (Repository<T>)repository;
+			return (IRepository<T>)repository;
 		}
 
 		var repositoryInstance = new Repository<T>(dbContext);

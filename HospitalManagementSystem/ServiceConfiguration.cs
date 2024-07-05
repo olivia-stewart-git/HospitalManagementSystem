@@ -1,6 +1,8 @@
 ﻿using HMS.Data;
 using HMS.Data.DataAccess;
 using HMS.Service;
+using HMS.Service.Interaction;
+using HMS.Service.ViewService;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HSM
@@ -9,9 +11,12 @@ namespace HSM
     {
 	    public static IServiceCollection RegisterServices(this IServiceCollection serviceCollection)
 	    {
-		    serviceCollection.AddTransient<ISeeder, Seeder>();
+		    serviceCollection.AddSingleton<ILogonService, LogonService>();
+		    serviceCollection.AddSingleton<IViewService, ViewService>();
+
+            serviceCollection.AddTransient<ISeeder, Seeder>();
             serviceCollection.AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory>();
-		    serviceCollection.AddTransient<ILogonService, LogonService>();
+		    serviceCollection.AddTransient<IInputService, InputService>();
 		    return serviceCollection;
 	    }
     }

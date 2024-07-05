@@ -8,6 +8,7 @@ namespace HMS.Service.Interaction;
 
 public interface IInputService
 {
+	public int ReadIntegerInput();
 	public string ReadInput();
     public string ReadInput(string prompt);
 	public char ReadChar();

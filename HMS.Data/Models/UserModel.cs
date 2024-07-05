@@ -8,5 +8,11 @@ namespace HMS.Data.Models
     {
         [Key]
         public Guid USR_PK { get; set; }
+
+        [Required]
+        public int USR_ID { get; set; }
+
+        [Required]
+        public string USR_Password { get; set; }
     }
 }

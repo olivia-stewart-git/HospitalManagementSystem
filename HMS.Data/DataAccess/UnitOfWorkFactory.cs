@@ -9,7 +9,7 @@ public class UnitOfWorkFactory : IUnitOfWorkFactory
 		this.dbContext = dbContext;
 	}
 
-	public UnitOfWork CreateUnitOfWork()
+	public IUnitOfWork CreateUnitOfWork()
 	{
 		return new UnitOfWork(dbContext);
 	}
