@@ -4,10 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HMS.Service
+namespace HMS.Service.ViewService;
+
+public class ViewService
 {
-    public interface ILogonService
-    {
-        public void StartLogonProcess();
-    }
 }

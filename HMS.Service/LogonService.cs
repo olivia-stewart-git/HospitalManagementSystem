@@ -1,9 +1,18 @@
-﻿namespace HMS.Service;
+﻿using HMS.Service.Interaction;
+
+namespace HMS.Service;
 
 public class LogonService : ILogonService
 {
-	public void Logon()
+	readonly IInputService inputService;
+
+	public LogonService(IInputService inputService)
 	{
-		Console.WriteLine("Logged on");
+		this.inputService = inputService;
+	}
+
+	public void StartLogonProcess()
+	{
+
 	}
 }

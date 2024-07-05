@@ -1,4 +1,5 @@
 ﻿using HMS.Data;
+using HMS.Data.DataAccess;
 using HMS.Service;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,7 +9,8 @@ namespace HSM
     {
 	    public static IServiceCollection RegisterServices(this IServiceCollection serviceCollection)
 	    {
-		    serviceCollection.AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory>();
+		    serviceCollection.AddTransient<ISeeder, Seeder>();
+            serviceCollection.AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory>();
 		    serviceCollection.AddTransient<ILogonService, LogonService>();
 		    return serviceCollection;
 	    }

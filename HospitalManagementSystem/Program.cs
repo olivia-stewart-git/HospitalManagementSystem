@@ -11,11 +11,9 @@ builder.Services.RegisterServices()
 
 using var host = builder.Build();
 
-var seeder = host.Services.GetService<ISeeder>() 
-	?? throw new InvalidOperationException("Error in retrieving seeding service");
+var seeder = host.Services.GetService<ISeeder>();
 seeder.SeedDb();
 
-var logonService = host.Services.GetService<ILogonService>()
-	?? throw new InvalidOperationException("Error in retrieving seeding service");
+var logonService = host.Services.GetService<ILogonService>();
 
-logonService.Logon();
+logonService.StartLogonProcess();

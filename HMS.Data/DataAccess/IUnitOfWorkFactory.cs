@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HMS.Data
+namespace HMS.Data.DataAccess;
+public interface IUnitOfWorkFactory
 {
-    public interface IUnitOfWorkFactory
-    {
-    }
 }

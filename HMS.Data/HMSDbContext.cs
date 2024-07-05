@@ -13,6 +13,6 @@ namespace HMS.Data
         public DbSet<UserModel> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-	        => options.UseSqlServer($"Data Source=.;Server=localhost;Initial Catalog=HospitalDb;User Id=myUsername;Password=myPassword;Trusted_Connection=true");
+	        => options.UseSqlServer($"Server=localhost;Initial Catalog=HospitalDb;Integrated Security=SSPI;TrustServerCertificate=True");
     }
 }
