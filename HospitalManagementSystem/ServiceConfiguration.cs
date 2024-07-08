@@ -17,6 +17,7 @@ namespace HSM
             serviceCollection.AddTransient<ISeeder, Seeder>();
             serviceCollection.AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory>();
 		    serviceCollection.AddTransient<IInputService, InputService>();
+		    serviceCollection.AddTransient<IViewWriter, ViewWriter>();
 		    return serviceCollection;
 	    }
     }

@@ -2,6 +2,7 @@
 using HMS.Data.Models;
 using HMS.Service.Interaction;
 using HMS.Service.ViewService;
+using HMS.Service.ViewService.AppViews;
 
 namespace HMS.Service;
 
@@ -12,7 +13,7 @@ public class LogonService : ILogonService
 	readonly IUnitOfWorkFactory unitOfWorkFactory;
 
 	public bool IsLoggedIn { get; private set; }
-	public Guid CurrentLoggedOnUserId { get; private set; }
+	public Guid CurrentUser { get; private set; }
 
 	public LogonService(IInputService inputService, IViewService viewService, IUnitOfWorkFactory unitOfWorkFactory)
 	{
@@ -23,6 +24,7 @@ public class LogonService : ILogonService
 
 	public void StartLogonProcess()
 	{
+		viewService.SwitchView<LoginView>();
 		var logonValues = ReadLogonValues();
 
 		if (TryValidateLogon(logonValues.userId, logonValues.password, out var user))
@@ -58,6 +60,6 @@ public class LogonService : ILogonService
 	void ExecuteLogon(UserModel user)
 	{
 		IsLoggedIn = true;
-		CurrentLoggedOnUserId = user.USR_PK;
+		CurrentUser = user.USR_PK;
 	}
 }

@@ -1,45 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HMS.Service.ViewService;
 
-public interface IViewService
-{
-}
-
-public enum ViewTypes
-{
-	LoginMenu,
-	PatientMenu,
-}
-
 public class ViewService : IViewService
 {
-}
+	readonly IViewWriter writer;
 
-public class View
-{
-	readonly ICollection<ViewControl> controls;
-
-	public View(ICollection<ViewControl> controls)
+	public ViewService(IViewWriter writer)
 	{
-		this.controls = controls;
+		this.writer = writer;
 	}
 
-	public string GetText()
+	public View? CurrentView => currentView;
+
+    View? currentView;
+
+	public T SwitchView<T>() where T : View
 	{
-		return string.Empty;
+		var viewType = typeof(T);
+
+        var instance = (T?)Activator.CreateInstance(viewType);
+		if (instance == null)
+		{
+			throw new InvalidOperationException("Error occured creating view instance");
+		}
+
+		var builder = new ViewBuilder(instance);
+		var methodName = nameof(instance.BuildView);
+
+		viewType.GetMethod(methodName)?.Invoke(instance, [builder]);
+
+		builder.Build();
+
+		currentView?.OnUnload();
+
+		currentView = instance;
+		Redraw();
+		return instance;
 	}
 
-	public void Render()
+	public void Redraw()
 	{
-	}
-}
+		if (CurrentView == null)
+		{
+			throw new InvalidOperationException("Cannot Redraw With no current view");
+		}
 
-public abstract class ViewControl
-{
-	public abstract string GetView();
+		var value = CurrentView?.Render() ?? string.Empty;
+		writer.Clear();
+		writer.Write(value);
+		writer.WriteLine();
+	}
 }

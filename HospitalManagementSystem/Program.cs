@@ -12,8 +12,8 @@ builder.Services.RegisterServices()
 using var host = builder.Build();
 
 var seeder = host.Services.GetService<ISeeder>();
-seeder.SeedDb();
+seeder?.SeedDb();
 
 var logonService = host.Services.GetService<ILogonService>();
 
-logonService.StartLogonProcess();
+logonService?.StartLogonProcess();
