@@ -28,7 +28,7 @@ public class LogonService : ILogonService
 		var loginView = viewService.SwitchView<LoginView>();
 		var outputBox = loginView.Q<OutputBox>("login-output");
 
-		var logonValues = ReadLogonValues();
+        var logonValues = ReadLogonValues();
 
 		if (TryValidateLogon(logonValues.userId, logonValues.password, out var user))
 		{
@@ -38,6 +38,7 @@ public class LogonService : ILogonService
 		{
 			outputBox.Enabled = true;
 			outputBox.SetState("Incorrect Login Details", OutputBox.OutputState.Error);
+			viewService.Redraw();
 		}
 	}
 

@@ -13,9 +13,11 @@ public class AppointmentModel
     public DateTime APT_AppointmentTimeUTC { get; set; }
 
     [ForeignKey("DCT_PK")]
+    [DeleteBehavior(DeleteBehavior.NoAction)]
     public DoctorModel APT_Doctor { get; set; }
 
     [ForeignKey("PAT_PK")]
+    [DeleteBehavior(DeleteBehavior.NoAction)]
     public DoctorModel APT_Patient { get; set; }
 
 }

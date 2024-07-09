@@ -9,6 +9,7 @@ namespace HMS.Service.ViewService.Controls;
 public class Label : ViewControl
 {
 	readonly string text;
+	public ConsoleColor Color { get; set; } = PageConstants.DefaultColor;
 
 	public Label(string text, string? name = null) : base(name ?? string.Empty)
     {
@@ -17,6 +18,6 @@ public class Label : ViewControl
 
 	public override RenderElement Render()
 	{
-		return RenderElement.Default(text);
+		return RenderElement.Colored(text, Color);
 	}
 }

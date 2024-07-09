@@ -11,7 +11,7 @@ internal class SeederTest
 	[Test]
 	public void TestSeeder()
 	{
-		var users = SeedingDataRepository.ConsumeUsers();
+		var users = SeedingDataRepository.ConsumeUsers().ToList();
 		Assert.That(users, Has.Count.EqualTo(1000));
 	}
 }
