@@ -49,9 +49,14 @@ public class ViewService : IViewService
 			throw new InvalidOperationException("Cannot Redraw With no current view");
 		}
 
-		var value = CurrentView?.Render() ?? string.Empty;
+		var value = CurrentView?.Render();
 		writer.Clear();
-		writer.Write(value);
-		writer.WriteLine();
+		if (value != null)
+		{
+			foreach (var renderElement in value)
+			{
+				writer.WriteLine(renderElement);
+			}
+		}
 	}
 }

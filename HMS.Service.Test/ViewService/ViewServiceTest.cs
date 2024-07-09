@@ -1,5 +1,4 @@
-﻿using HMS.Service.ViewService.Controls;
-using Moq;
+﻿using Moq;
 using System.Text;
 
 namespace HMS.Service.ViewService.Test
@@ -17,7 +16,7 @@ namespace HMS.Service.ViewService.Test
 			var value = newView.Render();
 
 			//Assert
-			Assert.That(value, Is.EqualTo("My Test View!"));
+			Assert.That(value.Any(x => x.Contents.Contains("My Test View!")), Is.True);
 			Assert.That(viewService.CurrentView, Is.EqualTo(newView));
 	    }
 
@@ -25,10 +24,9 @@ namespace HMS.Service.ViewService.Test
 	    public void TestViewWritesToConsole()
 	    {
 		    //Arrange
-
 			var sb = new StringBuilder();
 			var viewWriter = new Mock<IViewWriter>();
-			viewWriter.Setup(x => x.Write(It.IsAny<string>())).Callback<string>(msg => sb.AppendLine(msg));
+			viewWriter.Setup(x => x.WriteLine(It.IsAny<RenderElement>())).Callback<RenderElement>(msg => sb.AppendLine(msg.Contents));
 
 		    var viewService = new ViewService(viewWriter.Object);
 
@@ -41,19 +39,18 @@ namespace HMS.Service.ViewService.Test
 	    [Test]
 	    public void TestUnloadsPriorView()
 	    {
+			//Arrange
+		    var viewService = new ViewService(Mock.Of<IViewWriter>());
+		    var currentView = viewService.SwitchView<TestView>();
 
-	    }
-    }
+		    bool didCallback = false;
+		    currentView.Unloaded += (_, _) => didCallback = true;
 
-    public class TestView : View
-    {
-	    public override void BuildView(ViewBuilder viewBuilder)
-	    {
-		    viewBuilder.WithControl(new Label("My Test View!"));
-	    }
+		    //Act
+		    viewService.SwitchView<TestView>();
 
-	    public override void OnUnload()
-	    {
+			//Assert
+			Assert.That(didCallback, Is.True);
 	    }
     }
 }

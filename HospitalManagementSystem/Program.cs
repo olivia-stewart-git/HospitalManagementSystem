@@ -6,7 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 HostApplicationBuilder builder = new HostApplicationBuilder();
-builder.Services.RegisterServices()
+builder.ConfigureConsole()
+	   .Services.RegisterServices()
 				.AddDbContext<HMSDbContext>();
 
 using var host = builder.Build();

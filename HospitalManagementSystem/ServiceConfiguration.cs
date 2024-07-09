@@ -4,6 +4,7 @@ using HMS.Service;
 using HMS.Service.Interaction;
 using HMS.Service.ViewService;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace HSM
 {
@@ -19,6 +20,12 @@ namespace HSM
 		    serviceCollection.AddTransient<IInputService, InputService>();
 		    serviceCollection.AddTransient<IViewWriter, ViewWriter>();
 		    return serviceCollection;
+	    }
+
+	    public static HostApplicationBuilder ConfigureConsole(this HostApplicationBuilder applicationBuilder)
+	    {
+		    Console.OutputEncoding = System.Text.Encoding.UTF8;
+		    return applicationBuilder;
 	    }
     }
 }

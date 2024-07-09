@@ -7,7 +7,19 @@ public class ViewWriter : IViewWriter
 		Console.Clear();
 	}
 
-	public void Write(string value)
+	public void Write(RenderElement renderElement)
+	{
+		using var colorContext = ColorContext.UseForeGround(renderElement.Color);
+		Console.Write(renderElement.Contents);
+	}
+
+	public void WriteLine(RenderElement renderElement)
+	{
+		using var colorContext = ColorContext.UseForeGround(renderElement.Color);
+        Console.WriteLine(renderElement.Contents);
+	}
+
+    public void Write(string value)
 	{
 		Console.Write(value);
 	}

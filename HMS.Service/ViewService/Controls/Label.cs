@@ -10,13 +10,13 @@ public class Label : ViewControl
 {
 	readonly string text;
 
-	public Label(string text)
-	{
+	public Label(string text, string? name = null) : base(name ?? string.Empty)
+    {
 		this.text = text;
 	}
 
-	public override string Render()
+	public override RenderElement Render()
 	{
-		return text;
+		return RenderElement.Default(text);
 	}
 }

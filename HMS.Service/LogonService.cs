@@ -3,6 +3,7 @@ using HMS.Data.Models;
 using HMS.Service.Interaction;
 using HMS.Service.ViewService;
 using HMS.Service.ViewService.AppViews;
+using HMS.Service.ViewService.Controls;
 
 namespace HMS.Service;
 
@@ -24,12 +25,19 @@ public class LogonService : ILogonService
 
 	public void StartLogonProcess()
 	{
-		viewService.SwitchView<LoginView>();
+		var loginView = viewService.SwitchView<LoginView>();
+		var outputBox = loginView.Q<OutputBox>("login-output");
+
 		var logonValues = ReadLogonValues();
 
 		if (TryValidateLogon(logonValues.userId, logonValues.password, out var user))
 		{
 			ExecuteLogon(user);
+		} 
+		else
+		{
+			outputBox.Enabled = true;
+			outputBox.SetState("Incorrect Login Details", OutputBox.OutputState.Error);
 		}
 	}
 

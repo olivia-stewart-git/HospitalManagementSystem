@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ViewService\AppViews\" />
+    <Folder Include="ViewService\NewFolder\" />
   </ItemGroup>
 
 </Project>

@@ -11,7 +11,10 @@ public class LoginView : View
 {
 	public override void BuildView(ViewBuilder viewBuilder)
 	{
-		viewBuilder.WithControl(new Label("ID:"))
-			.WithControl(new Label("Password:"));
+		viewBuilder
+			.WithControl(new PageHeader("DOTNET Hospital Management System", "Login"))
+			.WithControl(new OutputBox("Output", "login-output") { Enabled = false })
+	        .WithControl(new Label("ID:"))
+	        .WithControl(new Label("Password:"));
 	}
 }

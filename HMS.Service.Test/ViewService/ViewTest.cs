@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HMS.Service.ViewService.Controls;
 
 namespace HMS.Service.ViewService.Test;
 
@@ -25,5 +26,21 @@ internal class ViewTest
 			}
 		}
 		Assert.Multiple(Assertion);
+	}
+
+	[Test]
+	public void TestQueryForControl()
+	{
+		//Arrange
+		var view = new TestView();
+		var expectedLabel = new Label("some label", "TestQuery");
+
+        view.AddControl(expectedLabel);
+
+		//Act
+		var result = view.Q<Label>("TestQuery");
+
+		//Assert
+		Assert.That(result, Is.EqualTo(expectedLabel));
 	}
 }
