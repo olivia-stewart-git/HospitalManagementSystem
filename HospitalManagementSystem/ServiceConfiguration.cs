@@ -12,7 +12,7 @@ namespace HSM
     {
 	    public static IServiceCollection RegisterServices(this IServiceCollection serviceCollection)
 	    {
-		    serviceCollection.AddSingleton<ILogonService, LogonService>();
+		    serviceCollection.AddTransient<ILogonService, LogonService>();
 		    serviceCollection.AddSingleton<IViewService, ViewService>();
 
             serviceCollection.AddTransient<ISeeder, Seeder>();

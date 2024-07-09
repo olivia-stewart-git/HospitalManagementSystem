@@ -5,6 +5,7 @@ using HSM;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+Console.WriteLine("Loading.....");
 HostApplicationBuilder builder = new HostApplicationBuilder();
 builder.ConfigureConsole()
 	   .Services.RegisterServices()

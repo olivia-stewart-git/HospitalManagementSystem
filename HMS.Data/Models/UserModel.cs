@@ -15,15 +15,15 @@ namespace HMS.Data.Models
 
         [Required]
         public string USR_Password { get; set; }
-    }
 
-    [PrimaryKey("PAT_PK")]
-    public class PatientModel
-    {
-	    [Key]
-	    public Guid PAT_PK { get; set; }
+        public string USR_FirstName { get; set; }
+        public string USR_LastName { get; set; }
+        public string USR_PhoneNumber { get; set; }
+        public string USR_Email { get; set; }
 
-        [ForeignKey("USR_ID")]
-        public UserModel PAT_User { get; set; }
+        public string USR_Address_State { get; set; }
+        public string USR_Address_Postcode { get; set; }
+        public string USR_Address_Line1 { get; set; }
+        public string USR_Address_Line2 { get; set; }
     }
 }
