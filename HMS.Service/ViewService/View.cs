@@ -34,19 +34,21 @@ public abstract class View
 
 	public abstract void BuildView(ViewBuilder viewBuilder);
 
-	public T Q<T>(string key) where T : ViewControl
+	public T? Q<T>(string key) where T : ViewControl
 	{
 		var typeKey = typeof(T).Name + '_' + key;
-		return controlCache.GetValueOrDefault(typeKey) as T 
-			?? throw new InvalidOperationException($"No Control with type {typeof(T)} and key {key} could be found");
+		return controlCache.GetValueOrDefault(typeKey) as T;
 	}
 
 	public IList<RenderElement> Render()
 	{
 		return Controls.Where(x => x.Enabled).Select(x => x.Render()).ToList();
 	}
+	public virtual void OnBecomeActive()
+	{
+	}
 
-	public virtual void OnUnload()
+    public virtual void OnUnload()
 	{
 	}
 }

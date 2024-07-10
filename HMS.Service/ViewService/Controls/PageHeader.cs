@@ -2,6 +2,22 @@
 
 namespace HMS.Service.ViewService.Controls;
 
+public class OptionsList : ViewControl
+{
+	public IEnumerable<string> Options { get; }
+
+	public OptionsList(string name, params string[] options) : base(name)
+	{
+		Options = options;
+	}
+
+    public override RenderElement Render()
+    {
+		var sb = new StringBuilder();
+		return RenderElement.Empty;
+    }
+}
+
 public class PageHeader : ViewControl
 {
 	public int Padding { get; set; } = 200;

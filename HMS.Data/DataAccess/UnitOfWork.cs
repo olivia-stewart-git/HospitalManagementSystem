@@ -3,6 +3,7 @@
 public class UnitOfWork : IUnitOfWork
 {
 	readonly HMSDbContext dbContext;
+	EventHandler commited;
 
 	public UnitOfWork(HMSDbContext dbContext)
 	{
@@ -19,6 +20,7 @@ public class UnitOfWork : IUnitOfWork
 		}
 
 		var repositoryInstance = new Repository<T>(dbContext);
+		commited += (_, _) => repositoryInstance.DoChange();
 		repositoryMap[typeof(T)] = repositoryInstance;
 		return repositoryInstance;
 	}
@@ -26,28 +28,6 @@ public class UnitOfWork : IUnitOfWork
 	public void Commit()
 	{
 		dbContext.SaveChanges();
+		commited?.Invoke(this, EventArgs.Empty);
 	}
-
-	#region DisposePattern
-
-	bool disposed = false;
-
-    protected virtual void Dispose(bool disposing)
-	{
-		if (!this.disposed)
-		{
-			if (disposing)
-			{
-				dbContext.Dispose();
-			}
-		}
-		this.disposed = true;
-	}
-
-	public void Dispose()
-	{
-		Dispose(true);
-		GC.SuppressFinalize(this);
-	}
-	#endregion
 }

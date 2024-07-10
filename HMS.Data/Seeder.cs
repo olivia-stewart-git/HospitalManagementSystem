@@ -22,6 +22,9 @@ public class Seeder : ISeeder
 	void DoSeed()
 	{
 		SeedUsers();
+		SeedDoctors();
+		SeedPatients();
+		SeedAdministrators();
 		SeedStmData();
     }
 
@@ -33,7 +36,7 @@ public class Seeder : ISeeder
 			return !stmData.First().STM_HasSeeded;
 		}
 
-		return false;
+		return true;
 	}
 
 	void SeedUsers()
@@ -47,7 +50,62 @@ public class Seeder : ISeeder
 		dbContext.SaveChanges();
 	}
 
-	void SeedStmData()
+	void SeedDoctors()
+	{
+		var doctors = new List<DoctorModel>();
+		var existingUsers = dbContext.Users.Where(x => x.USR_ID <= 300);
+		foreach (var userModel in existingUsers)
+		{
+			doctors.Add(new DoctorModel()
+			{
+				DCT_PK = Guid.NewGuid(),
+				DCT_User = userModel,
+			});
+        }
+		dbContext.Doctors.AddRange(doctors);
+		dbContext.SaveChanges();
+	}
+
+	void SeedPatients()
+	{
+		var doctors = dbContext.Doctors.ToList();
+		var random = new Random();
+
+		var patients = new List<PatientModel>();
+        var existingUsers = dbContext.Users.Where(x => x.USR_ID > 300 && x.USR_ID < 900);
+		foreach (var userModel in existingUsers)
+		{
+			var rand = random.Next(doctors.Count);
+			var targetDoctor = doctors[rand];
+
+            patients.Add(new PatientModel()
+			{
+				PAT_PK = Guid.NewGuid(),
+				PAT_User = userModel,
+				PAT_Doctor = targetDoctor,
+            });
+		}
+		dbContext.Patients.AddRange(patients);
+		dbContext.SaveChanges();
+	}
+
+	void SeedAdministrators()
+	{
+		var administratorModels = new List<AdministratorModel>();
+		var existingUsers = dbContext.Users.Where(x => x.USR_ID > 300 && x.USR_ID < 900);
+		foreach (var userModel in existingUsers)
+		{
+			administratorModels.Add(new AdministratorModel()
+			{
+				ADM_PK = Guid.NewGuid(),
+				ADM_User = userModel,
+			});
+		}
+		dbContext.Administrators.AddRange(administratorModels);
+		dbContext.SaveChanges();
+	}
+
+    void SeedStmData()
 	{
 		var data = new STMDataModel()
 		{

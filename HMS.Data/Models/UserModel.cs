@@ -14,15 +14,30 @@ public class UserModel
 	public int USR_ID { get; set; }
 
 	[Required]
+	[MaxLength(100)]
 	public string USR_Password { get; set; }
 
-	public string USR_FirstName { get; set; }
-	public string USR_LastName { get; set; }
-	public string USR_PhoneNumber { get; set; }
-	public string USR_Email { get; set; }
+	[MaxLength(50)]
+    public string USR_FirstName { get; set; }
 
-	public string USR_Address_State { get; set; }
-	public string USR_Address_Postcode { get; set; }
-	public string USR_Address_Line1 { get; set; }
-	public string USR_Address_Line2 { get; set; }
+	[MaxLength(50)]
+    public string USR_LastName { get; set; }
+
+	[MaxLength(20)]
+    public string USR_PhoneNumber { get; set; }
+
+	[MaxLength(100)]
+    public string USR_Email { get; set; }
+
+	[MaxLength(100)]
+    public string USR_Address_State { get; set; }
+
+	[MaxLength(20)]
+    public string USR_Address_Postcode { get; set; }
+
+	[MaxLength(100)]
+    public string USR_Address_Line1 { get; set; }
+
+	[MaxLength(100)]
+    public string USR_Address_Line2 { get; set; }
 }

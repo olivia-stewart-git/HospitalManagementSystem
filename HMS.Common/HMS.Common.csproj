@@ -6,9 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\HMS.Common\HMS.Common.csproj" />
-    <ProjectReference Include="..\HMS.Data\HMS.Data.csproj" />
-  </ItemGroup>
-
 </Project>

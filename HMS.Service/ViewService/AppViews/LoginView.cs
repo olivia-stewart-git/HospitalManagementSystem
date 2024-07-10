@@ -10,12 +10,24 @@ namespace HMS.Service.ViewService.AppViews;
 
 public class LoginView : View
 {
+	readonly ILogonService logonService;
+
+	public LoginView(ILogonService logonService)
+	{
+		this.logonService = logonService;
+	}
+
+	public override void OnBecomeActive()
+	{
+		logonService.StartLogonProcess();
+	}
+
 	public override void BuildView(ViewBuilder viewBuilder)
 	{
 		viewBuilder
-			.WithControl(new PageHeader("DOTNET Hospital Management System", "Login"))
-			.WithControl(new OutputBox("Output", "login-output") { Enabled = false })
-	        .WithControl(new Label("ID:"))
-	        .WithControl(new Label("Password:"));
+			.AddControl(new PageHeader("DOTNET Hospital Management System", "Login"))
+			.AddControl(new OutputBox("Output", "login-output") { Enabled = false })
+	        .AddControl(new Label("ID:"))
+	        .AddControl(new Label("Password:"));
 	}
 }

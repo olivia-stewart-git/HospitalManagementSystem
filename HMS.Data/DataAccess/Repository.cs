@@ -7,6 +7,7 @@ public class Repository<T> : IRepository<T> where T : class
 {
 	readonly HMSDbContext dbContext;
 	readonly DbSet<T> entitySet;
+	bool hasChanges;
 
 	public Repository(HMSDbContext dbContext)
 	{
@@ -37,6 +38,7 @@ public class Repository<T> : IRepository<T> where T : class
 	public void Insert(T entity)
 	{
 		dbContext.Add(entity);
+		hasChanges = true;
 	}
 
 	public void Delete(Guid id)
@@ -45,6 +47,7 @@ public class Repository<T> : IRepository<T> where T : class
 		if (entityToDelete != null)
 		{
 			entitySet.Remove(entityToDelete);
+			hasChanges = true;
 		}
 	}
 
@@ -55,11 +58,24 @@ public class Repository<T> : IRepository<T> where T : class
 			entitySet.Attach(entityToDelete);
 		}
 		entitySet.Remove(entityToDelete);
+		hasChanges = true;
 	}
 
 	public void Update(T entityToUpdate)
 	{
 		entitySet.Attach(entityToUpdate);
 		dbContext.Entry(entityToUpdate).State = EntityState.Modified;
+		hasChanges = true;
+	}
+
+	public EventHandler<IEnumerable<T>> OnChange { get; set; }
+	public void DoChange()
+	{
+		if (!hasChanges)
+		{
+			return;
+		}
+		OnChange?.Invoke(this, entitySet);
+		hasChanges = false;
 	}
 }

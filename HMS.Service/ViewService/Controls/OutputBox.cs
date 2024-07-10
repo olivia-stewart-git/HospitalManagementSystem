@@ -27,6 +27,7 @@ public class OutputBox : ViewControl
 			default:
 				throw new ArgumentOutOfRangeException(nameof(state), state, null);
 		}
+		DoChange();
 	}
 
 	public enum OutputState

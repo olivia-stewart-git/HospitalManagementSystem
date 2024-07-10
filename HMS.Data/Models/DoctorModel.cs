@@ -12,4 +12,10 @@ public class DoctorModel
 
 	[ForeignKey("USR_ID")]
 	public UserModel DCT_User { get; set; }
+
+	[InverseProperty("APT_Doctor")]
+	public ICollection<AppointmentModel> DCT_Appointments { get; set; }
+
+	[InverseProperty(nameof(PatientModel.PAT_Doctor))]
+	public ICollection<PatientModel> DCT_Patients { get; set; }
 }

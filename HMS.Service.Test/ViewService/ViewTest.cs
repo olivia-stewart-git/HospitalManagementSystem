@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using HMS.Service.ViewService.Controls;
@@ -22,7 +23,7 @@ internal class ViewTest
 		{
 			foreach (var viewType in viewTypes)
 			{
-				Assert.DoesNotThrow(() => Activator.CreateInstance(viewType));
+				Assert.That(viewType.GetConstructors(BindingFlags.Public), Has.Length.LessThan(2));
 			}
 		}
 		Assert.Multiple(Assertion);

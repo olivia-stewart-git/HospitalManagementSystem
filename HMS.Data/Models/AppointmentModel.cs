@@ -4,11 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HMS.Data.Models;
 
-[PrimaryKey("APT_Model")]
+[PrimaryKey("APT_PK")]
 public class AppointmentModel
 {
     [Key]
-    public Guid APT_Model { get; set; }
+    public Guid APT_PK { get; set; }
+
     [Required]
     public DateTime APT_AppointmentTimeUTC { get; set; }
 
@@ -18,6 +19,6 @@ public class AppointmentModel
 
     [ForeignKey("PAT_PK")]
     [DeleteBehavior(DeleteBehavior.NoAction)]
-    public DoctorModel APT_Patient { get; set; }
+    public PatientModel APT_Patient { get; set; }
 
 }

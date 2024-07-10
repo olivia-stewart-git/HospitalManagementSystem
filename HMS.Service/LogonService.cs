@@ -15,6 +15,7 @@ public class LogonService : ILogonService
 
 	public bool IsLoggedIn { get; private set; }
 	public Guid CurrentUser { get; private set; }
+	public bool DoRepeatLogon { get; init; } = true;
 
 	public LogonService(IInputService inputService, IViewService viewService, IUnitOfWorkFactory unitOfWorkFactory)
 	{
@@ -25,20 +26,30 @@ public class LogonService : ILogonService
 
 	public void StartLogonProcess()
 	{
-		var loginView = viewService.SwitchView<LoginView>();
+		var loginView = viewService.CurrentView;
 		var outputBox = loginView.Q<OutputBox>("login-output");
+		PromptLogon(outputBox);
+	}
 
-        var logonValues = ReadLogonValues();
+	void PromptLogon(OutputBox? outputBox)
+	{
+		var logonValues = ReadLogonValues();
 
 		if (TryValidateLogon(logonValues.userId, logonValues.password, out var user))
 		{
 			ExecuteLogon(user);
-		} 
-		else
+			return;
+		}
+
+		if (outputBox != null)
 		{
 			outputBox.Enabled = true;
 			outputBox.SetState("Incorrect Login Details", OutputBox.OutputState.Error);
-			viewService.Redraw();
+		}
+
+		if (DoRepeatLogon)
+		{
+			PromptLogon(outputBox);
 		}
 	}
 
@@ -52,7 +63,7 @@ public class LogonService : ILogonService
 
 	bool TryValidateLogon(int userId, string password, out UserModel? user)
 	{
-		using var unitOfWork = unitOfWorkFactory.CreateUnitOfWork();
+		var unitOfWork = unitOfWorkFactory.CreateUnitOfWork();
 		var userRepository = unitOfWork.GetRepository<UserModel>();
 
 		var targetUser = userRepository.GetWhere(x => x.USR_ID == userId, 1).FirstOrDefault();

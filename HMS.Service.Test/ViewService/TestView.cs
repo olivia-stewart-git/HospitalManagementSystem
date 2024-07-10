@@ -8,7 +8,7 @@ public class TestView : View
 
 	public override void BuildView(ViewBuilder viewBuilder)
 	{
-		viewBuilder.WithControl(new Label("My Test View!"));
+		viewBuilder.AddControl(new Label("My Test View!"));
 	}
 
 	public override void OnUnload()

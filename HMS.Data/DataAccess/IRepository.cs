@@ -1,8 +1,10 @@
 ﻿using System.Linq.Expressions;
+using HMS.Common;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace HMS.Data;
 
-public interface IRepository<T> where T : class
+public interface IRepository<T> : IChangePropagator<IEnumerable<T>> where T : class
 {
 	T? GetById(Guid id);
 	IEnumerable<T> GetWhere(Expression<Func<T, bool>> predicate, int rowCount = -1);

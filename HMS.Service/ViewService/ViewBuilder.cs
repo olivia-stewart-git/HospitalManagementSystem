@@ -10,7 +10,7 @@ public class ViewBuilder
 		this.targetView = targetView;
 	}
 
-	public ViewBuilder WithControl(ViewControl control)
+	public ViewBuilder AddControl(ViewControl control)
 	{
 		controls.Add(control);
 		return this;
