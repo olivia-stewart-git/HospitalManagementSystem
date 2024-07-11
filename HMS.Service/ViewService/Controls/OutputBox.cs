@@ -13,20 +13,14 @@ public class OutputBox : ViewControl
 	public void SetState(string newContents, OutputState state)
 	{
 		Contents = newContents;
-		switch (state)
+		outputColor = state switch
 		{
-			case OutputState.Info:
-				outputColor = ConsoleColor.Black;
-				break;
-			case OutputState.Warn:
-				outputColor = ConsoleColor.Yellow;
-				break;
-			case OutputState.Error:
-				outputColor = ConsoleColor.Red;
-				break;
-			default:
-				throw new ArgumentOutOfRangeException(nameof(state), state, null);
-		}
+			OutputState.Info => ConsoleColor.Black,
+			OutputState.Warn => ConsoleColor.Yellow,
+			OutputState.Error => ConsoleColor.Red,
+			OutputState.Success => ConsoleColor.DarkGreen,
+			_ => throw new ArgumentOutOfRangeException(nameof(state), state, null)
+		};
 		DoChange();
 	}
 
@@ -35,6 +29,7 @@ public class OutputBox : ViewControl
 		Info,
 		Warn,
 		Error,
+		Success
 	}
 
 	public override RenderElement Render()

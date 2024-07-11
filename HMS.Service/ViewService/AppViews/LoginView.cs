@@ -57,6 +57,11 @@ public class LoginView : View
 		{
 			outputBox.Enabled = true;
 			outputBox.SetState("Incorrect Login Details", OutputBox.OutputState.Error);
-		};
+		}
+		else
+		{
+			outputBox.Enabled = true;
+			outputBox.SetState("Successful Login", OutputBox.OutputState.Success);
+        }
 	}
 }
