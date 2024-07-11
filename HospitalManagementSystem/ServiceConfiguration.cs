@@ -5,6 +5,7 @@ using HMS.Service.Interaction;
 using HMS.Service.ViewService;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Environment = HMS.Service.Environment;
 
 namespace HSM
 {
@@ -12,7 +13,8 @@ namespace HSM
     {
 	    public static IServiceCollection RegisterServices(this IServiceCollection serviceCollection)
 	    {
-		    serviceCollection.AddSingleton<IServiceProvider>(sp => sp);
+		    serviceCollection.AddSingleton(sp => sp);
+		    serviceCollection.AddSingleton<IEnvironment, Environment>();
             serviceCollection.AddSingleton<IViewService, ViewService>();
 
 		    serviceCollection.AddTransient<ILogonService, LogonService>();

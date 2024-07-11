@@ -10,8 +10,9 @@ public class PatientModel
 	[Key]
 	public Guid PAT_PK { get; set; }
 
-	[ForeignKey("USR_ID")]
+	[ForeignKey("PAT_USR_ID")]
 	public UserModel PAT_User { get; set; }
+	public Guid PAT_USR_ID { get; set; }
 
 	[InverseProperty(nameof(AppointmentModel.APT_Patient))]
     public ICollection<AppointmentModel> PAT_Appointments { get; set; }

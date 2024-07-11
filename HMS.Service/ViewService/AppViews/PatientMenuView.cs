@@ -7,6 +7,8 @@ public class PatientMenuView : View
 	public override void BuildView(ViewBuilder viewBuilder)
 	{
 		viewBuilder
-			.AddControl(new PageHeader("DOTNET Hospital Management System", "Patient Menu"));
+			.AddControl(new PageHeader("DOTNET Hospital Management System", "Patient Menu"))
+			.AddControl(new Label("Welcome to DOTNET Hospital Management System"))
+			.AddControl(new NewLine());
 	}
 }

@@ -35,6 +35,13 @@ public class Repository<T> : IRepository<T> where T : class
 		return queryable.ToList();
 	}
 
+	public bool Exists(Expression<Func<T, bool>> predicate)
+	{
+		ArgumentNullException.ThrowIfNull(predicate);
+		IQueryable<T> queryable = entitySet;
+		return queryable.Any(predicate);
+	}
+
 	public void Insert(T entity)
 	{
 		dbContext.Add(entity);

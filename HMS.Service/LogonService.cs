@@ -12,22 +12,23 @@ public class LogonService : ILogonService
 	readonly IInputService inputService;
 	readonly IViewService viewService;
 	readonly IUnitOfWorkFactory unitOfWorkFactory;
+	readonly IEnvironment environment;
 
 	public bool IsLoggedIn { get; private set; }
-	public Guid CurrentUser { get; private set; }
 	public bool DoRepeatLogon { get; init; } = true;
 
-	public LogonService(IInputService inputService, IViewService viewService, IUnitOfWorkFactory unitOfWorkFactory)
+	public LogonService(IInputService inputService, IViewService viewService, IUnitOfWorkFactory unitOfWorkFactory, IEnvironment environment)
 	{
 		this.inputService = inputService;
 		this.viewService = viewService;
 		this.unitOfWorkFactory = unitOfWorkFactory;
+		this.environment = environment;
 	}
 
 	public void StartLogonProcess()
 	{
 		var loginView = viewService.CurrentView;
-		var outputBox = loginView.Q<OutputBox>("login-output");
+		var outputBox = loginView?.Q<OutputBox>("login-output");
 		PromptLogon(outputBox);
 	}
 
@@ -80,6 +81,27 @@ public class LogonService : ILogonService
 	void ExecuteLogon(UserModel user)
 	{
 		IsLoggedIn = true;
-		CurrentUser = user.USR_PK;
+		var role = user.GetRole(unitOfWorkFactory);
+		environment.CurrentUser = user.USR_PK;
+		environment.CurrentRole = role;
+        LoadApp(role);
+	}
+
+	void LoadApp(SystemRole role)
+	{
+		switch (role)
+		{
+			case SystemRole.None:
+				break;
+			case SystemRole.Doctor:
+				break;
+			case SystemRole.Admin:
+				break;
+			case SystemRole.Patient:
+				viewService.SwitchView<PatientMenuView>();
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+		}
 	}
 }

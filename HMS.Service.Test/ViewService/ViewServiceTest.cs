@@ -33,7 +33,7 @@ namespace HMS.Service.ViewService.Test
 		    //Act
 		    viewService.SwitchView<TestView>();
 
-			Assert.That(sb.ToString().Trim(Environment.NewLine.ToCharArray()), Is.EqualTo("My Test View!"));
+			Assert.That(sb.ToString().Trim(System.Environment.NewLine.ToCharArray()), Is.EqualTo("My Test View!"));
 	    }
 
 	    [Test]

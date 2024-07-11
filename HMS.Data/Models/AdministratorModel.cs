@@ -10,6 +10,7 @@ public class AdministratorModel
 	[Key]
 	public Guid ADM_PK { get; set; }
 
-	[ForeignKey("USR_ID")]
+	[ForeignKey("AMD_USR_ID")]
 	public UserModel ADM_User { get; set; }
+	public Guid ADM_USR_ID { get; set; }
 }

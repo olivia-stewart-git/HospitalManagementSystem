@@ -13,12 +13,13 @@ public class AppointmentModel
     [Required]
     public DateTime APT_AppointmentTimeUTC { get; set; }
 
-    [ForeignKey("DCT_PK")]
+    [ForeignKey("APT_DCT_ID")]
     [DeleteBehavior(DeleteBehavior.NoAction)]
     public DoctorModel APT_Doctor { get; set; }
+    public Guid APT_DCT_ID { get; set; }
 
-    [ForeignKey("PAT_PK")]
+    [ForeignKey("APT_PAT_ID")]
     [DeleteBehavior(DeleteBehavior.NoAction)]
     public PatientModel APT_Patient { get; set; }
-
+    public Guid APT_PAT_ID { get; set; }
 }
