@@ -97,11 +97,13 @@ public class InputService : IInputService
 
 	public void FillInput<T>(T inputNode) where T : IInputNode
 	{
+		currentInputTarget = inputNode;
 		if (inputNode is IInputFiller filler)
 		{
 			FillInput(filler);
 		}
 	}
+
 	void FillInput(IInputFiller inputFiller)
 	{
 		var cursorPosition = inputFiller.GetCursorPosition();

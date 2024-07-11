@@ -2,16 +2,26 @@
 
 public class Label : ViewControl
 {
-	readonly string text;
+	string text;
+	public string Text
+	{
+		get => text;
+		set
+		{
+			text = value; 
+			DoChange();
+		}
+	}
+
 	public ConsoleColor Color { get; set; } = PageConstants.DefaultColor;
 
 	public Label(string text, string? name = null) : base(name ?? string.Empty)
     {
-		this.text = text;
+		this.Text = text;
 	}
 
 	public override RenderElement Render()
 	{
-		return RenderElement.Colored(text, Color);
+		return RenderElement.Colored(Text, Color);
 	}
 }

@@ -41,7 +41,7 @@ internal class LogonServiceTest
 		var logonService = new LogonService(mockInputService.Object, mockViewService.Object, unitOfWorkFactory.Object, Mock.Of<IEnvironment>()) { DoRepeatLogon = false };
 
 		//Act
-		logonService.ExecuteLogin(userId, password, null);
+		logonService.ExecuteLogin(userId, password);
 
 		//Assert
 		Assert.That(logonService.IsLoggedIn, Is.EqualTo(expectedLogon));
@@ -79,7 +79,7 @@ internal class LogonServiceTest
 		var logonService = new LogonService(mockInputService.Object, mockViewService.Object, unitOfWorkFactory.Object, env) { DoRepeatLogon = false };
 
 		//Act
-		logonService.ExecuteLogin(1, "test", null);
+		logonService.ExecuteLogin(1, "test");
 
 		//Assert
 		Assert.Multiple(() =>

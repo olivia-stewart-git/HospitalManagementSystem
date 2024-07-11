@@ -25,20 +25,16 @@ public class LogonService : ILogonService
 		this.environment = environment;
 	}
 
-	public void ExecuteLogin(int userId, string password, OutputBox? outputBox)
+	public bool ExecuteLogin(int userId, string password)
 	{
 		if (TryValidateLogon(userId, password, out var user))
 		{
 			ExecuteLogon(user);
-			return;
+			return true;
 		}
 
-		if (outputBox != null)
-		{
-			outputBox.Enabled = true;
-			outputBox.SetState("Incorrect Login Details", OutputBox.OutputState.Error);
-		}
-    }
+		return false;
+	}
 
 	bool TryValidateLogon(int userId, string password, out UserModel? user)
 	{

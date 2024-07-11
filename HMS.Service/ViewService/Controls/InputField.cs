@@ -1,4 +1,5 @@
-﻿using HMS.Service.Interaction;
+﻿using System.Linq.Expressions;
+using HMS.Service.Interaction;
 
 namespace HMS.Service.ViewService.Controls;
 
@@ -8,6 +9,10 @@ public class InputField : ViewControl, INavControl, IInputFiller, IInputSubscrib
 	public string Prompt { get; }
 	public int MaxLength { get; init; } = 15;
 	public bool ObscureContent { get; init; } = false;
+	public bool AllowOnlyNumeric { get; init; } = false;
+	public bool LeaveOnEnter { get; init; } = true;
+
+	public EventHandler Completed { get; set; }
 
 	public string Contents
 	{
@@ -73,11 +78,20 @@ public class InputField : ViewControl, INavControl, IInputFiller, IInputSubscrib
 		{
 			return;
 		}
+		if (AllowOnlyNumeric && !char.IsNumber(value))
+		{
+			return;
+		}
 		Contents += value;
 	}
 
     public void OnEnterInput()
     {
+		Completed?.Invoke(this, EventArgs.Empty);
+		if (LeaveOnEnter)
+		{
+			Parent?.NavigateDown();
+		}
     }
 
     public void OnBackSpacePressed()

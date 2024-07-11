@@ -4,8 +4,20 @@ namespace HMS.Service.ViewService.Controls;
 
 public class InteractionOption : ViewControl, INavControl, IInputSubscriber
 {
+	bool isInteractable = true;
+
+	public bool IsInteractable
+	{
+		get => isInteractable;
+		set
+		{
+			isInteractable = value;
+			DoChange();
+		}
+	}
+
 	public string Content { get; }
-	public EventHandler Interacted { get; }
+	public EventHandler Interacted { get; set; }
 
 	public InteractionOption(string content, string name) : base(name)
 	{
@@ -14,7 +26,13 @@ public class InteractionOption : ViewControl, INavControl, IInputSubscriber
 
 	public override RenderElement Render()
 	{
-		return RenderElement.Default(Content);
+		return RenderElement.Colored(
+			Content,
+			ConsoleColor.White,
+			isInteractable
+				? ConsoleColor.DarkBlue
+				: ConsoleColor.DarkRed
+			);
 	}
 
 	public bool IsHovered { get; set; }
@@ -32,6 +50,10 @@ public class InteractionOption : ViewControl, INavControl, IInputSubscriber
 
 	public void OnEnterInput()
 	{
+		if (!IsInteractable)
+		{
+			return;
+		}
 		Interacted?.Invoke(this, EventArgs.Empty);
 	}
 

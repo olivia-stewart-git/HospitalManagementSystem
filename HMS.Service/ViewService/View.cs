@@ -1,19 +1,16 @@
-﻿using System.Text;
-using HMS.Common;
-
-namespace HMS.Service.ViewService;
+﻿namespace HMS.Service.ViewService;
 
 public abstract class View
 {
 	public EventHandler<ViewControl?> SelectionChanged { get; set; }
 
-	List<ViewControl> controls = [];
-	LinkedList<INavControl> navControls = [];
+	readonly LinkedList<INavControl> navControls = [];
+	readonly Dictionary<string, ViewControl> controlCache = [];
+
+    List<ViewControl> controls = [];
 	LinkedListNode<INavControl>? selectedControlNode;
 
 	INavControl? SelectedControl => selectedControlNode?.Value;
-
-    readonly Dictionary<string, ViewControl> controlCache = [];
 
     public IReadOnlyList<ViewControl> Controls
 	{
@@ -36,7 +33,8 @@ public abstract class View
 		navControls.Clear();
 		foreach (var viewControl in controls)
 		{
-			if (viewControl is INavControl navControl)
+			viewControl.Parent = this;
+            if (viewControl is INavControl navControl)
 			{
 				navControls.AddLast(navControl);
 			}
@@ -47,10 +45,11 @@ public abstract class View
 
 	public abstract void BuildView(ViewBuilder viewBuilder);
 
-	public T? Q<T>(string key) where T : ViewControl
+	public T Q<T>(string key) where T : ViewControl
 	{
 		var typeKey = typeof(T).Name + '_' + key;
-		return controlCache.GetValueOrDefault(typeKey) as T;
+		return controlCache.GetValueOrDefault(typeKey) as T 
+			?? throw new ArgumentNullException(nameof(key));
 	}
 
 	public IList<RenderElement> Render()

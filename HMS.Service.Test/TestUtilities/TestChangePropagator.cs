@@ -6,7 +6,7 @@ public class TestChangePropagator : IChangePropagator<IEnumerable<TestModel>>
 {
 	List<TestModel> value;
 
-	public string Name { get; init; }
+	public string Name { get; init; } = string.Empty;
 	public List<TestModel> Values
 	{
 		get => value;
@@ -17,7 +17,7 @@ public class TestChangePropagator : IChangePropagator<IEnumerable<TestModel>>
 		}
 	}
 
-	public EventHandler<IEnumerable<TestModel>> OnChange { get; set; }
+	public EventHandler<IEnumerable<TestModel>>? OnChange { get; set; }
 	public void DoChange()
 	{
 		OnChange?.Invoke(this, Values);
