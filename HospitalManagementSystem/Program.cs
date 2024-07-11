@@ -1,6 +1,5 @@
 ﻿
 using HMS.Data;
-using HMS.Service;
 using HMS.Service.ViewService;
 using HMS.Service.ViewService.AppViews;
 using HSM;
@@ -20,3 +19,11 @@ seeder?.SeedDb();
 
 var viewService = host.Services.GetService<IViewService>();
 viewService?.SwitchView<LoginView>();
+
+Console.CursorVisible = false;
+var cts = new CancellationTokenSource();
+Console.CancelKeyPress += (sender, args) => cts.Cancel();
+while (!cts.IsCancellationRequested)
+{
+	await Task.Delay(50, cts.Token);
+}

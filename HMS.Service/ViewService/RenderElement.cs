@@ -4,6 +4,7 @@ public class RenderElement
 {
 	public string Contents { get; }
 	public ConsoleColor Color { get; }
+	public ConsoleColor BackGroundColor { get; set; }
 
 	RenderElement(string contents, ConsoleColor color)
 	{

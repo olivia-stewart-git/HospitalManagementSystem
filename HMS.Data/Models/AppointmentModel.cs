@@ -22,4 +22,7 @@ public class AppointmentModel
     [DeleteBehavior(DeleteBehavior.NoAction)]
     public PatientModel APT_Patient { get; set; }
     public Guid APT_PAT_ID { get; set; }
+
+    [MaxLength(100)]
+    public string ADP_Description { get; set; } = string.Empty;
 }

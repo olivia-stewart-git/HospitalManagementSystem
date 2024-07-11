@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HMS.Service.ViewService.Controls;
 
 namespace HMS.Service.Interaction;
 
 public interface IInputService
 {
-	public int ReadIntegerInput();
-	public string ReadInput();
-    public string ReadInput(string prompt);
-	public char ReadChar();
+	IDisposable SubscribeToCharacterAction(Action<char> characterAction);
+	IDisposable SubscribeToKeyAction(ConsoleKey key, Action keyAction);
+	void FillInput(IInputBlocker inputBlocker);
+	void ClearFill();
 }

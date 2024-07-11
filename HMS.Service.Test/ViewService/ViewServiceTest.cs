@@ -1,5 +1,6 @@
 ﻿using Moq;
 using System.Text;
+using HMS.Service.Interaction;
 
 namespace HMS.Service.ViewService.Test
 {
@@ -9,7 +10,7 @@ namespace HMS.Service.ViewService.Test
 	    public void TestViewHasCorrectContent()
 	    {
 			//Arrange
-			var viewService = new ViewService(Mock.Of<IViewWriter>(), Mock.Of<IServiceProvider>());
+			var viewService = new ViewService(Mock.Of<IViewWriter>(), Mock.Of<IServiceProvider>(), Mock.Of<IInputService>());
 
 			//Act
 			var newView = viewService.SwitchView<TestView>();
@@ -28,7 +29,7 @@ namespace HMS.Service.ViewService.Test
 			var viewWriter = new Mock<IViewWriter>();
 			viewWriter.Setup(x => x.WriteLine(It.IsAny<RenderElement>())).Callback<RenderElement>(msg => sb.AppendLine(msg.Contents));
 
-		    var viewService = new ViewService(viewWriter.Object, Mock.Of<IServiceProvider>());
+		    var viewService = new ViewService(viewWriter.Object, Mock.Of<IServiceProvider>(), Mock.Of<IInputService>());
 
 		    //Act
 		    viewService.SwitchView<TestView>();
@@ -40,7 +41,7 @@ namespace HMS.Service.ViewService.Test
 	    public void TestUnloadsPriorView()
 	    {
 			//Arrange
-		    var viewService = new ViewService(Mock.Of<IViewWriter>(), Mock.Of<IServiceProvider>());
+		    var viewService = new ViewService(Mock.Of<IViewWriter>(), Mock.Of<IServiceProvider>(), Mock.Of<IInputService>());
 		    var currentView = viewService.SwitchView<TestView>();
 
 		    bool didCallback = false;

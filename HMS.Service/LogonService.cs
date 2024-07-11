@@ -25,18 +25,9 @@ public class LogonService : ILogonService
 		this.environment = environment;
 	}
 
-	public void StartLogonProcess()
+	public void ExecuteLogin(int userId, string password, OutputBox? outputBox)
 	{
-		var loginView = viewService.CurrentView;
-		var outputBox = loginView?.Q<OutputBox>("login-output");
-		PromptLogon(outputBox);
-	}
-
-	void PromptLogon(OutputBox? outputBox)
-	{
-		var logonValues = ReadLogonValues();
-
-		if (TryValidateLogon(logonValues.userId, logonValues.password, out var user))
+		if (TryValidateLogon(userId, password, out var user))
 		{
 			ExecuteLogon(user);
 			return;
@@ -47,20 +38,7 @@ public class LogonService : ILogonService
 			outputBox.Enabled = true;
 			outputBox.SetState("Incorrect Login Details", OutputBox.OutputState.Error);
 		}
-
-		if (DoRepeatLogon)
-		{
-			PromptLogon(outputBox);
-		}
-	}
-
-	(int userId, string password) ReadLogonValues()
-	{
-		var userId = inputService.ReadIntegerInput();
-		var password = inputService.ReadInput();
-
-		return (userId, password);
-	}
+    }
 
 	bool TryValidateLogon(int userId, string password, out UserModel? user)
 	{

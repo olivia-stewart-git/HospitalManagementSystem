@@ -7,6 +7,10 @@ public abstract class ViewControl : IChangePropagator<ViewControl>
 	bool enabled = true;
 	public string Name { get; }
 
+	public bool Focused { get; protected set; } = false;
+
+	public int YPosition { get; set; } = 0;
+
 	public bool Enabled
 	{
 		get => enabled;

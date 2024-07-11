@@ -9,12 +9,14 @@ public class ViewWriter : IViewWriter
 
 	public void Write(RenderElement renderElement)
 	{
-		using var colorContext = ColorContext.UseForeGround(renderElement.Color);
+		using var backGroundContext = ColorContext.UseBackGround(renderElement.BackGroundColor);
+        using var colorContext = ColorContext.UseForeGround(renderElement.Color);
 		Console.Write(renderElement.Contents);
 	}
 
 	public void WriteLine(RenderElement renderElement)
 	{
+		using var backGroundContext = ColorContext.UseBackGround(renderElement.BackGroundColor);
 		using var colorContext = ColorContext.UseForeGround(renderElement.Color);
         Console.WriteLine(renderElement.Contents);
 	}

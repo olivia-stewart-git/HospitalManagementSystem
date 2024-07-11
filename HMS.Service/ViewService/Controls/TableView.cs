@@ -9,6 +9,7 @@ public class TableView<T> : ViewControl
 	readonly TableViewColumn<T>[] tableColumns;
 	public int Padding { get; init; } = 200;
 	public int MaxRows { get; init; } = 10;
+	public bool CullPropertyPrefix { get; init; } = true;
 	public int CalculatedWidth => PageConstants.PageWidth - Padding;
 
 	IEnumerable<T> rows = [];
@@ -136,6 +137,10 @@ public class TableView<T> : ViewControl
 			else
 			{
 				columnName = (column.ValueFunc.Body as MemberExpression)?.Member.Name ?? string.Empty;
+                if (CullPropertyPrefix)
+                {
+	                columnName = columnName[3..];
+                }
 			}
 
 			values.Add(columnName);

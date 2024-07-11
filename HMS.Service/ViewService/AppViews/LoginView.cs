@@ -19,7 +19,6 @@ public class LoginView : View
 
 	public override void OnBecomeActive()
 	{
-		logonService.StartLogonProcess();
 	}
 
 	public override void BuildView(ViewBuilder viewBuilder)
@@ -27,7 +26,8 @@ public class LoginView : View
 		viewBuilder
 			.AddControl(new PageHeader("DOTNET Hospital Management System", "Login"))
 			.AddControl(new OutputBox("Output", "login-output") { Enabled = false })
-	        .AddControl(new Label("ID:"))
-	        .AddControl(new Label("Password:"));
+			.AddControl(new InputField("ID:", "login-input-id"))
+			.AddControl(new InputField("Password:", "login-input-password"){ ObscureContent = true })
+			.AddControl(new Label("Press Enter to Execute Login"));
 	}
 }

@@ -3,18 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using HMS.Service.Interaction;
+using HMS.Service.ViewService.Controls;
 
 namespace HMS.Service.ViewService;
 
-public class ViewService : IViewService
+public class ViewService : IViewService, IDisposable
 {
 	readonly IViewWriter writer;
 	readonly IServiceProvider serviceProvider;
+	readonly IInputService inputService;
 
-	public ViewService(IViewWriter writer, IServiceProvider serviceProvider)
+	ICollection<IDisposable> disposables;
+
+	public ViewService(IViewWriter writer, IServiceProvider serviceProvider, IInputService inputService)
 	{
 		this.writer = writer;
 		this.serviceProvider = serviceProvider;
+		this.inputService = inputService;
+		disposables =
+		[
+			inputService.SubscribeToKeyAction(ConsoleKey.UpArrow, HandleUpArrow),
+			inputService.SubscribeToKeyAction(ConsoleKey.DownArrow, HandleDownArrow)
+        ];
+	}
+
+	void HandleUpArrow()
+	{
+		currentView?.NavigateUp();
+	}
+
+	void HandleDownArrow()
+	{
+		currentView?.NavigateDown();
 	}
 
 	public View? CurrentView => currentView;
@@ -38,7 +59,9 @@ public class ViewService : IViewService
 		currentView = instance;
 		SubscribeToView(currentView);
 
-		Redraw();
+		currentView.NavigateDown();
+
+        Redraw();
         currentView.OnBecomeActive();
 		return instance;
 	}
@@ -68,7 +91,9 @@ public class ViewService : IViewService
 
 	void UnsubscribeFromView(View view)
 	{
-		var elements = view.Controls;
+		view.SelectionChanged -= HandleSelectionChanged;
+
+        var elements = view.Controls;
 		foreach (var viewControl in elements)
 		{
 			viewControl.OnChange -= HandleElementChange;
@@ -77,11 +102,22 @@ public class ViewService : IViewService
 
 	void SubscribeToView(View view)
 	{
+		view.SelectionChanged += HandleSelectionChanged;
 		var elements = view.Controls;
 		foreach (var viewControl in elements)
 		{
 			viewControl.OnChange += HandleElementChange;
 		}
+    }
+
+	void HandleSelectionChanged(object? sender, ViewControl? selectedControl)
+	{
+		inputService.ClearFill();
+		if (selectedControl is IInputBlocker inputBlocker)
+		{
+			inputService.FillInput(inputBlocker);
+		}
+		Redraw();
     }
 
 	void HandleElementChange(object? sender, ViewControl control)
@@ -104,6 +140,14 @@ public class ViewService : IViewService
 			{
 				writer.WriteLine(renderElement);
 			}
+		}
+	}
+
+	public void Dispose()
+	{
+		foreach (var disposable in disposables)
+		{
+			disposable.Dispose();
 		}
 	}
 }

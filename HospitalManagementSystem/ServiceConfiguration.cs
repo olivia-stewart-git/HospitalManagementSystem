@@ -16,11 +16,11 @@ namespace HSM
 		    serviceCollection.AddSingleton(sp => sp);
 		    serviceCollection.AddSingleton<IEnvironment, Environment>();
             serviceCollection.AddSingleton<IViewService, ViewService>();
+            serviceCollection.AddSingleton<IInputService, InputService>();
 
-		    serviceCollection.AddTransient<ILogonService, LogonService>();
+            serviceCollection.AddTransient<ILogonService, LogonService>();
             serviceCollection.AddTransient<ISeeder, Seeder>();
             serviceCollection.AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory>();
-		    serviceCollection.AddTransient<IInputService, InputService>();
 		    serviceCollection.AddTransient<IViewWriter, ViewWriter>();
 		    return serviceCollection;
 	    }
