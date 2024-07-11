@@ -31,12 +31,12 @@ internal class TableViewTest
 		//Assert
 		Assert.Multiple(() =>
 		{
-			Assert.That(render.Contents.Contains("Name"), Is.True);
-			Assert.That(render.Contents.Contains("Description"), Is.True);
-            Assert.That(render.Contents.Contains(data[0].Name), Is.True);
-			Assert.That(render.Contents.Contains(data[1].Name), Is.True);
-			Assert.That(render.Contents.Contains(data[0].Description), Is.True);
-			Assert.That(render.Contents.Contains(data[1].Description), Is.True);
+			Assert.That(render[0].Contents.Contains("Name"), Is.True);
+			Assert.That(render[0].Contents.Contains("Description"), Is.True);
+            Assert.That(render[0].Contents.Contains(data[0].Name), Is.True);
+			Assert.That(render[0].Contents.Contains(data[1].Name), Is.True);
+			Assert.That(render[0].Contents.Contains(data[0].Description), Is.True);
+			Assert.That(render[0].Contents.Contains(data[1].Description), Is.True);
         });
 	}
 
@@ -58,12 +58,12 @@ internal class TableViewTest
 
 		//Pre assertions
 		var value = table.Render();
-		Assert.That(value.Contents.Contains("Bob"), Is.EqualTo(true));
+		Assert.That(value[0].Contents.Contains("Bob"), Is.EqualTo(true));
 
 		//Act
 		propagator.Values = [new TestModel() { Name = "Mark" }];
 		var reRenderValue = table.Render();
-		Assert.That(reRenderValue.Contents.Contains("Mark"), Is.EqualTo(true));
+		Assert.That(reRenderValue[0].Contents.Contains("Mark"), Is.EqualTo(true));
 
     }
 }

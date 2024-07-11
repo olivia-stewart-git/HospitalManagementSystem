@@ -85,7 +85,7 @@ internal class LogonServiceTest
 		Assert.Multiple(() =>
 		{
 			Assert.That(logonService.IsLoggedIn, Is.EqualTo(true));
-			Assert.That(env.CurrentUser, Is.EqualTo(mockUser.USR_PK));
+			Assert.That(env.CurrentUser, Is.EqualTo(mockUser));
 			Assert.That(env.CurrentRole, Is.EqualTo(expectedRole));
 		});
 	}

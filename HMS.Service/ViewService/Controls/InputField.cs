@@ -47,9 +47,9 @@ public class InputField : ViewControl, INavControl, IInputFiller, IInputSubscrib
 		Prompt = prompt;
 	}
 
-	public override RenderElement Render()
+	public override List<RenderElement> Render()
 	{
-		return RenderElement.Default(Prompt + DisplayedContent);
+		return [RenderElement.Default(Prompt + DisplayedContent)];
 	}
 
 	int CursorOffset => Prompt.Length + Contents.Length;

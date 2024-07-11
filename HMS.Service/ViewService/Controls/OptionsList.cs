@@ -1,26 +1,35 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 
 namespace HMS.Service.ViewService.Controls;
 
 public class OptionsList : ViewControl
 {
+	public string Header { get; }
 	public SelectionOption[] Options { get; }
 
-	public OptionsList(string name, params SelectionOption[] options) : base(name)
+	public OptionsList(string name, string header, params SelectionOption[] options) : this (name, header, (IEnumerable<SelectionOption>)options)
 	{
-		Options = options;
 	}
 
-	public override RenderElement Render()
+	public OptionsList(string name, string header, IEnumerable<SelectionOption> options) : base(name)
 	{
-		var sb = new StringBuilder();
-		for (var index = 0; index < Options.Length; index++)
+		Header = header;
+		Options = options.ToArray();
+		Children = options.Cast<ViewControl>().ToList();
+	}
+
+
+    public override List<RenderElement> Render()
+	{
+		List<RenderElement> elements = [RenderElement.Default(Header)];
+		int count = 0;
+		foreach (var selectionOption in Options)
 		{
-			var option = Options[index];
-			sb.AppendLine($"{index}. {option.Name}");
+			selectionOption.Index = count++;
 		}
 
-		return RenderElement.Default(sb.ToString());
+		return elements;
 	}
 
 	public SelectionOption Get(int index)

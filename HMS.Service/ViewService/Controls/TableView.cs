@@ -45,7 +45,7 @@ public class TableView<T> : ViewControl
 		DoChange();
     }
 
-	public override RenderElement Render()
+	public override List<RenderElement> Render()
 	{
 		var sb = new StringBuilder();
 		var header = GetHeaderValues();
@@ -60,7 +60,7 @@ public class TableView<T> : ViewControl
 			sb.AppendLine(rowString);
 		}
 
-		return RenderElement.Default(sb.ToString());
+		return [RenderElement.Default(sb.ToString())];
 	}
 
 	List<string> GetColumnValuesForRow(T value)

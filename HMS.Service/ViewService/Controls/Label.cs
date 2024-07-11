@@ -20,8 +20,8 @@ public class Label : ViewControl
 		this.Text = text;
 	}
 
-	public override RenderElement Render()
+	public override List<RenderElement> Render()
 	{
-		return RenderElement.Colored(Text, Color);
+		return [RenderElement.Colored(Text, Color)];
 	}
 }

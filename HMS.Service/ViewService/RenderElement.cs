@@ -2,7 +2,7 @@
 
 public class RenderElement
 {
-	public string Contents { get; }
+	public string Contents { get; set; }
 	public ConsoleColor Color { get; }
 	public ConsoleColor BackGroundColor { get; set; }
 

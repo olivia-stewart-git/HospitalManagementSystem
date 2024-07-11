@@ -40,4 +40,7 @@ public class UserModel
 
 	[MaxLength(100)]
     public string USR_Address_Line2 { get; set; }
+
+	[NotMapped]
+	public string USR_FullName => USR_FirstName + " " + USR_LastName;
 }

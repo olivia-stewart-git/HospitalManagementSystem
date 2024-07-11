@@ -1,7 +1,13 @@
-﻿namespace HMS.Service;
+﻿using HMS.Data.Models;
+
+namespace HMS.Service;
 
 public class Environment : IEnvironment
 {
-	public Guid? CurrentUser { get; set; }
+	public UserModel CurrentUser { get; set; }
 	public SystemRole CurrentRole { get; set; } = SystemRole.None;
+
+	public void Exit()
+	{
+	}
 }

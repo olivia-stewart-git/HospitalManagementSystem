@@ -23,8 +23,8 @@ internal class PageHeaderTest
 		//Assert
 		Assert.Multiple(() =>
 		{
-			Assert.That(result.Contents.Contains(title), Is.EqualTo(true));
-			Assert.That(result.Contents.Contains(subtitle), Is.EqualTo(true));
+			Assert.That(result[0].Contents.Contains(title), Is.EqualTo(true));
+			Assert.That(result[0].Contents.Contains(subtitle), Is.EqualTo(true));
         });
 	}
 }

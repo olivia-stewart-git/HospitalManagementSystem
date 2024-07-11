@@ -56,7 +56,7 @@ public class LogonService : ILogonService
 	{
 		IsLoggedIn = true;
 		var role = user.GetRole(unitOfWorkFactory);
-		environment.CurrentUser = user.USR_PK;
+		environment.CurrentUser = user;
 		environment.CurrentRole = role;
         LoadApp(role);
 	}
@@ -66,10 +66,12 @@ public class LogonService : ILogonService
 		switch (role)
 		{
 			case SystemRole.None:
-				break;
+                break;
 			case SystemRole.Doctor:
-				break;
+				viewService.SwitchView<DoctorMenuView>();
+                break;
 			case SystemRole.Admin:
+				viewService.SwitchView<AdministratorMenuView>();
 				break;
 			case SystemRole.Patient:
 				viewService.SwitchView<PatientMenuView>();

@@ -9,6 +9,7 @@ public class LoginView : View
 	int userIdCurrentValue;
 	string userIdCurrentPassword;
 	OutputBox outputBox;
+	InteractionOption enterOption;
 
 	public LoginView(ILogonService logonService)
 	{
@@ -30,7 +31,7 @@ public class LoginView : View
     {
 	    outputBox = Q<OutputBox>("login-output");
 
-		var enterOption = Q<InteractionOption>("login-enter-option");
+		enterOption = Q<InteractionOption>("login-enter-option");
 		enterOption.Interacted += OnLoginPressed;
 
 		var userIdInput = Q<InputField>("login-input-id");
@@ -40,15 +41,28 @@ public class LoginView : View
 				{
 					userIdCurrentValue = value;
 				}
+				SetInteractable();
 			},
 			nameof(userIdInput.Contents));
 
 		var passwordInput = Q<InputField>("login-input-password");
-		passwordInput.BindProperty<string>(x => userIdCurrentPassword = x, nameof(passwordInput.Contents));
+		passwordInput.BindProperty<string>(x =>
+		{
+			userIdCurrentPassword = x;
+			SetInteractable();
+		}, nameof(passwordInput.Contents));
 	}
 
 	void SetInteractable()
 	{
+		if (!string.IsNullOrEmpty(userIdCurrentPassword) && userIdCurrentValue > 0)
+		{
+			enterOption.IsInteractable = true;
+		}
+		else
+		{
+			enterOption.IsInteractable = false;
+		}
 	}
 
 	void OnLoginPressed(object? sender, EventArgs e)

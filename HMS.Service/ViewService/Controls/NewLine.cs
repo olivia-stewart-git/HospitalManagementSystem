@@ -6,8 +6,8 @@ public class NewLine : ViewControl
 	{
 	}
 
-	public override RenderElement Render()
+	public override List<RenderElement> Render()
 	{
-		return RenderElement.Default(System.Environment.NewLine);
+		return [RenderElement.Default(System.Environment.NewLine)];
 	}
 }

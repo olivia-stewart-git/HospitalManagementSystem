@@ -11,6 +11,18 @@ public abstract class ViewControl : IChangePropagator<ViewControl>
 		OnChange += (_, _) => PropagateBindings();
 	}
 
+	public IEnumerable<ViewControl> Recurse()
+	{
+		List<ViewControl> list = [this];
+		foreach (var control in Children)
+		{
+			list.AddRange(control.Recurse());
+		}
+		return list;
+	}
+
+	public List<ViewControl> Children = [];
+
     public View? Parent { get; set; }
 	public string Name { get; }
 	public bool Focused { get; protected set; } = false;
@@ -80,5 +92,5 @@ public abstract class ViewControl : IChangePropagator<ViewControl>
 		PropagateBindings();
     }
 
-	public abstract RenderElement Render();
+	public abstract List<RenderElement> Render();
 }

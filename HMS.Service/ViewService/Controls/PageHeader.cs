@@ -22,7 +22,7 @@ public class PageHeader : ViewControl
 		this.Subtitle = subtitle;
 	}
 
-	public override RenderElement Render()
+	public override List<RenderElement> Render()
 	{
 		var width = CalculatedWidth;
         var sb = new StringBuilder();
@@ -45,7 +45,7 @@ public class PageHeader : ViewControl
 			.AppendLine(emptyLine)
 			.AppendLine(bottomLine);
 
-		return RenderElement.Default(sb.ToString());
+		return [RenderElement.Default(sb.ToString())];
 	}
 
 	string GetHeaderLine(int headingWidth, char leftChar, char rightChar)

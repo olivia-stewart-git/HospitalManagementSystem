@@ -1,4 +1,6 @@
-﻿namespace HMS.Service.ViewService;
+﻿using HMS.Service.ViewService.Controls;
+
+namespace HMS.Service.ViewService;
 
 public abstract class View
 {
@@ -7,31 +9,32 @@ public abstract class View
 	readonly LinkedList<INavControl> navControls = [];
 	readonly Dictionary<string, ViewControl> controlCache = [];
 
-    List<ViewControl> controls = [];
+    public ViewControl Root { get; } = new RootControl("root");
+
 	LinkedListNode<INavControl>? selectedControlNode;
 
 	INavControl? SelectedControl => selectedControlNode?.Value;
 
-    public IReadOnlyList<ViewControl> Controls
+    public IEnumerable<ViewControl> Controls
 	{
-		get => controls;
-		set
+		get => Root.Recurse();
+        set
 		{
-			controls = [..value];
+			Root.Children = [..value];
 			RegenControlCache();
 		}
 	}
 
 	public void AddControl(ViewControl control)
 	{
-		controls.Add(control);
+		Root.Children.Add(control);
 		RegenControlCache();
 	}
 
 	void RegenControlCache()
 	{
 		navControls.Clear();
-		foreach (var viewControl in controls)
+		foreach (var viewControl in Controls)
 		{
 			viewControl.Parent = this;
             if (viewControl is INavControl navControl)
@@ -59,16 +62,19 @@ public abstract class View
 		var yPosition = 0;
 		foreach (var control in controlsToRender)
 		{
-			var baseRender = control.Render();
-			if (control.Focused)
+			foreach (var baseRender in control.Render())
 			{
-				baseRender.BackGroundColor = ConsoleColor.Green;
-			}
-			renderOutput.Add(baseRender);
-			control.YPosition = yPosition;
+				if (control.Focused)
+				{
+					baseRender.BackGroundColor = ConsoleColor.Green;
+				}
 
-			var lineCount = baseRender.Contents.Split(System.Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Length + 1;
-			yPosition += lineCount;
+				renderOutput.Add(baseRender);
+				control.YPosition = yPosition;
+
+				var lineCount = baseRender.Contents.Split(System.Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Length + 1;
+				yPosition += lineCount;
+			}
 		}
 		return renderOutput;
 	}

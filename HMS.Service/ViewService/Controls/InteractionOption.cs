@@ -24,15 +24,15 @@ public class InteractionOption : ViewControl, INavControl, IInputSubscriber
 		Content = content;
 	}
 
-	public override RenderElement Render()
+	public override List<RenderElement> Render()
 	{
-		return RenderElement.Colored(
+		return [RenderElement.Colored(
 			Content,
 			ConsoleColor.White,
 			isInteractable
 				? ConsoleColor.DarkBlue
 				: ConsoleColor.DarkRed
-			);
+			)];
 	}
 
 	public bool IsHovered { get; set; }
