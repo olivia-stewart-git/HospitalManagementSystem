@@ -1,6 +1,8 @@
-﻿namespace HMS.Service.ViewService.Controls;
+﻿using HMS.Service.Interaction;
 
-public class InputField : ViewControl, INavControl, IInputBlocker
+namespace HMS.Service.ViewService.Controls;
+
+public class InputField : ViewControl, INavControl, IInputFiller, IInputSubscriber
 {
 	string contents = string.Empty;
 	public string Prompt { get; }
@@ -74,14 +76,18 @@ public class InputField : ViewControl, INavControl, IInputBlocker
 		Contents += value;
 	}
 
-	public void Pull()
-	{
-		if (contents.Length <= 1)
-		{
-			Contents = string.Empty;
-			return;
-		}
+    public void OnEnterInput()
+    {
+    }
 
-		Contents = Contents.Remove(Contents.Length - 1);
-	}
+    public void OnBackSpacePressed()
+    {
+	    if (contents.Length <= 1)
+	    {
+		    Contents = string.Empty;
+		    return;
+	    }
+
+	    Contents = Contents.Remove(Contents.Length - 1);
+    }
 }

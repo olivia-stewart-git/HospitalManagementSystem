@@ -11,6 +11,6 @@ public interface IInputService
 {
 	IDisposable SubscribeToCharacterAction(Action<char> characterAction);
 	IDisposable SubscribeToKeyAction(ConsoleKey key, Action keyAction);
-	void FillInput(IInputBlocker inputBlocker);
+	void FillInput<T>(T inputNode) where T : IInputNode;
 	void ClearFill();
 }

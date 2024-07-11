@@ -1,4 +1,5 @@
 ﻿using HMS.Common;
+using HMS.Service.ViewService;
 using HMS.Service.ViewService.Controls;
 
 namespace HMS.Service.Interaction;
@@ -58,6 +59,10 @@ public class InputService : IInputService
 				if (keyValue.Key == ConsoleKey.Backspace)
 				{
 					BackSpaceForFill();
+				} 
+				else if (keyValue.Key == ConsoleKey.Enter)
+				{
+					EnterForFill();
 				}
 				SpecialKeyAction(keyValue);
 			}
@@ -88,27 +93,45 @@ public class InputService : IInputService
 		}
 	}
 
-	IInputBlocker? currentInputTarget;
-	public void FillInput(IInputBlocker inputBlocker)
+	IInputNode? currentInputTarget;
+
+	public void FillInput<T>(T inputNode) where T : IInputNode
 	{
-		currentInputTarget = inputBlocker;
-		var cursorPosition = currentInputTarget.GetCursorPosition();
+		if (inputNode is IInputFiller filler)
+		{
+			FillInput(filler);
+		}
+	}
+	void FillInput(IInputFiller inputFiller)
+	{
+		var cursorPosition = inputFiller.GetCursorPosition();
 		Console.SetCursorPosition(cursorPosition.x, cursorPosition.y);
 	}
 
-	void UpdateFill(char value)
+    void UpdateFill(char value)
 	{
-		if (currentInputTarget != null)
+		if (currentInputTarget is IInputFiller inputFiller)
 		{
-			currentInputTarget.FillValue(value);
-			var cursorPosition = currentInputTarget.GetCursorPosition();
+			inputFiller.FillValue(value);
+			var cursorPosition = inputFiller.GetCursorPosition();
 			Console.SetCursorPosition(cursorPosition.x, cursorPosition.y);
 		}
 	}
 
 	void BackSpaceForFill()
 	{
-		currentInputTarget.Pull();
+		if (currentInputTarget is IInputSubscriber inputSubscriber)
+		{
+			inputSubscriber.OnBackSpacePressed();
+		}
+	}
+
+	void EnterForFill()
+	{
+		if (currentInputTarget is IInputSubscriber inputSubscriber)
+		{
+			inputSubscriber.OnEnterInput();
+		}
     }
 
 	public void ClearFill()

@@ -113,10 +113,10 @@ public class ViewService : IViewService, IDisposable
 	void HandleSelectionChanged(object? sender, ViewControl? selectedControl)
 	{
 		inputService.ClearFill();
-		if (selectedControl is IInputBlocker inputBlocker)
+		if (selectedControl is IInputNode node)
 		{
-			inputService.FillInput(inputBlocker);
-		}
+			inputService.FillInput(node);
+        }
 		Redraw();
     }
 
