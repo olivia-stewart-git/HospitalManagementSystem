@@ -46,4 +46,40 @@ public class SeedingDataRepository
 		}
 		return users;
 	}
+
+	static readonly List<string> Descriptions =
+    [
+        "Usual checkup",
+		"Concerns about chest pain",
+		"Follow-up visit",
+		"Prescription renewal",
+		"Routine blood test",
+		"Consultation for surgery",
+		"Skin rash evaluation",
+		"Allergy testing",
+		"Mental health consultation",
+		"Physical therapy session",
+		"Vaccination appointment",
+		"Diabetes management",
+		"Dietary consultation",
+		"Heart rate monitoring",
+		"Back pain evaluation"
+	];
+
+	static readonly Random RandomGenerator = new ();
+
+	public static string GetRandomAppointmentDescription()
+	{
+		int index = RandomGenerator.Next(Descriptions.Count);
+		return Descriptions[index];
+	}
+
+	public static DateTime GetRandomAppointmentDate()
+	{
+		var startDate = DateTime.Now.AddMonths(-6);
+		var endDate = DateTime.Now.AddMonths(6);
+
+		var range = (endDate - startDate).Days;
+		return startDate.AddDays(RandomGenerator.Next(range));
+    }
 }

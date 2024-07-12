@@ -11,7 +11,7 @@ public class AppointmentModel
     public Guid APT_PK { get; set; }
 
     [Required]
-    public DateTime APT_AppointmentTimeUTC { get; set; }
+    public DateTime APT_AppointmentTime { get; set; }
 
     [ForeignKey("APT_DCT_ID")]
     [DeleteBehavior(DeleteBehavior.NoAction)]
@@ -23,6 +23,6 @@ public class AppointmentModel
     public PatientModel APT_Patient { get; set; }
     public Guid APT_PAT_ID { get; set; }
 
-    [MaxLength(100)]
-    public string ADP_Description { get; set; } = string.Empty;
+    [MaxLength(400)]
+    public string APT_Description { get; set; } = string.Empty;
 }

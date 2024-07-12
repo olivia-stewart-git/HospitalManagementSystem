@@ -1,14 +1,15 @@
-﻿using HMS.Data.Models;
+﻿using HMS.Data.DataAccess;
+using HMS.Data.Models;
 
 namespace HMS.Data;
 
 public class Seeder : ISeeder
 {
-	readonly HMSDbContext dbContext;
+	readonly IUnitOfWorkFactory unitOfWorkFactory;
 
-	public Seeder(HMSDbContext dbContext)
+	public Seeder( IUnitOfWorkFactory unitOfWorkFactory)
 	{
-		this.dbContext = dbContext;
+		this.unitOfWorkFactory = unitOfWorkFactory;
 	}
 
 	public void SeedDb()
@@ -25,12 +26,16 @@ public class Seeder : ISeeder
 		SeedDoctors();
 		SeedPatients();
 		SeedAdministrators();
+		SeedAppointments();
 		SeedStmData();
     }
 
 	bool ShouldSeed()
 	{
-		var stmData = dbContext.StmData.Take(1);
+		var unitOfWork = unitOfWorkFactory.CreateUnitOfWork();
+		var stmDataRepository = unitOfWork.GetRepository<STMDataModel>();
+
+		var stmData = stmDataRepository.Get(1);
 		if (stmData.Any())
 		{
 			return !stmData.First().STM_HasSeeded;
@@ -41,19 +46,27 @@ public class Seeder : ISeeder
 
 	void SeedUsers()
 	{
+		var unitOfWork = unitOfWorkFactory.CreateUnitOfWork();
+		var userRepository = unitOfWork.GetRepository<UserModel>();
+
 		var users = SeedingDataRepository.ConsumeUsers();
 		foreach (var userModel in users)
 		{
-			dbContext.Users.Add(userModel);
+			userRepository.Insert(userModel);
 		}
 
-		dbContext.SaveChanges();
+		unitOfWork.Commit();
 	}
 
 	void SeedDoctors()
 	{
+		var unitOfWork = unitOfWorkFactory.CreateUnitOfWork();
+		var doctorRepository = unitOfWork.GetRepository<DoctorModel>();
+		var userRepository = unitOfWork.GetRepository<UserModel>();
+
 		var doctors = new List<DoctorModel>();
-		var existingUsers = dbContext.Users.Where(x => x.USR_ID <= 300);
+
+		var existingUsers = userRepository.GetWhere(x => x.USR_ID <= 300);
 		foreach (var userModel in existingUsers)
 		{
 			doctors.Add(new DoctorModel()
@@ -62,17 +75,24 @@ public class Seeder : ISeeder
 				DCT_User = userModel,
 			});
         }
-		dbContext.Doctors.AddRange(doctors);
-		dbContext.SaveChanges();
+
+		doctorRepository.InsertRange(doctors);
+		unitOfWork.Commit();
 	}
 
 	void SeedPatients()
 	{
-		var doctors = dbContext.Doctors.ToList();
+		var unitOfWork = this.unitOfWorkFactory.CreateUnitOfWork();
+		var doctorRepository = unitOfWork.GetRepository<DoctorModel>();
+		var patientRepository = unitOfWork.GetRepository<PatientModel>();
+		var userRepository = unitOfWork.GetRepository<UserModel>();
+
+		var doctors = doctorRepository.Get().ToList();
+
 		var random = new Random();
 
 		var patients = new List<PatientModel>();
-        var existingUsers = dbContext.Users.Where(x => x.USR_ID > 300 && x.USR_ID < 900);
+        var existingUsers = userRepository.GetWhere(x => x.USR_ID > 300 && x.USR_ID < 900);
 		foreach (var userModel in existingUsers)
 		{
 			var rand = random.Next(doctors.Count);
@@ -85,14 +105,18 @@ public class Seeder : ISeeder
 				PAT_Doctor = targetDoctor,
             });
 		}
-		dbContext.Patients.AddRange(patients);
-		dbContext.SaveChanges();
+		patientRepository.InsertRange(patients);
+		unitOfWork.Commit();
 	}
 
 	void SeedAdministrators()
 	{
-		var administratorModels = new List<AdministratorModel>();
-		var existingUsers = dbContext.Users.Where(x => x.USR_ID > 300 && x.USR_ID < 900);
+		var unitOfWork = this.unitOfWorkFactory.CreateUnitOfWork();
+		var administratorRepository = unitOfWork.GetRepository<AdministratorModel>();
+		var userRepository = unitOfWork.GetRepository<UserModel>();
+
+        var administratorModels = new List<AdministratorModel>();
+		var existingUsers = userRepository.GetWhere(x => x.USR_ID > 300 && x.USR_ID < 900);
 		foreach (var userModel in existingUsers)
 		{
 			administratorModels.Add(new AdministratorModel()
@@ -101,18 +125,64 @@ public class Seeder : ISeeder
 				ADM_User = userModel,
 			});
 		}
-		dbContext.Administrators.AddRange(administratorModels);
-		dbContext.SaveChanges();
+		administratorRepository.InsertRange(administratorModels);
+		unitOfWork.Commit();
 	}
 
-    void SeedStmData()
+	void SeedAppointments()
 	{
-		var data = new STMDataModel()
+		var unitOfWork = this.unitOfWorkFactory.CreateUnitOfWork();
+		var patientRepository = unitOfWork.GetRepository<PatientModel>();
+		var doctorRepository = unitOfWork.GetRepository<DoctorModel>();
+		var appointmentRepository = unitOfWork.GetRepository<AppointmentModel>();
+
+        var doctors = doctorRepository.Get().ToList();
+		var patients = patientRepository.Get().OrderBy(x => Guid.NewGuid()).ToList(); //Randomly order patients
+
+		var rand = new Random();
+
+        for (int i = 0; i < doctors.Count; i++)
+        {
+	        var patientCount = rand.Next(10);
+	        var doctor = doctors[i];
+	        var startIndex = rand.Next(patients.Count - 1 - patientCount);
+	        for (int j = startIndex; j < patientCount; j++)
+	        {
+				var patient = patients[j];
+				doctor.DCT_Patients.Add(patient);
+				patient.PAT_Doctor = doctor;
+				doctorRepository.Update(doctor);
+				patientRepository.Update(patient);
+
+				var shouldAddAppointment = rand.Next(100) < 50;
+				if (shouldAddAppointment)
+				{
+					var appointment = new AppointmentModel()
+					{
+						APT_PK = Guid.NewGuid(),
+						APT_AppointmentTime = SeedingDataRepository.GetRandomAppointmentDate(),
+						APT_Description = SeedingDataRepository.GetRandomAppointmentDescription(),
+						APT_Doctor = doctor,
+						APT_Patient = patient,
+					};
+					appointmentRepository.Insert(appointment);
+				}
+	        }
+        }
+		unitOfWork.Commit();
+	}
+
+	//This is just data to record whether we have seeded before so we don't do it everytime we open.
+    void SeedStmData()
+    {
+	    var unitOfWork = unitOfWorkFactory.CreateUnitOfWork();
+	    var stmDataRepository = unitOfWork.GetRepository<STMDataModel>();
+        var data = new STMDataModel()
 		{
 			STM_PK = Guid.NewGuid(),
 			STM_HasSeeded = true,
 		};
-		dbContext.StmData.Add(data);
-		dbContext.SaveChanges();
+		stmDataRepository.Insert(data);
+		unitOfWork.Commit();
 	}
 }

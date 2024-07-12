@@ -35,11 +35,34 @@ public class Repository<T> : IRepository<T> where T : class
 		return queryable.ToList();
 	}
 
+	public IEnumerable<T> Get(int rowCount = -1)
+	{
+		IQueryable<T> queryable = entitySet;
+        if (rowCount > 0)
+		{
+			queryable = queryable.Take(rowCount);
+		}
+
+		return queryable.ToList();
+	}
+
 	public bool Exists(Expression<Func<T, bool>> predicate)
 	{
 		ArgumentNullException.ThrowIfNull(predicate);
 		IQueryable<T> queryable = entitySet;
 		return queryable.Any(predicate);
+	}
+	public void InsertRange(params T[] entities)
+	{
+		InsertRange((IEnumerable<T>)entities);
+	}
+
+    public void InsertRange(IEnumerable<T> entities)
+	{
+		foreach (var entity in entities)
+		{
+			Insert(entity);
+		}
 	}
 
 	public void Insert(T entity)
