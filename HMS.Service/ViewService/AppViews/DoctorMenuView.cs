@@ -6,10 +6,12 @@ namespace HMS.Service.ViewService.AppViews;
 public class DoctorMenuView : View
 {
 	readonly IEnvironment environment;
+	readonly IViewService viewService;
 
-	public DoctorMenuView(IEnvironment environment)
+	public DoctorMenuView(IEnvironment environment, IViewService viewService)
 	{
 		this.environment = environment;
+		this.viewService = viewService;
 	}
 
 	public override void BuildView(ViewBuilder viewBuilder)
@@ -30,6 +32,7 @@ public class DoctorMenuView : View
 
 	public void OnListDoctorDetails(SelectionOption option)
 	{
+		viewService.SwitchView<DoctorDetailsView>();
 	}
 
 	public void OnListPatients(SelectionOption option)

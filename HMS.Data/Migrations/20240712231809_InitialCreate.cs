@@ -110,9 +110,10 @@ namespace HMS.Data.Migrations
                 columns: table => new
                 {
                     APT_PK = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    APT_AppointmentTimeUTC = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    APT_AppointmentTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     APT_DCT_ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    APT_PAT_ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    APT_PAT_ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    APT_Description = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false)
                 },
                 constraints: table =>
                 {

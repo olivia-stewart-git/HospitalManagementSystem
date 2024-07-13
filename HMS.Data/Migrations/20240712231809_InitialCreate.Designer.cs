@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HMS.Data.Migrations
 {
     [DbContext(typeof(HMSDbContext))]
-    [Migration("20240711001129_InitialCreate")]
+    [Migration("20240712231809_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -50,11 +50,16 @@ namespace HMS.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("APT_AppointmentTimeUTC")
+                    b.Property<DateTime>("APT_AppointmentTime")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("APT_DCT_ID")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("APT_Description")
+                        .IsRequired()
+                        .HasMaxLength(400)
+                        .HasColumnType("nvarchar(400)");
 
                     b.Property<Guid>("APT_PAT_ID")
                         .HasColumnType("uniqueidentifier");

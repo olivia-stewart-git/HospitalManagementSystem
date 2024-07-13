@@ -22,6 +22,10 @@ public class Repository<T> : IRepository<T> where T : class
 	}
 
 	public IEnumerable<T> GetWhere(Expression<Func<T, bool>> predicate, int rowCount = -1)
+		=> GetWhere(predicate, null, rowCount);
+
+
+    public IEnumerable<T> GetWhere(Expression<Func<T, bool>> predicate, string[]? includedProperties, int rowCount = -1)
 	{
 		ArgumentNullException.ThrowIfNull(predicate);
 		IQueryable<T> queryable = entitySet;
@@ -32,10 +36,17 @@ public class Repository<T> : IRepository<T> where T : class
 			queryable = queryable.Take(rowCount);
 		}
 
-		return queryable.ToList();
+		if (includedProperties != null)
+		{
+			queryable = PopulateIncludes(queryable, includedProperties);
+		}
+
+        return queryable.ToList();
 	}
 
-	public IEnumerable<T> Get(int rowCount = -1)
+	public IEnumerable<T> Get(int rowCount = -1) => Get(null, rowCount);
+
+    public IEnumerable<T> Get(string[]? includedProperties, int rowCount = -1)
 	{
 		IQueryable<T> queryable = entitySet;
         if (rowCount > 0)
@@ -43,7 +54,22 @@ public class Repository<T> : IRepository<T> where T : class
 			queryable = queryable.Take(rowCount);
 		}
 
+		if (includedProperties != null)
+		{
+			queryable = PopulateIncludes(queryable, includedProperties);
+		}
+
 		return queryable.ToList();
+	}
+
+	IQueryable<T> PopulateIncludes(IQueryable<T> query, IEnumerable<string> includedProperties)
+	{
+		foreach (var includedProperty in includedProperties)
+		{
+			query = query.Include(includedProperty);
+		}
+
+		return query;
 	}
 
 	public bool Exists(Expression<Func<T, bool>> predicate)
@@ -91,7 +117,7 @@ public class Repository<T> : IRepository<T> where T : class
 		hasChanges = true;
 	}
 
-	public void Update(T entityToUpdate)
+    public void Update(T entityToUpdate)
 	{
 		entitySet.Attach(entityToUpdate);
 		dbContext.Entry(entityToUpdate).State = EntityState.Modified;
