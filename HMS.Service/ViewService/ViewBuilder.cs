@@ -3,7 +3,9 @@
 public class ViewBuilder
 {
 	readonly View targetView;
-	List<ViewControl> controls = [];
+	readonly List<ViewControl> controls = [];
+
+	ViewControl? lastControl;
 
 	public ViewBuilder(View targetView)
 	{
@@ -14,6 +16,15 @@ public class ViewBuilder
 	{
 		controls.Add(control);
 		return this;
+	}
+
+	public void Setup<T>(Action<T> controlAction) where T : ViewControl
+	{
+		if (lastControl != null)
+		{
+			controlAction((lastControl as T)
+				?? throw new InvalidOperationException("Could not cast to specified view control type"));
+		}
 	}
 
 	public List<ViewControl> Build()
