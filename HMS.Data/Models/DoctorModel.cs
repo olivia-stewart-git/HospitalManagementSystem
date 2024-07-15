@@ -14,9 +14,9 @@ public class DoctorModel
 	public UserModel DCT_User { get; set; }
 	public Guid DCT_USR_ID { get; set; }
 
-    [InverseProperty(nameof(AppointmentModel.APT_Doctor))]
-	public ICollection<AppointmentModel> DCT_Appointments { get; set; }
+	[InverseProperty(nameof(AppointmentModel.APT_Doctor))]
+	public ICollection<AppointmentModel> DCT_Appointments { get; set; } = [];
 
 	[InverseProperty(nameof(PatientModel.PAT_Doctor))]
-	public ICollection<PatientModel> DCT_Patients { get; set; }
+	public ICollection<PatientModel> DCT_Patients { get; set; } = [];
 }

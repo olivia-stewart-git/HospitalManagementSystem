@@ -8,7 +8,8 @@ public class ViewService : IViewService, IDisposable
 	readonly IServiceProvider serviceProvider;
 	readonly IInputService inputService;
 
-	ICollection<IDisposable> disposables;
+	readonly Stack<Type> viewHistory = [];
+	readonly ICollection<IDisposable> disposables;
 
 	public ViewService(IViewWriter writer, IServiceProvider serviceProvider, IInputService inputService)
 	{
@@ -18,27 +19,52 @@ public class ViewService : IViewService, IDisposable
 		disposables =
 		[
 			inputService.SubscribeToKeyAction(ConsoleKey.UpArrow, HandleUpArrow),
-			inputService.SubscribeToKeyAction(ConsoleKey.DownArrow, HandleDownArrow)
+			inputService.SubscribeToKeyAction(ConsoleKey.DownArrow, HandleDownArrow),
+			inputService.SubscribeToKeyAction(ConsoleKey.Escape, HandleEscapeKey)
         ];
 	}
 
-	void HandleUpArrow()
-	{
-		currentView?.NavigateUp();
-	}
+    #region InputHandling
+    void HandleUpArrow()
+    {
+	    currentView?.NavigateUp();
+    }
 
-	void HandleDownArrow()
-	{
-		currentView?.NavigateDown();
-	}
+    void HandleDownArrow()
+    {
+	    currentView?.NavigateDown();
+    }
 
-	public View? CurrentView => currentView;
+    void HandleEscapeKey()
+    {
+	    currentView?.OnEscapePressed();
+    }
+    #endregion
 
+    public View? CurrentView => currentView;
     View? currentView;
+
+    public void LoadLastView()
+    {
+	    if (viewHistory.Count == 0)
+	    {
+		    throw new InvalidOperationException("Cannot load last view as no history recorded");
+	    }
+	    var lastView = viewHistory.Pop();
+	    SwitchViewCore(lastView);
+    }
 
 	public T SwitchView<T>() where T : View
 	{
-		var instance = CreateViewInstance<T>();
+		return (T)SwitchViewCore(typeof(T));
+	}
+
+	object SwitchViewCore(Type viewType)
+	{
+		if (CreateViewInstance(viewType) is not View instance)
+		{
+			throw new InvalidOperationException("View instance is not of View Type");
+		}
 		var builder = new ViewBuilder(instance);
 		instance.BuildView(builder);
 
@@ -48,6 +74,7 @@ public class ViewService : IViewService, IDisposable
 		{
 			currentView.OnUnload();
 			UnsubscribeFromView(currentView);
+			UpdateHistory(currentView.GetType());
         }
 
 		currentView = instance;
@@ -55,27 +82,30 @@ public class ViewService : IViewService, IDisposable
 
 		currentView.NavigateDown();
 
-        Redraw();
-        currentView.OnBecomeActive();
+		Redraw();
+		currentView.OnBecomeActive();
 		return instance;
-	}
+    }
 
-	T CreateViewInstance<T>()
+	void UpdateHistory(Type viewType)
 	{
-		var viewType = typeof(T);
+		viewHistory.Push(viewType);
+    }
 
+	object CreateViewInstance(Type viewType)
+	{
 		var constructorInfo = viewType.GetConstructors().First();
 		var parameters = constructorInfo.GetParameters();
 		var parameterValues = new object[parameters.Length];
 
-		for (int i = 0; i < parameters.Length; i++)
+		for (var i = 0; i < parameters.Length; i++)
 		{
 			var type = parameters[i].ParameterType;
 			var value = serviceProvider.GetService(type);
 			parameterValues[i] = value ?? throw new InvalidOperationException("Error occured resolving service for creating view");
 		}
 
-        var instance = (T?)Activator.CreateInstance(viewType, parameterValues);
+        var instance = Activator.CreateInstance(viewType, parameterValues);
 		if (instance == null)
 		{
 			throw new InvalidOperationException("Error occured creating view instance");

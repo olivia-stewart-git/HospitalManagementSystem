@@ -41,7 +41,7 @@ public class DoctorMenuView : View
 
 	public void OnListAppointments(SelectionOption option)
 	{
-
+		viewService.SwitchView<DoctorAppointmentsView>();
 	}
 
 	public void OnCheckParticularPatient(SelectionOption option)

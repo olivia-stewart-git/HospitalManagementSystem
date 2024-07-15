@@ -139,7 +139,7 @@ public class TableView<T> : ViewControl
 				columnName = (column.ValueFunc.Body as MemberExpression)?.Member.Name ?? string.Empty;
                 if (CullPropertyPrefix)
                 {
-	                columnName = columnName[3..];
+	                columnName = columnName[4..];
                 }
 			}
 

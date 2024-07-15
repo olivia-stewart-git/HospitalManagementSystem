@@ -8,11 +8,13 @@ public class DoctorDetailsView : View
 {
 	readonly IEnvironment environment;
 	readonly IUnitOfWorkFactory unitOfWorkFactory;
+	readonly IViewService viewService;
 
-	public DoctorDetailsView(IEnvironment environment, IUnitOfWorkFactory unitOfWorkFactory)
+	public DoctorDetailsView(IEnvironment environment, IUnitOfWorkFactory unitOfWorkFactory, IViewService viewService)
 	{
 		this.environment = environment;
 		this.unitOfWorkFactory = unitOfWorkFactory;
+		this.viewService = viewService;
 	}
 
 	public override void BuildView(ViewBuilder viewBuilder)
@@ -50,5 +52,10 @@ public class DoctorDetailsView : View
 			outputBox.Enabled = true;
 			outputBox.SetState("Error occurred retrieving doctor information", OutputBox.OutputState.Error);
         }
+	}
+
+	public override void OnEscapePressed()
+	{
+		viewService.LoadLastView();
 	}
 }

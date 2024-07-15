@@ -38,7 +38,7 @@ internal class LogonServiceTest
 		var mockViewService = new Mock<IViewService>();
 		mockViewService.Setup(x => x.CurrentView).Returns(new LoginView(Mock.Of<ILogonService>()));
 
-		var logonService = new LogonService(mockInputService.Object, mockViewService.Object, unitOfWorkFactory.Object, Mock.Of<IEnvironment>()) { DoRepeatLogon = false };
+		var logonService = new LogonService(mockViewService.Object, unitOfWorkFactory.Object, Mock.Of<IEnvironment>()) { DoRepeatLogon = false };
 
 		//Act
 		logonService.ExecuteLogin(userId, password);
@@ -70,13 +70,11 @@ internal class LogonServiceTest
 
         SetupRepositoryMocksForType(mockUnitOfWork, objectType);
 
-        var mockInputService = new Mock<IInputService>();
-
 		var mockViewService = new Mock<IViewService>();
 		mockViewService.Setup(x => x.CurrentView).Returns(new LoginView(Mock.Of<ILogonService>()));
 
 		var env = new Environment();
-		var logonService = new LogonService(mockInputService.Object, mockViewService.Object, unitOfWorkFactory.Object, env) { DoRepeatLogon = false };
+		var logonService = new LogonService(mockViewService.Object, unitOfWorkFactory.Object, env) { DoRepeatLogon = false };
 
 		//Act
 		logonService.ExecuteLogin(1, "test");

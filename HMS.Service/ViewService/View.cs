@@ -87,6 +87,10 @@ public abstract class View
 	{
 	}
 
+	public virtual void OnEscapePressed()
+	{
+	}
+
 	public void NavigateDown()
 	{
 		if (navControls.Count == 0)

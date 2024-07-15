@@ -143,10 +143,10 @@ public class Seeder : ISeeder
 
         for (int i = 0; i < doctors.Count; i++)
         {
-	        var patientCount = rand.Next(10);
+	        var patientCount = rand.Next(1, 10);
 	        var doctor = doctors[i];
 	        var startIndex = rand.Next(patients.Count - 1 - patientCount);
-	        for (int j = startIndex; j < patientCount; j++)
+	        for (int j = startIndex; j < startIndex + patientCount; j++)
 	        {
 				var patient = patients[j];
 				doctor.DCT_Patients.Add(patient);
@@ -154,19 +154,15 @@ public class Seeder : ISeeder
 				doctorRepository.Update(doctor);
 				patientRepository.Update(patient);
 
-				var shouldAddAppointment = rand.Next(100) < 50;
-				if (shouldAddAppointment)
+				var appointment = new AppointmentModel()
 				{
-					var appointment = new AppointmentModel()
-					{
-						APT_PK = Guid.NewGuid(),
-						APT_AppointmentTime = SeedingDataRepository.GetRandomAppointmentDate(),
-						APT_Description = SeedingDataRepository.GetRandomAppointmentDescription(),
-						APT_Doctor = doctor,
-						APT_Patient = patient,
-					};
-					appointmentRepository.Insert(appointment);
-				}
+					APT_PK = Guid.NewGuid(),
+					APT_AppointmentTime = SeedingDataRepository.GetRandomAppointmentDate(),
+					APT_Description = SeedingDataRepository.GetRandomAppointmentDescription(),
+					APT_Doctor = doctor,
+					APT_Patient = patient,
+				};
+				appointmentRepository.Insert(appointment);
 	        }
         }
 		unitOfWork.Commit();

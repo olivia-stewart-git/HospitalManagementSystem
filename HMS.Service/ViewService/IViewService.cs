@@ -6,4 +6,5 @@ public interface IViewService
 
 	T SwitchView<T>() where T : View;
 	void Redraw();
+	void LoadLastView();
 }
