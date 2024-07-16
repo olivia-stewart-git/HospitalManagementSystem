@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using HMS.Common;
 
 namespace HMS.Service.ViewService.Controls;
 
@@ -7,11 +8,11 @@ public class ObjectDataField<T> : ViewControl
 	readonly IEnumerable<DataFieldProperty<T>> properties;
 	T? currentValue;
 
-	public ObjectDataField(params DataFieldProperty<T>[] properties) : this((IEnumerable<DataFieldProperty<T>>)properties)
+	public ObjectDataField(string name, params DataFieldProperty<T>[] properties) : this(name, (IEnumerable<DataFieldProperty<T>>)properties)
 	{
 	}
 
-    public ObjectDataField(IEnumerable<DataFieldProperty<T>> properties) : base(typeof(T).Name + "-objectDataField")
+    public ObjectDataField(string name, IEnumerable<DataFieldProperty<T>> properties) : base(name)
 	{
 		this.properties = properties;
 	}
@@ -36,5 +37,6 @@ public class ObjectDataField<T> : ViewControl
 	public void Set(T value)
 	{
 		currentValue = value;
-    }
+		DoChange();
+	}
 }

@@ -13,4 +13,5 @@ public interface IInputService
 	IDisposable SubscribeToKeyAction(ConsoleKey key, Action keyAction);
 	void FillInput<T>(T inputNode) where T : IInputNode;
 	void ClearFill();
+	EventHandler<Exception> OnApplicationError { get; set; }
 }

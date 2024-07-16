@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using HMS.Data.DataAccess;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HMS.Data.Models;
 
 [PrimaryKey("USR_PK")]
-public class UserModel
+public class UserModel : IDbModel
 {
 	[Key]
 	public Guid USR_PK { get; set; }

@@ -14,7 +14,7 @@ public class ViewWriter : IViewWriter
 		Console.Write(renderElement.Contents);
 	}
 
-	public void WriteLine(RenderElement renderElement)
+	public void WriteElement(RenderElement renderElement)
 	{
 		using var backGroundContext = ColorContext.UseBackGround(renderElement.BackGroundColor);
 		using var colorContext = ColorContext.UseForeGround(renderElement.Color);

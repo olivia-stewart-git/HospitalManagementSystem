@@ -7,4 +7,6 @@ public interface IViewService
 	T SwitchView<T>() where T : View;
 	void Redraw();
 	void LoadLastView();
+	void WriteApplicationError(Exception ex);
+	void ClearError();
 }

@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using HMS.Data.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
 namespace HMS.Data.Models;
 
 [PrimaryKey("DCT_PK")]
-public class DoctorModel
+public class DoctorModel : IDbModel
 {
 	[Key]
 	public Guid DCT_PK { get; set; }

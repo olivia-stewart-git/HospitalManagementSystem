@@ -27,7 +27,7 @@ namespace HMS.Service.ViewService.Test
 		    //Arrange
 			var sb = new StringBuilder();
 			var viewWriter = new Mock<IViewWriter>();
-			viewWriter.Setup(x => x.WriteLine(It.IsAny<RenderElement>())).Callback<RenderElement>(msg => sb.AppendLine(msg.Contents));
+			viewWriter.Setup(x => x.WriteElement(It.IsAny<RenderElement>())).Callback<RenderElement>(msg => sb.AppendLine(msg.Contents));
 
 		    var viewService = new ViewService(viewWriter.Object, Mock.Of<IServiceProvider>(), Mock.Of<IInputService>());
 

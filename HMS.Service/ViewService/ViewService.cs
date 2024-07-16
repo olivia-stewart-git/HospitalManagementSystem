@@ -16,6 +16,7 @@ public class ViewService : IViewService, IDisposable
 		this.writer = writer;
 		this.serviceProvider = serviceProvider;
 		this.inputService = inputService;
+		inputService.OnApplicationError += HandleApplicationError;
 		disposables =
 		[
 			inputService.SubscribeToKeyAction(ConsoleKey.UpArrow, HandleUpArrow),
@@ -39,6 +40,24 @@ public class ViewService : IViewService, IDisposable
     {
 	    currentView?.OnEscapePressed();
     }
+	#endregion
+
+	#region ErrorHandling
+
+	void HandleApplicationError(object? sender, Exception ex) => WriteApplicationError(ex);
+
+	RenderElement? errorElement;
+    public void WriteApplicationError(Exception ex)
+    {
+		errorElement = RenderElement.Colored($"Exception occurred in application: {ex.Message}", ConsoleColor.DarkRed);
+		Redraw();
+    }
+
+    public void ClearError()
+    {
+	    errorElement = null;
+    }
+
     #endregion
 
     public View? CurrentView => currentView;
@@ -151,18 +170,24 @@ public class ViewService : IViewService, IDisposable
 
 	public void Redraw()
 	{
-		if (CurrentView == null)
+		writer.Clear();
+        if (errorElement != null)
+		{
+			writer.WriteElement(errorElement);
+			return;
+		}
+
+        if (CurrentView == null)
 		{
 			throw new InvalidOperationException("Cannot Redraw With no current view");
 		}
 
 		var value = CurrentView?.Render();
-		writer.Clear();
 		if (value != null)
 		{
 			foreach (var renderElement in value)
 			{
-				writer.WriteLine(renderElement);
+				writer.WriteElement(renderElement);
 			}
 		}
 	}

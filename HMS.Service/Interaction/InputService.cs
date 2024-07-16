@@ -6,7 +6,9 @@ namespace HMS.Service.Interaction;
 
 public class InputService : IInputService
 {
-	public InputService()
+	public EventHandler<Exception> OnApplicationError { get; set; }
+
+    public InputService()
 	{
 		DeployThread();
 	}
@@ -53,22 +55,30 @@ public class InputService : IInputService
 	{
 		while (true)
 		{
-			var keyValue = Console.ReadKey(true);
-			if (specialKeys.Contains(keyValue.Key))
+			try
 			{
-				if (keyValue.Key == ConsoleKey.Backspace)
+				var keyValue = Console.ReadKey(true);
+				if (specialKeys.Contains(keyValue.Key))
 				{
-					BackSpaceForFill();
-				} 
-				else if (keyValue.Key == ConsoleKey.Enter)
-				{
-					EnterForFill();
+					if (keyValue.Key == ConsoleKey.Backspace)
+					{
+						BackSpaceForFill();
+					}
+					else if (keyValue.Key == ConsoleKey.Enter)
+					{
+						EnterForFill();
+					}
+
+					SpecialKeyAction(keyValue);
 				}
-				SpecialKeyAction(keyValue);
+				else
+				{
+					OnCharacterAction(keyValue.KeyChar);
+				}
 			}
-			else
+			catch (Exception ex)
 			{
-				OnCharacterAction(keyValue.KeyChar);
+				OnApplicationError?.Invoke(this, ex);
 			}
 		}
 	}

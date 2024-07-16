@@ -17,11 +17,13 @@ using var host = builder.Build();
 var seeder = host.Services.GetService<ISeeder>();
 seeder?.SeedDb();
 
+var cts = new CancellationTokenSource();
+_ = new HospitalManagementSystem(cts);
+
 var viewService = host.Services.GetService<IViewService>();
 viewService?.SwitchView<LoginView>();
 
 Console.CursorVisible = false;
-var cts = new CancellationTokenSource();
 Console.CancelKeyPress += (sender, args) => cts.Cancel();
 while (!cts.IsCancellationRequested)
 {

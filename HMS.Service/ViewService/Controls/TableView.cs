@@ -137,7 +137,7 @@ public class TableView<T> : ViewControl
 			else
 			{
 				columnName = (column.ValueFunc.Body as MemberExpression)?.Member.Name ?? string.Empty;
-                if (CullPropertyPrefix)
+                if (CullPropertyPrefix && columnName.Length > 3)
                 {
 	                columnName = columnName[4..];
                 }

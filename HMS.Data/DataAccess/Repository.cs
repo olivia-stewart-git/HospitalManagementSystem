@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace HMS.Data.DataAccess;
 
-public class Repository<T> : IRepository<T> where T : class
+public class Repository<T> : IRepository<T> where T : class, IDbModel
 {
 	readonly HMSDbContext dbContext;
 	readonly DbSet<T> entitySet;

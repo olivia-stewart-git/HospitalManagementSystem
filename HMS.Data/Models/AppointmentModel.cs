@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using HMS.Data.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
 namespace HMS.Data.Models;
 
 [PrimaryKey("APT_PK")]
-public class AppointmentModel
+public class AppointmentModel : IDbModel
 {
     [Key]
     public Guid APT_PK { get; set; }

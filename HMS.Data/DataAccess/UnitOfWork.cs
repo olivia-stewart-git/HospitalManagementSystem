@@ -12,7 +12,7 @@ public class UnitOfWork : IUnitOfWork
 
 	readonly Dictionary<Type, object> repositoryMap = [];
 
-	public IRepository<T> GetRepository<T>() where T : class
+	public IRepository<T> GetRepository<T>() where T : class, IDbModel
 	{
 		if (repositoryMap.TryGetValue(typeof(T), out var repository))
 		{

@@ -27,7 +27,7 @@ public class DoctorMenuView : View
 				new SelectionOption("Check Particular Patient", OnCheckParticularPatient),
 				new SelectionOption("List Appointments With Patient", OnListAppointmentsWithPatient),
 				new SelectionOption("Logout", OnLogout),
-				new SelectionOption("Exit", OnListDoctorDetails)));
+				new SelectionOption("Exit", OnExit)));
 	}
 
 	public void OnListDoctorDetails(SelectionOption option)
@@ -57,6 +57,6 @@ public class DoctorMenuView : View
 
 	public void OnExit(SelectionOption option)
 	{
-		environment.Exit();
+		HospitalManagementSystem.QuitApplication();
 	}
 }

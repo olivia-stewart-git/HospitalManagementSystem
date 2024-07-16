@@ -26,7 +26,7 @@ public class DoctorAppointmentsView : View
 				new TableViewColumn<AppointmentModel>(x => x.APT_Doctor.DCT_User.USR_FullName, overrideName: "Doctor"),
 				new TableViewColumn<AppointmentModel>(x => x.APT_Patient.PAT_User.USR_FullName, overrideName: "Patient"),
 				new TableViewColumn<AppointmentModel>(x => x.APT_Description),
-				new TableViewColumn<AppointmentModel>(x => x.APT_AppointmentTime)));
+				new TableViewColumn<AppointmentModel>(x => x.APT_AppointmentTime, overrideName: "Appointment Time")));
 	}
 
 	public override void OnBecomeActive()

@@ -6,17 +6,55 @@ namespace HMS.Service.ViewService.AppViews;
 public class PatientMenuView : View
 {
 	readonly IEnvironment environment;
+	readonly IViewService viewService;
 
-	public PatientMenuView(IEnvironment environment)
+	public PatientMenuView(IEnvironment environment, IViewService viewService)
 	{
 		this.environment = environment;
+		this.viewService = viewService;
 	}
 
     public override void BuildView(ViewBuilder viewBuilder)
-	{
-		viewBuilder
-			.AddControl(new PageHeader("DOTNET Hospital Management System", "Patient Menu"))
-			.AddControl(new Label($"Welcome to DOTNET Hospital Management System {environment.CurrentUser.USR_FullName}"))
-			.AddControl(new NewLine());
-	}
+    {
+	    viewBuilder
+		    .AddControl(new PageHeader("DOTNET Hospital Management System", "Patient Menu"))
+		    .AddControl(new Label($"Welcome to DOTNET Hospital Management System {environment.CurrentUser.USR_FullName}"))
+		    .AddControl(new NewLine())
+		    .AddControl(new OptionsList("patient-menu-options", "Please Choose An Option",
+			    new SelectionOption("List Patient Details", OnListPatientDetails),
+			    new SelectionOption("List my Doctor Details", OnListDoctorAppointments),
+			    new SelectionOption("List All Appointments", OnListPatientAppointments),
+			    new SelectionOption("Book Appointment", OnBookAppointment),
+			    new SelectionOption("Logout", OnLogout),
+			    new SelectionOption("Exit", OnExit)));
+    }
+
+    void OnListPatientDetails(SelectionOption option)
+    {
+		viewService.SwitchView<PatientDetailsView>();
+    }
+
+    void OnListDoctorAppointments(SelectionOption option)
+    {
+	    throw new NotImplementedException();
+    }
+
+    void OnListPatientAppointments(SelectionOption option)
+    {
+	    throw new NotImplementedException();
+    }
+
+    void OnLogout(SelectionOption option)
+    {
+	    throw new NotImplementedException();
+    }
+
+    void OnBookAppointment(SelectionOption option)
+    {
+	    throw new NotImplementedException();
+    }
+
+    void OnExit(SelectionOption option)
+    {
+    }
 }
