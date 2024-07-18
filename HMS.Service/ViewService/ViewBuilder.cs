@@ -18,13 +18,24 @@ public class ViewBuilder
 		return this;
 	}
 
-	public void Setup<T>(Action<T> controlAction) where T : ViewControl
+	public ViewBuilder Setup<T>(Action<T> controlAction) where T : ViewControl
 	{
 		if (lastControl != null)
 		{
 			controlAction((lastControl as T)
 				?? throw new InvalidOperationException("Could not cast to specified view control type"));
 		}
+		return this;
+	}
+
+	public ViewBuilder Place<T>(ref T placement) where T : ViewControl
+    {
+		if (lastControl != null)
+		{
+			placement = (T)lastControl;
+		}
+
+		return this;
 	}
 
 	public List<ViewControl> Build()

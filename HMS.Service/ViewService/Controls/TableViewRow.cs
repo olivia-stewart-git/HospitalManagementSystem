@@ -19,7 +19,7 @@ public class TableViewRow<T> : ViewControl
 	{
 		var colValues = GetColumnValuesForRow(Value);
 		var result = WriteRow(colValues, parent.CalculatedWidth);
-		return [RenderElement.Default(result)];
+		return [RenderElement.Default(result), RenderElement.Colored(GetBreakLine(parent.CalculatedWidth), ConsoleColor.Gray), ];
 	}
 
 	List<string> GetColumnValuesForRow(T value)
@@ -64,7 +64,24 @@ public class TableViewRow<T> : ViewControl
 		return sb.ToString();
 	}
 
-	static void WriteWrapped(StringBuilder sb, List<WrappedText> wrappedText, int count, int width)
+	public static string GetBreakLine(int width, bool isSolid = false)
+	{
+		var sb = new StringBuilder();
+		for (var i = 0; i < width; i++)
+		{
+			if (i % 2 == 0 || isSolid)
+			{
+				sb.Append('┄');
+			}
+			else
+			{
+				sb.Append(' ');
+			}
+		}
+		return sb.ToString();
+	}
+
+    static void WriteWrapped(StringBuilder sb, List<WrappedText> wrappedText, int count, int width)
 	{
 		var itemWidth = (width - count - 1) / count;
 		var textQueue = new Queue<WrappedText>(wrappedText);

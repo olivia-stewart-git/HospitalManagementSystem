@@ -29,23 +29,24 @@ public class DoctorMenuView : View
 				new SelectionOption("Exit", OnExit)));
 	}
 
-	public void OnListDoctorDetails(SelectionOption option)
+	void OnListDoctorDetails(SelectionOption option)
 	{
 		viewService.SwitchView<DoctorDetailsView>();
 	}
 
-	public void OnListPatients(SelectionOption option)
+	void OnListPatients(SelectionOption option)
 	{
 		viewService.SwitchView<DoctorPatientsView>();
 	}
 
-	public void OnListAppointments(SelectionOption option)
+	void OnListAppointments(SelectionOption option)
 	{
 		viewService.SwitchView<DoctorAppointmentsView>();
 	}
 
-	public void OnCheckParticularPatient(SelectionOption option)
+	void OnCheckParticularPatient(SelectionOption option)
 	{
+		viewService.SwitchView<SpecificPatientView>();
 	}
 
 	public void OnListAppointmentsWithPatient(SelectionOption option)

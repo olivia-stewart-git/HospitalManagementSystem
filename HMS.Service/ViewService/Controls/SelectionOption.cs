@@ -6,14 +6,12 @@ public class SelectionOption : ViewControl, INavControl, IInputSubscriber
 {
 	public delegate void SelectionAction(SelectionOption option);
 	readonly SelectionAction selected;
-	public string Name { get; }
 	public int Index { get; set; }
 	public int LeftPadding { get; set; } = 4;
 
 	public SelectionOption(string name, SelectionAction selected) : base (name)
 	{
 		this.selected = selected;
-		Name = name;
 	}
 
 	public override List<RenderElement> Render()

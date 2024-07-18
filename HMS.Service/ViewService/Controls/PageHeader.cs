@@ -4,7 +4,7 @@ namespace HMS.Service.ViewService.Controls;
 
 public class PageHeader : ViewControl
 {
-	public int Padding { get; set; } = 200;
+	public int Padding { get; set; } = 250;
 	public int CalculatedWidth  => PageConstants.PageWidth - Padding;
     public string Title { get; }
 	public string Subtitle { get; }

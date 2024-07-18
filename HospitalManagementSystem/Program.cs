@@ -1,4 +1,5 @@
 ﻿
+using System.Text;
 using HMS.Data;
 using HMS.Service.ViewService;
 using HMS.Service.ViewService.AppViews;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 Console.WriteLine("Loading.....");
+Console.OutputEncoding = Encoding.UTF8;
 HostApplicationBuilder builder = new HostApplicationBuilder();
 builder.ConfigureConsole()
 	   .Services.RegisterServices()

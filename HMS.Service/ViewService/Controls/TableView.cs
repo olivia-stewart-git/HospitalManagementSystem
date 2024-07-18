@@ -50,7 +50,7 @@ public class TableView<T> : ViewControl
 		List<RenderElement> elements =
 		[
 			RenderElement.Default(headerRow),
-			RenderElement.Colored(GetBreakLine(), ConsoleColor.Cyan)
+			RenderElement.Colored(TableViewRow<T>.GetBreakLine(CalculatedWidth, true), ConsoleColor.Blue)
 		];
 
 		foreach (var row in renderRows)
@@ -61,22 +61,6 @@ public class TableView<T> : ViewControl
 		return elements;
 	}
 
-	string GetBreakLine()
-	{
-		var sb = new StringBuilder();
-		for (var i = 0; i < CalculatedWidth; i++)
-		{
-			if (i % 2 == 0)
-			{
-				sb.Append('-');
-			}
-			else
-			{
-				sb.Append(' ');
-			}
-		}
-		return sb.ToString();
-    }
 
 	List<string> GetHeaderValues()
 	{
