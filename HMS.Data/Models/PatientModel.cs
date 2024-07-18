@@ -19,6 +19,7 @@ public class PatientModel : IDbModel
     public ICollection<AppointmentModel> PAT_Appointments { get; set; }
 
 	[DeleteBehavior(DeleteBehavior.NoAction)]
-	[ForeignKey(nameof(DoctorModel.DCT_PK))]
+	[ForeignKey("PAT_DCT_ID")]
 	public DoctorModel PAT_Doctor { get; set; }
+	public Guid PAT_DCT_ID;
 }

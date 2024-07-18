@@ -9,7 +9,7 @@ internal class TableViewTest
 	public void TestTableViewRenders()
 	{
 		//Arrange
-		var model = new TableView<TestModel>("TestView", new (x => x.Name), new(x => x.Description));
+		var model = new TableView<TestModel>("TestView", new (x => x.Name), new(x => x.Description)) { CullPropertyPrefix = false };
 		var data = new[]
 		{
 			new TestModel()
@@ -21,22 +21,28 @@ internal class TableViewTest
 			{
 				Name = "Another one",
 				Description = "Cool one we like",
+			},
+			new TestModel()
+			{
+				Name = "This wraps",
+				Description = "Blah blah we want this one to have lots of text so it wraps in the cell yo!",
 			}
         };
 		model.Update(data);
 
 		//Act
 		var render = model.Render();
+		var completeRenderContents = string.Join(System.Environment.NewLine, render.Select(x => x.Contents));
 
 		//Assert
 		Assert.Multiple(() =>
 		{
-			Assert.That(render[0].Contents.Contains("Name"), Is.True);
-			Assert.That(render[0].Contents.Contains("Description"), Is.True);
-            Assert.That(render[0].Contents.Contains(data[0].Name), Is.True);
-			Assert.That(render[0].Contents.Contains(data[1].Name), Is.True);
-			Assert.That(render[0].Contents.Contains(data[0].Description), Is.True);
-			Assert.That(render[0].Contents.Contains(data[1].Description), Is.True);
+			Assert.That(completeRenderContents.Contains("Name"), Is.True);
+			Assert.That(completeRenderContents.Contains("Description"), Is.True);
+            Assert.That(completeRenderContents.Contains(data[0].Name), Is.True);
+			Assert.That(completeRenderContents.Contains(data[1].Name), Is.True);
+			Assert.That(completeRenderContents.Contains(data[0].Description), Is.True);
+			Assert.That(completeRenderContents.Contains(data[1].Description), Is.True);
         });
 	}
 
@@ -58,12 +64,14 @@ internal class TableViewTest
 
 		//Pre assertions
 		var value = table.Render();
-		Assert.That(value[0].Contents.Contains("Bob"), Is.EqualTo(true));
+		var completeRenderContents = string.Join(System.Environment.NewLine, value.Select(x => x.Contents));
+        Assert.That(completeRenderContents.Contains("Bob"), Is.EqualTo(true));
 
 		//Act
 		propagator.Values = [new TestModel() { Name = "Mark" }];
 		var reRenderValue = table.Render();
-		Assert.That(reRenderValue[0].Contents.Contains("Mark"), Is.EqualTo(true));
+		var reRenderContents = string.Join(System.Environment.NewLine, reRenderValue.Select(x => x.Contents));
+        Assert.That(reRenderContents.Contains("Mark"), Is.EqualTo(true));
 
     }
 }

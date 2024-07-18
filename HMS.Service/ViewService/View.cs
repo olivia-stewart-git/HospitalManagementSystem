@@ -79,6 +79,7 @@ public abstract class View
 		return renderOutput;
 	}
 
+#region View Events
 	public virtual void OnBecomeActive()
 	{
 	}
@@ -90,6 +91,7 @@ public abstract class View
 	public virtual void OnEscapePressed()
 	{
 	}
+#endregion
 
 	public void NavigateDown()
 	{

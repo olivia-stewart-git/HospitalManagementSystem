@@ -87,14 +87,14 @@ namespace HMS.Data.Migrations
                 {
                     PAT_PK = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PAT_USR_ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DCT_PK = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    PAT_DCT_ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Patients", x => x.PAT_PK);
                     table.ForeignKey(
-                        name: "FK_Patients_Doctors_DCT_PK",
-                        column: x => x.DCT_PK,
+                        name: "FK_Patients_Doctors_PAT_DCT_ID",
+                        column: x => x.PAT_DCT_ID,
                         principalTable: "Doctors",
                         principalColumn: "DCT_PK");
                     table.ForeignKey(
@@ -151,9 +151,9 @@ namespace HMS.Data.Migrations
                 column: "DCT_USR_ID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Patients_DCT_PK",
+                name: "IX_Patients_PAT_DCT_ID",
                 table: "Patients",
-                column: "DCT_PK");
+                column: "PAT_DCT_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Patients_PAT_USR_ID",

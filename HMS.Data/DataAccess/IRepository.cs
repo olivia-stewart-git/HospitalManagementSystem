@@ -1,6 +1,5 @@
-﻿using System.Linq.Expressions;
-using HMS.Common;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+﻿using HMS.Common;
+using System.Linq.Expressions;
 
 namespace HMS.Data;
 

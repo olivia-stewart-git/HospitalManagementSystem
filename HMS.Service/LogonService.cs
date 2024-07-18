@@ -67,7 +67,7 @@ public class LogonService : ILogonService
 		{
 			case "testDoctor":
 				var doctorRepository = unitOfWork.GetRepository<DoctorModel>();
-				var targetUserId = doctorRepository.Get(1).First().DCT_USR_ID;
+				var targetUserId = doctorRepository.GetWhere(x => x.DCT_Patients.Count > 0, includedProperties: [nameof(DoctorModel.DCT_Patients)]).First().DCT_USR_ID;
 
                 overrideUser = userRepository.GetById(targetUserId) 
 	                ?? throw new InvalidOperationException("Could not find override doctor");

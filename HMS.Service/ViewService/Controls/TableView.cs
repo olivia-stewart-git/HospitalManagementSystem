@@ -7,12 +7,13 @@ namespace HMS.Service.ViewService.Controls;
 public class TableView<T> : ViewControl
 {
 	readonly TableViewColumn<T>[] tableColumns;
-	public int Padding { get; init; } = 200;
+	public int Padding { get; init; } = 150;
 	public int MaxRows { get; init; } = 10;
 	public bool CullPropertyPrefix { get; init; } = true;
 	public int CalculatedWidth => PageConstants.PageWidth - Padding;
 
 	IEnumerable<T> rows = [];
+	IEnumerable<TableViewRow<T>> renderRows = [];
 
 	public TableView(string name, IEnumerable<TableViewColumn<T>> tableColumns) : base(name)
 	{
@@ -29,11 +30,6 @@ public class TableView<T> : ViewControl
 		propagator.OnChange += HandleChange;
 	}
 
-	public void RemoveBinding(IChangePropagator<IEnumerable<T>> propagator)
-	{
-        propagator.OnChange -= HandleChange;
-	}
-
     void HandleChange(object? sender, IEnumerable<T> e)
     {
         Update(e);
@@ -41,42 +37,28 @@ public class TableView<T> : ViewControl
 
     public void Update(IEnumerable<T> updatedValues)
 	{
-		this.rows = updatedValues;
+		rows = updatedValues;
+		renderRows = rows.Select((x, i) => new TableViewRow<T>(typeof(T).Name + i, tableColumns, this, x));
 		DoChange();
     }
 
 	public override List<RenderElement> Render()
 	{
-		var sb = new StringBuilder();
 		var header = GetHeaderValues();
-		var headerRow = WriteRow(header);
-		sb.AppendLine(headerRow);
-		sb.AppendLine(GetBreakLine());
+		var headerRow = TableViewRow<T>.WriteRow(header, CalculatedWidth);
 
-		foreach (var value in rows)
+		List<RenderElement> elements =
+		[
+			RenderElement.Default(headerRow),
+			RenderElement.Colored(GetBreakLine(), ConsoleColor.Cyan)
+		];
+
+		foreach (var row in renderRows)
 		{
-			var colValues = GetColumnValuesForRow(value);
-			var rowString = WriteRow(colValues);
-			sb.AppendLine(rowString);
+			elements.AddRange(row.Render());
 		}
 
-		return [RenderElement.Default(sb.ToString())];
-	}
-
-	List<string> GetColumnValuesForRow(T value)
-	{
-		var valuesList = new List<string>();
-		for (var index = 0; index < Math.Min(tableColumns.Length, MaxRows); index++)
-		{
-			var column = tableColumns[index];
-			var compiledExpression = column.ValueFunc.Compile();
-			var compiledResult = compiledExpression(value);
-
-			var stringVal = compiledResult.ToString();
-			valuesList.Add(stringVal);
-		}
-
-		return valuesList;
+		return elements;
 	}
 
 	string GetBreakLine()
@@ -95,34 +77,6 @@ public class TableView<T> : ViewControl
 		}
 		return sb.ToString();
     }
-
-	string WriteRow(IList<string> values)
-	{
-		var sb = new StringBuilder();
-		var itemWidth = (CalculatedWidth - values.Count - 1) / values.Count;
-
-        for (var i = 0; i < values.Count; i++)
-        {
-	        sb.Append(values[i]);
-	        var unitWidth = itemWidth - values[i].Length;
-	        if (unitWidth < 0)
-	        {
-		        values[i] = values[i].Substring(0, itemWidth - 1);
-		        unitWidth = 0;
-	        }
-
-            for (int j = 0; j < unitWidth; j++)
-			{
-				sb.Append(' ');
-			}
-
-			if (i < values.Count - 1)
-			{
-				sb.Append('|');
-			}
-        }
-		return sb.ToString();
-	}
 
 	List<string> GetHeaderValues()
 	{

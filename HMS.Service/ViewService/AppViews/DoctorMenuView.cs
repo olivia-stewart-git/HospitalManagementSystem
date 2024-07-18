@@ -1,5 +1,4 @@
-﻿using HMS.Data.DataAccess;
-using HMS.Service.ViewService.Controls;
+﻿using HMS.Service.ViewService.Controls;
 
 namespace HMS.Service.ViewService.AppViews;
 
@@ -37,6 +36,7 @@ public class DoctorMenuView : View
 
 	public void OnListPatients(SelectionOption option)
 	{
+		viewService.SwitchView<DoctorPatientsView>();
 	}
 
 	public void OnListAppointments(SelectionOption option)

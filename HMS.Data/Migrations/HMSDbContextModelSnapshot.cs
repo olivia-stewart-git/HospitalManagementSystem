@@ -92,7 +92,7 @@ namespace HMS.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("DCT_PK")
+                    b.Property<Guid>("PAT_DCT_ID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("PAT_USR_ID")
@@ -100,7 +100,7 @@ namespace HMS.Data.Migrations
 
                     b.HasKey("PAT_PK");
 
-                    b.HasIndex("DCT_PK");
+                    b.HasIndex("PAT_DCT_ID");
 
                     b.HasIndex("PAT_USR_ID");
 
@@ -225,7 +225,7 @@ namespace HMS.Data.Migrations
                 {
                     b.HasOne("HMS.Data.Models.DoctorModel", "PAT_Doctor")
                         .WithMany("DCT_Patients")
-                        .HasForeignKey("DCT_PK")
+                        .HasForeignKey("PAT_DCT_ID")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
