@@ -6,11 +6,13 @@ public class DoctorMenuView : View
 {
 	readonly IEnvironment environment;
 	readonly IViewService viewService;
+	readonly ILogonService logonService;
 
-	public DoctorMenuView(IEnvironment environment, IViewService viewService)
+	public DoctorMenuView(IEnvironment environment, IViewService viewService, ILogonService logonService)
 	{
 		this.environment = environment;
 		this.viewService = viewService;
+		this.logonService = logonService;
 	}
 
 	public override void BuildView(ViewBuilder viewBuilder)
@@ -51,9 +53,12 @@ public class DoctorMenuView : View
 
 	public void OnListAppointmentsWithPatient(SelectionOption option)
 	{
+		viewService.SwitchView<SpecificPatientAppointmentsView>();
 	}
+
 	public void OnLogout(SelectionOption option)
 	{
+		logonService.Logout();
 	}
 
 	public void OnExit(SelectionOption option)

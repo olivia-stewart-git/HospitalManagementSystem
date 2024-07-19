@@ -7,11 +7,13 @@ public class PatientMenuView : View
 {
 	readonly IEnvironment environment;
 	readonly IViewService viewService;
+	readonly ILogonService logonService;
 
-	public PatientMenuView(IEnvironment environment, IViewService viewService)
+	public PatientMenuView(IEnvironment environment, IViewService viewService, ILogonService logonService)
 	{
 		this.environment = environment;
 		this.viewService = viewService;
+		this.logonService = logonService;
 	}
 
     public override void BuildView(ViewBuilder viewBuilder)
@@ -46,7 +48,7 @@ public class PatientMenuView : View
 
     void OnLogout(SelectionOption option)
     {
-	    throw new NotImplementedException();
+	    logonService.Logout();
     }
 
     void OnBookAppointment(SelectionOption option)
@@ -56,5 +58,6 @@ public class PatientMenuView : View
 
     void OnExit(SelectionOption option)
     {
+		HospitalManagementSystem.QuitApplication();
     }
 }

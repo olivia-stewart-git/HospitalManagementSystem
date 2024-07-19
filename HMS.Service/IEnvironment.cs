@@ -4,7 +4,6 @@ namespace HMS.Service;
 
 public interface IEnvironment
 {
-	UserModel CurrentUser { get; set; }
+	UserModel? CurrentUser { get; set; }
 	SystemRole CurrentRole { get; set; }
-	void Exit();
 }

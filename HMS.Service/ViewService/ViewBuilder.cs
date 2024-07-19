@@ -15,6 +15,7 @@ public class ViewBuilder
 	public ViewBuilder AddControl(ViewControl control)
 	{
 		controls.Add(control);
+		lastControl = control;
 		return this;
 	}
 

@@ -10,5 +10,6 @@ namespace HMS.Service
     public interface ILogonService
     {
 	    bool ExecuteLogin(int userId, string password);
+	    void Logout();
     }
 }

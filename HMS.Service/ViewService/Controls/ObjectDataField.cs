@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using HMS.Common;
 
 namespace HMS.Service.ViewService.Controls;
 

@@ -4,10 +4,6 @@ namespace HMS.Service;
 
 public class Environment : IEnvironment
 {
-	public UserModel CurrentUser { get; set; }
+	public UserModel? CurrentUser { get; set; }
 	public SystemRole CurrentRole { get; set; } = SystemRole.None;
-
-	public void Exit()
-	{
-	}
 }

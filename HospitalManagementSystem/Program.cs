@@ -26,7 +26,7 @@ var viewService = host.Services.GetService<IViewService>();
 viewService?.SwitchView<LoginView>();
 
 Console.CursorVisible = false;
-Console.CancelKeyPress += (sender, args) => cts.Cancel();
+Console.CancelKeyPress += (_, _) => cts.Cancel();
 while (!cts.IsCancellationRequested)
 {
 	await Task.Delay(50, cts.Token);

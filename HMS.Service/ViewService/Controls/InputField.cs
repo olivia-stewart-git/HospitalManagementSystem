@@ -12,7 +12,7 @@ public class InputField : ViewControl, INavControl, IInputFiller, IInputSubscrib
 	public bool AllowOnlyNumeric { get; init; } = false;
 	public bool LeaveOnEnter { get; init; } = true;
 
-	public EventHandler Completed { get; set; }
+	public EventHandler? Completed { get; set; }
 
 	public string Contents
 	{

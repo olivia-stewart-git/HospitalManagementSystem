@@ -100,6 +100,13 @@ public class LogonService : ILogonService
         LoadApp(role);
 	}
 
+	public void Logout()
+	{
+		viewService.SwitchView<LoginView>();
+		environment.CurrentRole = SystemRole.None;
+		environment.CurrentUser = null;
+	}
+
 	void LoadApp(SystemRole role)
 	{
 		switch (role)

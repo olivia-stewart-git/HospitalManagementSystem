@@ -23,10 +23,10 @@ public class SpecificPatientView : View
 	{
 		viewBuilder
 			.AddControl(new PageHeader("DOTNET Hospital Management System", "Check Patient Details"))
-			.AddControl(new InputField("Enter the ID of the patient you want to check:", "patient-id-input"))
+			.AddControl(new InputField("Enter the ID of the patient you want to check:", "patient-id-input") { AllowOnlyNumeric = true })
 				.Setup<InputField>(x =>
 				{
-					x.BindProperty<int>(x => idInput = x, nameof(InputField.Contents));
+					x.BindProperty<string>(b => int.TryParse(b, out idInput), nameof(InputField.Contents));
                     x.Completed += HandleInput;
                 })
 
@@ -44,6 +44,14 @@ public class SpecificPatientView : View
 
 	void HandleInput(object? sender, EventArgs e)
 	{
+		if (idInput == 0)
+		{
+			outputBox.Enabled = true;
+			tableView.Enabled = false;
+			outputBox.SetState($"Please Enter and ID", OutputBox.OutputState.Error);
+			return;
+        }
+
 		var unitOfWork = unitOfWorkFactory.CreateUnitOfWork();
 		var patientRepository = unitOfWork.GetRepository<PatientModel>();
 

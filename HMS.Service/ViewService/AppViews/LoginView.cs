@@ -7,7 +7,7 @@ public class LoginView : View
 	readonly ILogonService logonService;
 
 	int userIdCurrentValue;
-	string userIdCurrentPassword;
+	string userIdCurrentPassword = string.Empty;
 	OutputBox outputBox;
 	InteractionOption enterOption;
 
