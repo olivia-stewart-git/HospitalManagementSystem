@@ -2,28 +2,17 @@
 
 public class ControlContainer : ViewControl
 {
-	readonly List<ViewControl> children;
-
 	public ControlContainer(string name, params ViewControl[] controls) : this(name, controls.ToList())
 	{
 	}
 
 	public ControlContainer(string name, List<ViewControl> children) : base(name)
 	{
-		this.children = children;
+		this.Children = children;
 	}
 
-	public void AddChild(ViewControl control)
+    protected override List<RenderElement> OnRender()
 	{
-		children.Add(control);
-	}
-
-    public override List<RenderElement> Render()
-	{
-		if (!Enabled)
-		{
-			return [RenderElement.Empty];
-		}
-		return children.SelectMany(x => x.Render()).ToList();
-	}
+		return [RenderElement.Empty];
+    }
 }

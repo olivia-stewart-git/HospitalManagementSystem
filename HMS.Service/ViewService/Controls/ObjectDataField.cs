@@ -16,7 +16,7 @@ public class ObjectDataField<T> : ViewControl
 		this.properties = properties;
 	}
 
-	public override List<RenderElement> Render()
+	protected override List<RenderElement> OnRender()
 	{
 		if (currentValue == null)
 		{

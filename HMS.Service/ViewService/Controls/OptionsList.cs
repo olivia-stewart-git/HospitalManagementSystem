@@ -20,7 +20,7 @@ public class OptionsList : ViewControl
 	}
 
 
-    public override List<RenderElement> Render()
+    protected override List<RenderElement> OnRender()
 	{
 		List<RenderElement> elements = [RenderElement.Default(Header)];
 		int count = 0;

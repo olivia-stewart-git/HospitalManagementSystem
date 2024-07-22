@@ -111,12 +111,11 @@ public class ViewService : IViewService, IDisposable
 			currentView = instance;
 			SubscribeToView(currentView);
 
-			currentView.NavigateDown();
-
 			currentView.OnBecomeActive();
-		}
+			currentView.NavigateDown();
+        }
 
-		Redraw();
+        Redraw();
         return instance;
     }
 

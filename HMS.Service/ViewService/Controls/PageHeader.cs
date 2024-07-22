@@ -22,7 +22,7 @@ public class PageHeader : ViewControl
 		this.Subtitle = subtitle;
 	}
 
-	public override List<RenderElement> Render()
+	protected override List<RenderElement> OnRender()
 	{
 		var width = CalculatedWidth;
         var sb = new StringBuilder();

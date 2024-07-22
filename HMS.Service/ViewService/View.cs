@@ -27,7 +27,7 @@ public abstract class View
 
 	public void AddControl(ViewControl control)
 	{
-		Root.Children.Add(control);
+		Root.AddChild(control);
 		RegenControlCache();
 	}
 
@@ -36,8 +36,8 @@ public abstract class View
 		navControls.Clear();
 		foreach (var viewControl in Controls)
 		{
-			viewControl.Parent = this;
-            if (viewControl is INavControl navControl)
+			viewControl.ParentView = this;
+            if (viewControl is INavControl navControl && viewControl.Enabled)
 			{
 				navControls.AddLast(navControl);
 			}
@@ -62,6 +62,10 @@ public abstract class View
 		var yPosition = 0;
 		foreach (var control in controlsToRender)
 		{
+			if (control.RenderControlledByParent)
+			{
+				continue;
+			}
 			foreach (var baseRender in control.Render())
 			{
 				if (control.Focused)

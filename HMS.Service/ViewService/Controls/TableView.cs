@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using HMS.Common;
 
@@ -20,9 +21,8 @@ public class TableView<T> : ViewControl
 		this.tableColumns = tableColumns.ToArray();
 	}
 
-    public TableView(string name, params TableViewColumn<T>[] tableColumns) : base(name)
+    public TableView(string name, params TableViewColumn<T>[] tableColumns) : this(name, (IEnumerable<TableViewColumn<T>>) tableColumns)
 	{
-		this.tableColumns = tableColumns;
 	}
 
 	public void Bind(IChangePropagator<IEnumerable<T>> propagator)
@@ -38,15 +38,35 @@ public class TableView<T> : ViewControl
     public void Update(IEnumerable<T> updatedValues)
 	{
 		rows = updatedValues;
-		renderRows = rows.Select(CreateRow);
+
+		RemoveChildren(renderRows);
+
+		var rowList = new List<TableViewRow<T>>();
+		int index = 0;
+		foreach (var row in rows)
+		{
+			var instance = CreateRow(row, index);
+			rowList.Add(instance);
+			index++;
+        }
+		renderRows = rowList;
 		DoChange();
     }
 
-    protected virtual TableViewRow<T> CreateRow(T value, int index)
-	    => new (typeof(T).Name + index, tableColumns, this, value);
+    TableViewRow<T> CreateRow(T value, int index)
+    {
+	    var row = CreateRowCore(value, index);
+		AddChild(row);
+		row.RenderControlledByParent = true;
+	    return row;
+    }
 
-    public override List<RenderElement> Render()
+    protected virtual TableViewRow<T> CreateRowCore(T value, int index)
+		=> new TableViewRow<T>(typeof(T).Name + index, tableColumns, this, value);
+
+    protected override List<RenderElement> OnRender()
 	{
+		
 		var header = GetHeaderValues();
 		var headerRow = TableViewRow<T>.WriteRow(header, CalculatedWidth);
 

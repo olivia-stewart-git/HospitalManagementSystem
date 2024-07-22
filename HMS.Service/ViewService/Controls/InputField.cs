@@ -47,7 +47,7 @@ public class InputField : ViewControl, INavControl, IInputFiller, IInputSubscrib
 		Prompt = prompt;
 	}
 
-	public override List<RenderElement> Render()
+	protected override List<RenderElement> OnRender()
 	{
 		return [RenderElement.Default(Prompt + DisplayedContent)];
 	}
@@ -90,7 +90,7 @@ public class InputField : ViewControl, INavControl, IInputFiller, IInputSubscrib
 		Completed?.Invoke(this, EventArgs.Empty);
 		if (LeaveOnEnter)
 		{
-			Parent?.NavigateDown();
+			ParentView?.NavigateDown();
 		}
     }
 

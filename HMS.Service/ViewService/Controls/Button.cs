@@ -24,7 +24,7 @@ public class Button : ViewControl, INavControl, IInputSubscriber
 		Content = content;
 	}
 
-	public override List<RenderElement> Render()
+	protected override List<RenderElement> OnRender()
 	{
 		return [RenderElement.Colored(
 			Content,

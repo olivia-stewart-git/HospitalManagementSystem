@@ -21,25 +21,51 @@ public abstract class ViewControl : IChangePropagator<ViewControl>
 		return list;
 	}
 
-	public List<ViewControl> Children = [];
+	List<ViewControl> children = [];
+	public IReadOnlyList<ViewControl> Children
+	{
+		get => children;
+		set => children = [..value];
+	}
 
-    public View? Parent { get; set; }
+	public void RemoveChildren(IEnumerable<ViewControl> controls)
+	{
+		foreach (var viewControl in controls)
+		{
+			RemoveChild(viewControl);
+		}
+	}
+
+	public void RemoveChild(ViewControl child)
+	{
+		children.Remove(child);
+	}
+
+	public void AddChild(ViewControl control)
+	{
+		children.Add(control);
+		control.Parent = this;
+	}
+
+    public View? ParentView { get; set; }
+	public ViewControl? Parent { get; private set; }
 	public string Name { get; }
 	public bool Focused { get; protected set; } = false;
 	public int YPosition { get; set; } = 0;
+	public bool RenderControlledByParent { get; set; }
 
 	bool enabled = true;
     public bool Enabled
-	{
-		get => enabled;
-		set
+    {
+	    get => Parent is not { Enabled: false } && enabled;
+	    set
 		{
 			OnChange?.Invoke(this, this);
 			enabled = value;
 		}
-	}
+    }
 
-	public EventHandler<ViewControl> OnChange { get; set; }
+    public EventHandler<ViewControl> OnChange { get; set; }
 	public void DoChange() => OnChange?.Invoke(this, this);
 
 	readonly Dictionary<string, PropertyInfo> propertiesBindingCache = [];
@@ -92,5 +118,10 @@ public abstract class ViewControl : IChangePropagator<ViewControl>
 		PropagateBindings();
     }
 
-	public abstract List<RenderElement> Render();
+    public List<RenderElement> Render()
+    {
+	    return OnRender();
+    }
+
+	protected abstract List<RenderElement> OnRender();
 }

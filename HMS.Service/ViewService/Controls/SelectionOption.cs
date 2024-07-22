@@ -14,7 +14,7 @@ public class SelectionOption : ViewControl, INavControl, IInputSubscriber
 		this.selected = selected;
 	}
 
-	public override List<RenderElement> Render()
+	protected override List<RenderElement> OnRender()
 	{
 		var value = string.Empty;
 		for (int i = 0; i < LeftPadding; i++)

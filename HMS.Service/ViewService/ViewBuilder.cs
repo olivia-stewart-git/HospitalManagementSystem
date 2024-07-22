@@ -20,8 +20,11 @@ public class ViewBuilder
 		{
 			container.AddChild(control);
 		}
+		else
+		{
+			controls.Add(control);
+		}
 
-		controls.Add(control);
 		lastControl = control;
 		return this;
 	}
@@ -45,6 +48,15 @@ public class ViewBuilder
 
 		return this;
 	}
+
+	public ViewBuilder Disabled()
+	{
+		if (lastControl != null)
+		{
+			lastControl.Enabled = false;
+		}
+		return this;
+    }
 
 	readonly Stack<ControlContainer> containers = [];
 	public ViewBuilder StartContainer(string containerName)

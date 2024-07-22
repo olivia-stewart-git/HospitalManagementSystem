@@ -6,7 +6,7 @@ public class RootControl : ViewControl
 	{
 	}
 
-	public override List<RenderElement> Render()
+	protected override List<RenderElement> OnRender()
 	{
 		return [RenderElement.Empty];
 	}

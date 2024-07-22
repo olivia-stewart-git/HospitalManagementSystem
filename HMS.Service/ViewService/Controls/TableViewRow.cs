@@ -15,11 +15,11 @@ public class TableViewRow<T> : ViewControl
 		this.parent = parent;
 	}
 
-	public override List<RenderElement> Render()
+	protected override List<RenderElement> OnRender()
 	{
 		var colValues = GetColumnValuesForRow(Value);
 		var result = WriteRow(colValues, parent.CalculatedWidth);
-		return [RenderElement.Default(result), RenderElement.Colored(GetBreakLine(parent.CalculatedWidth), ConsoleColor.Gray), ];
+		return [RenderElement.Default(result)];
 	}
 
 	List<string> GetColumnValuesForRow(T value)

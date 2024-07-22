@@ -32,7 +32,7 @@ public class OutputBox : ViewControl
 		Success
 	}
 
-	public override List<RenderElement> Render()
+	protected override List<RenderElement> OnRender()
 	{
 		return [RenderElement.Colored(Contents, outputColor)];
 	}
