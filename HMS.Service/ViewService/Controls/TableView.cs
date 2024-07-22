@@ -6,7 +6,7 @@ namespace HMS.Service.ViewService.Controls;
 
 public class TableView<T> : ViewControl
 {
-	readonly TableViewColumn<T>[] tableColumns;
+	protected readonly TableViewColumn<T>[] tableColumns;
 	public int Padding { get; init; } = 150;
 	public int MaxRows { get; init; } = 10;
 	public bool CullPropertyPrefix { get; init; } = true;
@@ -38,11 +38,14 @@ public class TableView<T> : ViewControl
     public void Update(IEnumerable<T> updatedValues)
 	{
 		rows = updatedValues;
-		renderRows = rows.Select((x, i) => new TableViewRow<T>(typeof(T).Name + i, tableColumns, this, x));
+		renderRows = rows.Select(CreateRow);
 		DoChange();
     }
 
-	public override List<RenderElement> Render()
+    protected virtual TableViewRow<T> CreateRow(T value, int index)
+	    => new (typeof(T).Name + index, tableColumns, this, value);
+
+    public override List<RenderElement> Render()
 	{
 		var header = GetHeaderValues();
 		var headerRow = TableViewRow<T>.WriteRow(header, CalculatedWidth);

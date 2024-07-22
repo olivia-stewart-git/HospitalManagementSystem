@@ -1,4 +1,6 @@
-﻿namespace HMS.Service.ViewService;
+﻿using HMS.Service.ViewService.Controls;
+
+namespace HMS.Service.ViewService;
 
 public class ViewBuilder
 {
@@ -14,6 +16,11 @@ public class ViewBuilder
 
 	public ViewBuilder AddControl(ViewControl control)
 	{
+		if (containers.TryPeek(out var container))
+		{
+			container.AddChild(control);
+		}
+
 		controls.Add(control);
 		lastControl = control;
 		return this;
@@ -36,6 +43,24 @@ public class ViewBuilder
 			placement = (T)lastControl;
 		}
 
+		return this;
+	}
+
+	readonly Stack<ControlContainer> containers = [];
+	public ViewBuilder StartContainer(string containerName)
+	{
+		var container = new ControlContainer(containerName);
+		AddControl(container);
+        containers.Push(container);
+		return this;
+	}
+
+	public ViewBuilder EndContainer()
+	{
+		if (containers.Count > 0)
+		{
+			containers.Pop(); 
+		}
 		return this;
 	}
 

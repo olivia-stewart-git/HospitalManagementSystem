@@ -1,4 +1,5 @@
-﻿using HMS.Service.Interaction;
+﻿using HMS.Common;
+using HMS.Service.Interaction;
 
 namespace HMS.Service.ViewService;
 
@@ -49,7 +50,7 @@ public class ViewService : IViewService, IDisposable
 	RenderElement? errorElement;
     public void WriteApplicationError(Exception ex)
     {
-		errorElement = RenderElement.Colored($"Exception occurred in application: {ex.Message}", ConsoleColor.DarkRed);
+		errorElement = RenderElement.Colored($"Exception occurred in application: {ex.Message}\nStackTrace:\n{ex.StackTrace}", ConsoleColor.DarkRed);
 		Redraw();
     }
 
@@ -78,32 +79,45 @@ public class ViewService : IViewService, IDisposable
 		return (T)SwitchViewCore(typeof(T));
 	}
 
+	static int isRedrawSuppressed = 0;
+	static bool IsRedrawSuppressed => isRedrawSuppressed == 1;
+	static IDisposable SuppressViewRedraw()
+	{
+		Interlocked.Exchange(ref isRedrawSuppressed, 1);
+		return new DisposableAction(() => Interlocked.Exchange(ref isRedrawSuppressed, 0));
+	}
+
 	object SwitchViewCore(Type viewType)
 	{
 		if (CreateViewInstance(viewType) is not View instance)
 		{
 			throw new InvalidOperationException("View instance is not of View Type");
 		}
-		var builder = new ViewBuilder(instance);
-		instance.BuildView(builder);
 
-		builder.Build();
-
-		if (currentView != null)
+		using (SuppressViewRedraw())
 		{
-			currentView.OnUnload();
-			UnsubscribeFromView(currentView);
-			UpdateHistory(currentView.GetType());
-        }
+			var builder = new ViewBuilder(instance);
+			instance.BuildView(builder);
 
-		currentView = instance;
-		SubscribeToView(currentView);
+			builder.Build();
 
-		currentView.NavigateDown();
+			if (currentView != null)
+			{
+				currentView.OnUnload();
+				UnsubscribeFromView(currentView);
+				UpdateHistory(currentView.GetType());
+			}
+
+			currentView = instance;
+			SubscribeToView(currentView);
+
+			currentView.NavigateDown();
+
+			currentView.OnBecomeActive();
+		}
 
 		Redraw();
-		currentView.OnBecomeActive();
-		return instance;
+        return instance;
     }
 
 	void UpdateHistory(Type viewType)
@@ -170,6 +184,11 @@ public class ViewService : IViewService, IDisposable
 
 	public void Redraw()
 	{
+		if (IsRedrawSuppressed)
+		{
+			return;
+		}
+
 		writer.Clear();
         if (errorElement != null)
 		{

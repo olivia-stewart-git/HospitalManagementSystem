@@ -9,7 +9,7 @@ public class LoginView : View
 	int userIdCurrentValue;
 	string userIdCurrentPassword = string.Empty;
 	OutputBox outputBox;
-	InteractionOption enterOption;
+	Button enterOption;
 
 	public LoginView(ILogonService logonService)
 	{
@@ -24,14 +24,14 @@ public class LoginView : View
 			.AddControl(new InputField("ID: ", "login-input-id") { AllowOnlyNumeric = true })
 			.AddControl(new InputField("Password: ", "login-input-password") { ObscureContent = true })
 			.AddControl(new NewLine())
-			.AddControl(new InteractionOption("Login", "login-enter-option"));
+			.AddControl(new Button("Login", "login-enter-option"));
 	}
 
     public override void OnBecomeActive()
     {
 	    outputBox = Q<OutputBox>("login-output");
 
-		enterOption = Q<InteractionOption>("login-enter-option");
+		enterOption = Q<Button>("login-enter-option");
 		enterOption.Interacted += OnLoginPressed;
 
 		var userIdInput = Q<InputField>("login-input-id");

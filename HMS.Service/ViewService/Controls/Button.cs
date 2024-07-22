@@ -2,7 +2,7 @@
 
 namespace HMS.Service.ViewService.Controls;
 
-public class InteractionOption : ViewControl, INavControl, IInputSubscriber
+public class Button : ViewControl, INavControl, IInputSubscriber
 {
 	bool isInteractable = true;
 
@@ -19,7 +19,7 @@ public class InteractionOption : ViewControl, INavControl, IInputSubscriber
 	public string Content { get; }
 	public EventHandler Interacted { get; set; }
 
-	public InteractionOption(string content, string name) : base(name)
+	public Button(string content, string name) : base(name)
 	{
 		Content = content;
 	}
