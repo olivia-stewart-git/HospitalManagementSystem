@@ -1,5 +1,4 @@
-﻿using HMS.Data.DataAccess;
-using HMS.Service.ViewService.Controls;
+﻿using HMS.Service.ViewService.Controls;
 
 namespace HMS.Service.ViewService.AppViews;
 
@@ -24,7 +23,7 @@ public class PatientMenuView : View
 		    .AddControl(new NewLine())
 		    .AddControl(new OptionsList("patient-menu-options", "Please Choose An Option",
 			    new SelectionOption("List Patient Details", OnListPatientDetails),
-			    new SelectionOption("List my Doctor Details", OnListDoctorAppointments),
+			    new SelectionOption("List my Doctor Details", OnProvideDoctorDetails),
 			    new SelectionOption("List All Appointments", OnListPatientAppointments),
 			    new SelectionOption("Book Appointment", OnBookAppointment),
 			    new SelectionOption("Logout", OnLogout),
@@ -36,14 +35,14 @@ public class PatientMenuView : View
 		viewService.SwitchView<PatientDetailsView>();
     }
 
-    void OnListDoctorAppointments(SelectionOption option)
+    void OnProvideDoctorDetails(SelectionOption option)
     {
-	    throw new NotImplementedException();
+	    viewService.SwitchView<PatientDoctorMenuView>();
     }
 
     void OnListPatientAppointments(SelectionOption option)
     {
-	    throw new NotImplementedException();
+	    viewService.SwitchView<PatientAppointmentsView>();
     }
 
     void OnLogout(SelectionOption option)

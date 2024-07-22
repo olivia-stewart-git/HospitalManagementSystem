@@ -16,10 +16,10 @@ public class PatientModel : IDbModel
 	public Guid PAT_USR_ID { get; set; }
 
 	[InverseProperty(nameof(AppointmentModel.APT_Patient))]
-    public ICollection<AppointmentModel> PAT_Appointments { get; set; }
+	public ICollection<AppointmentModel> PAT_Appointments { get; set; } = [];
 
 	[DeleteBehavior(DeleteBehavior.NoAction)]
 	[ForeignKey("PAT_DCT_ID")]
-	public DoctorModel PAT_Doctor { get; set; }
+	public DoctorModel? PAT_Doctor { get; set; }
 	public Guid PAT_DCT_ID;
 }
