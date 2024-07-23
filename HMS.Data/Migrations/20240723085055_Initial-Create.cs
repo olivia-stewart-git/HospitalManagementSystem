@@ -28,7 +28,8 @@ namespace HMS.Data.Migrations
                 columns: table => new
                 {
                     USR_PK = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    USR_ID = table.Column<int>(type: "int", nullable: false),
+                    USR_ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     USR_Password = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     USR_FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     USR_LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -49,15 +50,14 @@ namespace HMS.Data.Migrations
                 columns: table => new
                 {
                     ADM_PK = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AMD_USR_ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ADM_USR_ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Administrators", x => x.ADM_PK);
                     table.ForeignKey(
-                        name: "FK_Administrators_Users_AMD_USR_ID",
-                        column: x => x.AMD_USR_ID,
+                        name: "FK_Administrators_Users_ADM_USR_ID",
+                        column: x => x.ADM_USR_ID,
                         principalTable: "Users",
                         principalColumn: "USR_PK",
                         onDelete: ReferentialAction.Cascade);
@@ -131,9 +131,9 @@ namespace HMS.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Administrators_AMD_USR_ID",
+                name: "IX_Administrators_ADM_USR_ID",
                 table: "Administrators",
-                column: "AMD_USR_ID");
+                column: "ADM_USR_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppointmentModels_APT_DCT_ID",

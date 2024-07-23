@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HMS.Data.Models;
 
 [PrimaryKey("PAT_PK")]
-public class PatientModel : IDbModel
+public class PatientModel : IDbModel, IUser
 {
 	[Key]
 	public Guid PAT_PK { get; set; }
@@ -22,4 +22,7 @@ public class PatientModel : IDbModel
 	[ForeignKey("PAT_DCT_ID")]
 	public DoctorModel? PAT_Doctor { get; set; }
 	public Guid PAT_DCT_ID;
+
+	[NotMapped]
+    public UserModel User { get => PAT_User; set => PAT_User = value; }
 }

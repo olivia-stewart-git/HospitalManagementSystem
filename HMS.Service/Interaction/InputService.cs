@@ -117,8 +117,9 @@ public class InputService : IInputService
 	void FillInput(IInputFiller inputFiller)
 	{
 		var cursorPosition = inputFiller.GetCursorPosition();
-		Console.SetCursorPosition(cursorPosition.x, cursorPosition.y);
-	}
+		//This is now redundant
+        //Console.SetCursorPosition(cursorPosition.x, cursorPosition.y);
+    }
 
     void UpdateFill(char value)
 	{
@@ -126,7 +127,8 @@ public class InputService : IInputService
 		{
 			inputFiller.FillValue(value);
 			var cursorPosition = inputFiller.GetCursorPosition();
-			Console.SetCursorPosition(cursorPosition.x, cursorPosition.y);
+			//This is now redundant
+			//Console.SetCursorPosition(cursorPosition.x, cursorPosition.y);
 		}
 	}
 

@@ -31,12 +31,9 @@ namespace HMS.Data.Migrations
                     b.Property<Guid>("ADM_USR_ID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AMD_USR_ID")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("ADM_PK");
 
-                    b.HasIndex("AMD_USR_ID");
+                    b.HasIndex("ADM_USR_ID");
 
                     b.ToTable("Administrators");
                 });
@@ -158,7 +155,10 @@ namespace HMS.Data.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("USR_ID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("USR_ID"));
 
                     b.Property<string>("USR_LastName")
                         .IsRequired()
@@ -184,7 +184,7 @@ namespace HMS.Data.Migrations
                 {
                     b.HasOne("HMS.Data.Models.UserModel", "ADM_User")
                         .WithMany()
-                        .HasForeignKey("AMD_USR_ID")
+                        .HasForeignKey("ADM_USR_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

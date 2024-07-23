@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HMS.Data.Models;
 
 [PrimaryKey("DCT_PK")]
-public class DoctorModel : IDbModel
+public class DoctorModel : IDbModel, IUser
 {
 	[Key]
 	public Guid DCT_PK { get; set; }
@@ -20,4 +20,7 @@ public class DoctorModel : IDbModel
 
 	[InverseProperty(nameof(PatientModel.PAT_Doctor))]
 	public ICollection<PatientModel> DCT_Patients { get; set; } = [];
+
+	[NotMapped]
+    public UserModel User { get => DCT_User; set => DCT_User = value; }
 }

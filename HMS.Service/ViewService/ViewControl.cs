@@ -3,7 +3,7 @@ using HMS.Common;
 
 namespace HMS.Service.ViewService;
 
-public abstract class ViewControl : IChangePropagator<ViewControl>
+public abstract class ViewControl : IChangePropagator<ViewControl>, IBindable
 {
 	protected ViewControl(string name)
 	{

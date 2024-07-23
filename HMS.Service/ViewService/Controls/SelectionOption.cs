@@ -23,6 +23,11 @@ public class SelectionOption : ViewControl, INavControl, IInputSubscriber
 		}
 
 		value += $"{Index}. {Name}";
+
+		if (Focused)
+		{
+			value += " <";
+		}
 		return [RenderElement.Default(value)];
 	}
 

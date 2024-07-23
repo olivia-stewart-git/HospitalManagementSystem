@@ -1,5 +1,10 @@
 ﻿namespace HMS.Service.ViewService;
 
+/// <summary>
+/// Writes elements to the console.
+/// If I had more time I would back elements by color, and write those in backs to avoid
+/// slow flushing of console buffer.
+/// </summary>
 public class ViewWriter : IViewWriter
 {
 	public void Clear()

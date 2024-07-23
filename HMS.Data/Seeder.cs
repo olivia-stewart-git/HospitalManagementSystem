@@ -7,7 +7,7 @@ public class Seeder : ISeeder
 {
 	readonly IUnitOfWorkFactory unitOfWorkFactory;
 
-	public Seeder( IUnitOfWorkFactory unitOfWorkFactory)
+	public Seeder(IUnitOfWorkFactory unitOfWorkFactory)
 	{
 		this.unitOfWorkFactory = unitOfWorkFactory;
 	}
@@ -92,7 +92,7 @@ public class Seeder : ISeeder
 		var random = new Random();
 
 		var patients = new List<PatientModel>();
-        var existingUsers = userRepository.GetWhere(x => x.USR_ID > 300 && x.USR_ID < 900);
+        var existingUsers = userRepository.GetWhere(x => x.USR_ID > 300 && x.USR_ID <= 900);
 		foreach (var userModel in existingUsers)
 		{
 			var rand = random.Next(doctors.Count);
@@ -116,7 +116,7 @@ public class Seeder : ISeeder
 		var userRepository = unitOfWork.GetRepository<UserModel>();
 
         var administratorModels = new List<AdministratorModel>();
-		var existingUsers = userRepository.GetWhere(x => x.USR_ID > 300 && x.USR_ID < 900);
+		var existingUsers = userRepository.GetWhere(x => x.USR_ID > 900 && x.USR_ID <= 1000);
 		foreach (var userModel in existingUsers)
 		{
 			administratorModels.Add(new AdministratorModel()

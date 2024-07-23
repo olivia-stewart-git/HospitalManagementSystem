@@ -42,7 +42,7 @@ public class InputField : ViewControl, INavControl, IInputFiller, IInputSubscrib
 		}
 	}
 
-	public InputField(string prompt, string name) : base(name)
+	public InputField(string prompt, string? name = null) : base(name ?? string.Empty)
 	{
 		Prompt = prompt;
 	}

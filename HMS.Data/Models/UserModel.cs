@@ -6,13 +6,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace HMS.Data.Models;
 
 [PrimaryKey("USR_PK")]
-public class UserModel : IDbModel
+public class UserModel : IDbModel, IUser
 {
 	[Key]
 	public Guid USR_PK { get; set; }
 
 	[Required]
-	public int USR_ID { get; set; }
+	[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int USR_ID { get; set; }
 
 	[Required]
 	[MaxLength(100)]
@@ -44,4 +45,7 @@ public class UserModel : IDbModel
 
 	[NotMapped]
 	public string USR_FullName => USR_FirstName + " " + USR_LastName;
+
+	[NotMapped]
+    public UserModel User { get => this; set => _ = value; }
 }
