@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using HMS.Common;
 using System.Linq.Expressions;
-using System.Text;
-using HMS.Common;
 
 namespace HMS.Service.ViewService.Controls;
 
@@ -45,6 +43,10 @@ public class TableView<T> : ViewControl
 		int index = 0;
 		foreach (var row in rows)
 		{
+			if (index >= MaxRows - 1)
+			{
+				break;
+			}
 			var instance = CreateRow(row, index);
 			rowList.Add(instance);
 			index++;
@@ -66,7 +68,6 @@ public class TableView<T> : ViewControl
 
     protected override List<RenderElement> OnRender()
 	{
-		
 		var header = GetHeaderValues();
 		var headerRow = TableViewRow<T>.WriteRow(header, CalculatedWidth);
 
