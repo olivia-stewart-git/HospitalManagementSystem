@@ -120,7 +120,15 @@ public abstract class ViewControl : IChangePropagator<ViewControl>
 
     public List<RenderElement> Render()
     {
-	    return OnRender();
+	    var baseElements = OnRender();
+	    if (Focused)
+	    {
+		    foreach (var renderElement in baseElements)
+		    {
+			    renderElement.BackGroundColor = PageConstants.FocusedColor;
+		    }
+	    }
+	    return baseElements;
     }
 
 	protected abstract List<RenderElement> OnRender();

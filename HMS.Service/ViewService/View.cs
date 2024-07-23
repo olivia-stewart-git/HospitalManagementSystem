@@ -6,7 +6,7 @@ public abstract class View
 {
 	public EventHandler<ViewControl?> SelectionChanged { get; set; }
 
-	readonly LinkedList<INavControl> navControls = [];
+	public LinkedList<INavControl> NavControls => new (Controls.Where(x => x.Enabled).OfType<INavControl>());
 	readonly Dictionary<string, ViewControl> controlCache = [];
 
     public ViewControl Root { get; } = new RootControl("root");
@@ -33,13 +33,13 @@ public abstract class View
 
 	void RegenControlCache()
 	{
-		navControls.Clear();
+		NavControls.Clear();
 		foreach (var viewControl in Controls)
 		{
 			viewControl.ParentView = this;
             if (viewControl is INavControl navControl && viewControl.Enabled)
 			{
-				navControls.AddLast(navControl);
+				NavControls.AddLast(navControl);
 			}
 			var key = viewControl.GetType().Name + "_" + viewControl.Name;
 			controlCache.TryAdd(key, viewControl);
@@ -68,11 +68,6 @@ public abstract class View
 			}
 			foreach (var baseRender in control.Render())
 			{
-				if (control.Focused)
-				{
-					baseRender.BackGroundColor = ConsoleColor.Green;
-				}
-
 				renderOutput.Add(baseRender);
 				control.YPosition = yPosition;
 
@@ -99,19 +94,19 @@ public abstract class View
 
 	public void NavigateDown()
 	{
-		if (navControls.Count == 0)
+		if (NavControls.Count == 0)
 		{
 			return;
 		}
 		if (selectedControlNode == null)
 		{
-			selectedControlNode = navControls.First;
+			selectedControlNode = NavControls.First;
 			SelectedControl?.NavigateEnter();
 		}
 		else
 		{
 			SelectedControl?.NavigateExit();
-			selectedControlNode = selectedControlNode.Next ?? navControls.First;
+			selectedControlNode = selectedControlNode.Next ?? NavControls.First;
 			SelectedControl?.NavigateEnter();
 		}
 
@@ -120,19 +115,19 @@ public abstract class View
 
 	public void NavigateUp()
 	{
-		if (navControls.Count == 0)
+		if (NavControls.Count == 0)
 		{
 			return;
 		}
 		if (selectedControlNode == null)
 		{
-			selectedControlNode = navControls.Last;
+			selectedControlNode = NavControls.Last;
 			SelectedControl?.NavigateEnter();
 		}
 		else
 		{
 			SelectedControl?.NavigateExit();
-			selectedControlNode = selectedControlNode.Previous ?? navControls.Last;
+			selectedControlNode = selectedControlNode.Previous ?? NavControls.Last;
 			SelectedControl?.NavigateEnter();
 		}
 
