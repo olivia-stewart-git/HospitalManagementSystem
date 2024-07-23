@@ -9,6 +9,7 @@ public class BookAppointmentView : View
 	readonly IEnvironment environment;
 	readonly IViewService viewService;
 	readonly IUnitOfWorkFactory unitOfWorkFactory;
+	readonly IMailService mailService;
 
 	string doctorName = string.Empty;
 	string inputDescription = string.Empty;
@@ -19,11 +20,12 @@ public class BookAppointmentView : View
 	ControlContainer doctorOptionsContainer;
 	InteractableTableView<DoctorModel> doctorTable;
 
-	public BookAppointmentView(IEnvironment environment, IViewService viewService, IUnitOfWorkFactory unitOfWorkFactory)
+	public BookAppointmentView(IEnvironment environment, IViewService viewService, IUnitOfWorkFactory unitOfWorkFactory, IMailService mailService)
 	{
 		this.environment = environment;
 		this.viewService = viewService;
 		this.unitOfWorkFactory = unitOfWorkFactory;
+		this.mailService = mailService;
 	}
 
 	public override void BuildView(ViewBuilder viewBuilder)
@@ -138,7 +140,7 @@ public class BookAppointmentView : View
 		var patient = patientRepository.GetWhere(
 			x => x.PAT_USR_ID == environment.CurrentUser.USR_PK, 
 			rowCount: 1,
-			includedProperties: [nameof(PatientModel.PAT_Doctor)]).SingleOrDefault();
+			includedProperties: [nameof(PatientModel.PAT_Doctor), nameof(PatientModel.PAT_Doctor) + "." + nameof(DoctorModel.User)]).SingleOrDefault();
 
 		if (patient == null)
 		{
@@ -154,6 +156,7 @@ public class BookAppointmentView : View
 			return;
 		}
 
+		doctorName = patient.PAT_Doctor.DCT_User.USR_FullName;
         if (inputDatetime == null)
 		{
 			outputBox.Enabled = true;
@@ -180,6 +183,12 @@ public class BookAppointmentView : View
 
 		outputBox.Enabled = true;
 		outputBox.SetState($"Booked new appointment at {inputDatetime} with description: {inputDescription}", OutputBox.OutputState.Success);
+
+		var emailSubject = $"Booking confirmation for appointment with {doctorName}";
+		var contents = $"You have booked an appointment with {doctorName} on {inputDatetime.Value}" +
+			$"Description: {inputDescription}";
+
+		mailService.SendEmail(patient.PAT_User.USR_Email, emailSubject, contents);
 
         unitOfWork.Commit();
 	}

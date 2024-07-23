@@ -22,7 +22,8 @@ namespace HSM
             serviceCollection.AddTransient<ISeeder, Seeder>();
             serviceCollection.AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory>();
 		    serviceCollection.AddTransient<IViewWriter, ViewWriter>();
-		    return serviceCollection;
+		    serviceCollection.AddTransient<IMailService, MailService>();
+            return serviceCollection;
 	    }
 
 	    public static HostApplicationBuilder ConfigureConsole(this HostApplicationBuilder applicationBuilder)
