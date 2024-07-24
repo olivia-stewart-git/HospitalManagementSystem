@@ -3,6 +3,10 @@ using System.Net.Mail;
 
 namespace HMS.Service;
 
+/// <summary>
+/// Simple implementation of smtp
+/// Errors are caught as I do not want to make each DB entity have correct email
+/// </summary>
 public class MailService : IMailService
 {
 	const string Email = "hms@gmail.com";

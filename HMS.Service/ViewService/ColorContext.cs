@@ -1,5 +1,8 @@
 ﻿namespace HMS.Service.ViewService;
 
+/// <summary>
+/// Provides a disposable implementation to write color to the console
+/// </summary>
 public class ColorContext : IDisposable
 {
 	const ConsoleColor DefaultColor = ConsoleColor.Black;

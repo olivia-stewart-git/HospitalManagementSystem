@@ -2,6 +2,9 @@
 
 namespace HMS.Service.ViewService.Controls;
 
+/// <summary>
+/// Control that allows you to hover over it and select it
+/// </summary>
 public class Button : ViewControl, INavControl, IInputSubscriber
 {
 	bool isInteractable = true;

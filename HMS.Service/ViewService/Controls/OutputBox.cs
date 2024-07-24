@@ -1,5 +1,8 @@
 ﻿namespace HMS.Service.ViewService.Controls;
 
+/// <summary>
+/// A box that displays output messages to user
+/// </summary>
 public class OutputBox : ViewControl
 {
 	public string Contents { get; private set; }

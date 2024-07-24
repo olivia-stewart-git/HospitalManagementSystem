@@ -3,7 +3,10 @@ using HMS.Common;
 
 namespace HMS.Service.ViewService;
 
-public abstract class ViewControl : IChangePropagator<ViewControl>, IBindable
+/// <summary>
+/// Base class for controls that get rendered to the screen
+/// </summary>
+public abstract class ViewControl : IChangePropagator<ViewControl>, IPropertyBinding
 {
 	protected ViewControl(string name)
 	{
@@ -11,6 +14,10 @@ public abstract class ViewControl : IChangePropagator<ViewControl>, IBindable
 		OnChange += (_, _) => PropagateBindings();
 	}
 
+	/// <summary>
+	/// Retrieves all children recursively
+	/// </summary>
+	/// <returns></returns>
 	public IEnumerable<ViewControl> Recurse()
 	{
 		List<ViewControl> list = [this];
@@ -71,6 +78,7 @@ public abstract class ViewControl : IChangePropagator<ViewControl>, IBindable
 	readonly Dictionary<string, PropertyInfo> propertiesBindingCache = [];
 	readonly Dictionary<PropertyInfo, List<Action<object>>> bindingTargets = [];
 
+	//Updates bindings by invoking callback to relevant subscribers
 	void PropagateBindings()
 	{
 		if (!Enabled) 
@@ -88,11 +96,14 @@ public abstract class ViewControl : IChangePropagator<ViewControl>, IBindable
 		}
 	}
 
+	//Implementation of binding
 	public void BindProperty<T>(Action<T> factoryBinding, string propertyName)
 	{
 		BindProperty((obj) => factoryBinding((T)obj), propertyName);
 	}
 
+	//Implementation of binding
+	//Maps a specific property on the view to its properties
     public void BindProperty(Action<object> factoryBinding, string propertyName)
 	{
 		if (!propertiesBindingCache.ContainsKey(propertyName))
@@ -118,6 +129,7 @@ public abstract class ViewControl : IChangePropagator<ViewControl>, IBindable
 		PropagateBindings();
     }
 
+	//Core shared rendering functionality
     public List<RenderElement> Render()
     {
 	    var baseElements = OnRender();
@@ -131,5 +143,6 @@ public abstract class ViewControl : IChangePropagator<ViewControl>, IBindable
 	    return baseElements;
     }
 
+	//Override for implementation on variations
 	protected abstract List<RenderElement> OnRender();
 }

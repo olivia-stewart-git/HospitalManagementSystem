@@ -2,6 +2,10 @@
 
 namespace HMS.Service.ViewService.Controls;
 
+/// <summary>
+/// Returned property in a data field
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class DataFieldProperty<T>
 {
 	public string Name { get; }

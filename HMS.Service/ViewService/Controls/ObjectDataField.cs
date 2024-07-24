@@ -2,6 +2,10 @@
 
 namespace HMS.Service.ViewService.Controls;
 
+/// <summary>
+/// Data field that can provide a list of info about an object
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class ObjectDataField<T> : ViewControl
 {
 	readonly IEnumerable<DataFieldProperty<T>> properties;

@@ -2,6 +2,9 @@
 
 namespace HMS.Service.ViewService;
 
+/// <summary>
+/// Base class for all "Views" (Pages) that are shown in the application
+/// </summary>
 public abstract class View
 {
 	public EventHandler<ViewControl?> SelectionChanged { get; set; }

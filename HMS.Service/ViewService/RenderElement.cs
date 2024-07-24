@@ -1,5 +1,8 @@
 ﻿namespace HMS.Service.ViewService;
 
+/// <summary>
+/// An individual unit to be rendered 
+/// </summary>
 public class RenderElement
 {
 	public string Contents { get; set; }

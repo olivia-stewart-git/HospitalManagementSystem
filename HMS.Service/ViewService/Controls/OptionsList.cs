@@ -3,6 +3,9 @@ using System.Text;
 
 namespace HMS.Service.ViewService.Controls;
 
+/// <summary>
+/// Provides a list of selectable objects
+/// </summary>
 public class OptionsList : ViewControl
 {
 	public string Header { get; }

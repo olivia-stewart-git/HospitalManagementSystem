@@ -1,5 +1,8 @@
 ﻿namespace HMS.Common;
 
+/// <summary>
+/// Invokes action on dispose
+/// </summary>
 public class DisposableAction : IDisposable
 {
 	readonly Action onDispose;
@@ -9,10 +12,11 @@ public class DisposableAction : IDisposable
 		this.onDispose = onDispose;
 	}
 
-	bool disposed = false;
+	bool disposed;
 	public void Dispose()
 	{
 		if (disposed) return;
-		onDispose();
+		disposed = true;
+        onDispose();
 	}
 }

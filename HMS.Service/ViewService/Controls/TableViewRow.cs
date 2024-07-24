@@ -2,6 +2,10 @@
 
 namespace HMS.Service.ViewService.Controls;
 
+/// <summary>
+/// Individual row in a table view
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class TableViewRow<T> : ViewControl
 {
 	readonly TableViewColumn<T>[] tableColumns;

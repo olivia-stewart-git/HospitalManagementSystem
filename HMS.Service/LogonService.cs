@@ -5,6 +5,9 @@ using HMS.Service.ViewService.AppViews;
 
 namespace HMS.Service;
 
+/// <summary>
+/// Service to manage logon to system.
+/// </summary>
 public class LogonService : ILogonService
 {
 	readonly IViewService viewService;
@@ -57,6 +60,7 @@ public class LogonService : ILogonService
 	}
 
 #if DEBUG
+	//This is to make testing easier by providing relevant entities in database
 	bool TryGetTestOverrideForUser(IUnitOfWork unitOfWork, string password, out UserModel? overrideUser)
 	{
 		var userRepository = unitOfWork.GetRepository<UserModel>();
@@ -105,6 +109,7 @@ public class LogonService : ILogonService
 		environment.CurrentUser = null;
 	}
 
+	//Load relevant menu page based on role
 	void LoadApp(SystemRole role)
 	{
 		switch (role)

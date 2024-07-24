@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HMS.Data;
 
+/// <summary>
+/// Db Context implementation with simple connection string.
+/// Not much happening here
+/// </summary>
 public class HMSDbContext : DbContext 
 {
 	public DbSet<STMDataModel> StmData { get; set; }

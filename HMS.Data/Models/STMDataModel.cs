@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HMS.Data.Models;
 
+/// <summary>
+/// Stores persisting app data. In this case, whether we have seeded or not
+/// </summary>
 [PrimaryKey("STM_PK")]
 public class STMDataModel : IDbModel
 {

@@ -3,6 +3,9 @@ using HMS.Data.Models;
 
 namespace HMS.Data;
 
+/// <summary>
+/// Seeds data from csv file generated using Mockaroo.com
+/// </summary>
 public class Seeder : ISeeder
 {
 	readonly IUnitOfWorkFactory unitOfWorkFactory;

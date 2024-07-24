@@ -3,6 +3,10 @@ using System.Linq.Expressions;
 
 namespace HMS.Data.DataAccess;
 
+/// <summary>
+/// Generic access layer for db entities
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class Repository<T> : IRepository<T> where T : class, IDbModel
 {
 	readonly HMSDbContext dbContext;
@@ -21,10 +25,19 @@ public class Repository<T> : IRepository<T> where T : class, IDbModel
 		return entitySet.Find(id);
 	}
 
+
 	public IEnumerable<T> GetWhere(Expression<Func<T, bool>> predicate, int rowCount = -1)
 		=> GetWhere(predicate, null, rowCount);
 
 
+	/// <summary>
+	/// Use predicate to filter entities.
+	/// Included properties for navigation properties to be included in join statement
+	/// </summary>
+	/// <param name="predicate"></param>
+	/// <param name="includedProperties"></param>
+	/// <param name="rowCount"></param>
+	/// <returns></returns>
     public IEnumerable<T> GetWhere(Expression<Func<T, bool>> predicate, string[]? includedProperties, int rowCount = -1)
 	{
 		ArgumentNullException.ThrowIfNull(predicate);
@@ -44,6 +57,11 @@ public class Repository<T> : IRepository<T> where T : class, IDbModel
         return queryable.ToList();
 	}
 
+	/// <summary>
+	/// Get all entities
+	/// </summary>
+	/// <param name="rowCount"></param>
+	/// <returns></returns>
 	public IEnumerable<T> Get(int rowCount = -1) => Get(null, rowCount);
 
     public IEnumerable<T> Get(string[]? includedProperties, int rowCount = -1)
@@ -72,17 +90,27 @@ public class Repository<T> : IRepository<T> where T : class, IDbModel
 		return query;
 	}
 
+	/// <summary>
+	/// Check if entity exists
+	/// </summary>
+	/// <param name="predicate"></param>
+	/// <returns></returns>
 	public bool Exists(Expression<Func<T, bool>> predicate)
 	{
 		ArgumentNullException.ThrowIfNull(predicate);
 		IQueryable<T> queryable = entitySet;
 		return queryable.Any(predicate);
 	}
+
 	public void InsertRange(params T[] entities)
 	{
 		InsertRange((IEnumerable<T>)entities);
 	}
 
+	/// <summary>
+	/// Insert range of entities
+	/// </summary>
+	/// <param name="entities"></param>
     public void InsertRange(IEnumerable<T> entities)
 	{
 		foreach (var entity in entities)
@@ -124,6 +152,9 @@ public class Repository<T> : IRepository<T> where T : class, IDbModel
 		hasChanges = true;
 	}
 
+	//Implementation of Change propagator
+	//More of an experimental idea than one that actually gets used
+	//In theory you could bind to return values
 	public EventHandler<IEnumerable<T>> OnChange { get; set; }
 	public void DoChange()
 	{

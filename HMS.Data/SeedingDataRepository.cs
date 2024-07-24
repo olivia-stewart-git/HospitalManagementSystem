@@ -8,6 +8,9 @@ using HMS.Data.Models;
 
 namespace HMS.Data;
 
+/// <summary>
+/// Helper class to retrieve seeding data
+/// </summary>
 public class SeedingDataRepository
 {
 	public static IEnumerable<UserModel> ConsumeUsers()

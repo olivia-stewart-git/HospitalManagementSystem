@@ -2,6 +2,9 @@
 
 namespace HMS.Service.ViewService.Controls;
 
+/// <summary>
+/// Individual option that can be selected in options list
+/// </summary>
 public class SelectionOption : ViewControl, INavControl, IInputSubscriber
 {
 	public delegate void SelectionAction(SelectionOption option);

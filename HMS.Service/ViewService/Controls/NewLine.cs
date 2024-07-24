@@ -1,5 +1,8 @@
 ﻿namespace HMS.Service.ViewService.Controls;
 
+/// <summary>
+/// Newline control
+/// </summary>
 public class NewLine : ViewControl
 {
 	public NewLine() : base(string.Empty)

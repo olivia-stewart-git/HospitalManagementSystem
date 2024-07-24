@@ -1,5 +1,8 @@
 ﻿namespace HMS.Service.ViewService.Controls;
 
+/// <summary>
+/// Label that displays text
+/// </summary>
 public class Label : ViewControl
 {
 	string text;

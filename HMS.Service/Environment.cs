@@ -2,6 +2,9 @@
 
 namespace HMS.Service;
 
+/// <summary>
+/// Environment that persists for app lifetime
+/// </summary>
 public class Environment : IEnvironment
 {
 	public UserModel? CurrentUser { get; set; }

@@ -3,6 +3,10 @@ using System.Linq.Expressions;
 
 namespace HMS.Service.ViewService.Controls;
 
+/// <summary>
+/// Provides a table of data mapped to a list of objects
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class TableView<T> : ViewControl
 {
 	protected readonly TableViewColumn<T>[] tableColumns;

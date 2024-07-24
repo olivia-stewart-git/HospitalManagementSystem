@@ -1,5 +1,9 @@
 ﻿namespace HMS.Service.ViewService.Controls;
 
+/// <summary>
+/// Variant of table view that allows for input on each row
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class InteractableTableView<T> : TableView<T>
 {
 	public delegate void RowSelected(T rowValue);

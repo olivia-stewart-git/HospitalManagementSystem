@@ -46,7 +46,6 @@ public class AddUserView<T> : View where T : class, IUser, IDbModel
 			.AddControl(new NewLine())
             .AddControl(new Button("Add User", "add-user"))
 			.Setup<Button>(x => x.Interacted += AddUser);
-
 	}
 
 	void AddUser(object? sender, EventArgs e)

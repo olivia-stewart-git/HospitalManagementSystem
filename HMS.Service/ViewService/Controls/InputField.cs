@@ -3,6 +3,9 @@ using HMS.Service.Interaction;
 
 namespace HMS.Service.ViewService.Controls;
 
+/// <summary>
+/// Allows you to input text. Bind to content property to access its values
+/// </summary>
 public class InputField : ViewControl, INavControl, IInputFiller, IInputSubscriber
 {
 	string contents = string.Empty;

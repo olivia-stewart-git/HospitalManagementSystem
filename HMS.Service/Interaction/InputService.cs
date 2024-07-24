@@ -4,6 +4,9 @@ using HMS.Service.ViewService.Controls;
 
 namespace HMS.Service.Interaction;
 
+/// <summary>
+/// Handling of input into the application
+/// </summary>
 public class InputService : IInputService
 {
 	public EventHandler<Exception> OnApplicationError { get; set; }
@@ -13,12 +16,13 @@ public class InputService : IInputService
 		DeployThread();
 	}
 
+	//Input is handled on a second thread. This is in order allow for the potential of asynchronous actions.
 	void DeployThread()
 	{
 		Task.Run(ThreadAction);
 	}
 
-	List<Action<char>> characterActionSubscribers = [];
+	readonly List<Action<char>> characterActionSubscribers = [];
 
 	public IDisposable SubscribeToCharacterAction(Action<char> characterAction)
 	{
@@ -26,7 +30,7 @@ public class InputService : IInputService
         return new DisposableAction(() => characterActionSubscribers.Remove(characterAction));
 	}
 
-	Dictionary<ConsoleKey, List<Action>?> keyActionMap = [];
+	readonly Dictionary<ConsoleKey, List<Action>?> keyActionMap = [];
 	public IDisposable SubscribeToKeyAction(ConsoleKey key, Action keyAction)
 	{
 		if (keyActionMap.TryGetValue(key, out var actionList))
@@ -51,6 +55,7 @@ public class InputService : IInputService
 
 	readonly ConsoleKey[] specialKeys = [ConsoleKey.Enter, ConsoleKey.Backspace, ConsoleKey.Escape, ConsoleKey.UpArrow, ConsoleKey.DownArrow];
 
+	//Core loop to manage the reading of input
 	void ThreadAction()
 	{
 		while (true)
@@ -114,6 +119,7 @@ public class InputService : IInputService
 		}
 	}
 
+	[Obsolete("Cursor no longer displayed", false)]
 	void FillInput(IInputFiller inputFiller)
 	{
 		var cursorPosition = inputFiller.GetCursorPosition();
@@ -132,7 +138,8 @@ public class InputService : IInputService
 		}
 	}
 
-	void BackSpaceForFill()
+	//Sends backspace key to subscribers
+    void BackSpaceForFill()
 	{
 		if (currentInputTarget is IInputSubscriber inputSubscriber)
 		{
@@ -140,6 +147,7 @@ public class InputService : IInputService
 		}
 	}
 
+	//Sends enter key to subscribers
 	void EnterForFill()
 	{
 		if (currentInputTarget is IInputSubscriber inputSubscriber)

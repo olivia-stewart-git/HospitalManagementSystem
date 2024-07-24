@@ -1,5 +1,8 @@
 ﻿namespace HMS.Data.DataAccess;
 
+/// <summary>
+/// A single unitOfWork or transaction in the db.
+/// </summary>
 public class UnitOfWork : IUnitOfWork
 {
 	readonly HMSDbContext dbContext;
@@ -12,6 +15,7 @@ public class UnitOfWork : IUnitOfWork
 
 	readonly Dictionary<Type, object> repositoryMap = [];
 
+	//Generic implementation of repository pattern
 	public IRepository<T> GetRepository<T>() where T : class, IDbModel
 	{
 		if (repositoryMap.TryGetValue(typeof(T), out var repository))
@@ -25,6 +29,7 @@ public class UnitOfWork : IUnitOfWork
 		return repositoryInstance;
 	}
 
+	//Save changes in db. Provides commited event callback
 	public void Commit()
 	{
 		dbContext.SaveChanges();

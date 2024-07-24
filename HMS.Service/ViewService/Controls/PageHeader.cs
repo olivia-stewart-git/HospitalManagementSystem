@@ -2,6 +2,9 @@
 
 namespace HMS.Service.ViewService.Controls;
 
+/// <summary>
+/// A page header with a title and subtitle
+/// </summary>
 public class PageHeader : ViewControl
 {
 	public int Padding { get; set; } = 250;

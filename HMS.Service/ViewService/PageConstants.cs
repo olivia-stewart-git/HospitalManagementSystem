@@ -1,5 +1,8 @@
 ﻿namespace HMS.Service.ViewService;
 
+/// <summary>
+/// Constant values used for rendering
+/// </summary>
 public static class PageConstants
 {
 	public const int PageWidth = 300;
