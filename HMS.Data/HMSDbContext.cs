@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HMS.Data.Models;
+﻿using HMS.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace HMS.Data;
 
@@ -22,5 +18,6 @@ public class HMSDbContext : DbContext
 	public DbSet<AppointmentModel> AppointmentModels { get; set; }
 
 	protected override void OnConfiguring(DbContextOptionsBuilder options)
-		=> options.UseSqlServer($"Server=localhost;Initial Catalog=HospitalDb;Integrated Security=SSPI;TrustServerCertificate=True");
+		=> options
+			.UseSqlServer($"Server=localhost;Initial Catalog=HospitalDb;Integrated Security=SSPI;TrustServerCertificate=True");
 }

@@ -10,6 +10,67 @@ using Moq;
 
 namespace HMS.Service.Views.Test;
 
+internal class ListAllPatientsViewTest
+{
+	ListAllPatientsView allPatientsView;
+	Mock<IRepository<PatientModel>> mockRepository;
+
+	[SetUp]
+	public void Setup()
+	{
+		mockRepository = new Mock<IRepository<PatientModel>>();
+
+		var unitOfWorkFactory = new Mock<IUnitOfWorkFactory>();
+		unitOfWorkFactory.Setup(x => x.CreateUnitOfWork())
+			.Returns(new MockUnitOfWork(mockRepository.Object));
+
+		allPatientsView = new ListAllPatientsView(Mock.Of<IViewService>(), unitOfWorkFactory.Object);
+
+		var builder = new ViewBuilder(allPatientsView);
+		allPatientsView.BuildView(builder);
+		builder.Build();
+	}
+
+	[Test]
+	public void TestErrorShownWhenNoPatients()
+	{
+		mockRepository.Setup(x => x.Get(It.IsAny<string[]>()))
+			.Returns(Array.Empty<PatientModel>());
+
+		allPatientsView.OnBecomeActive();
+
+		var outputBox = allPatientsView.Q<OutputBox>("patient-details-outputBox");
+		Assert.NotNull(outputBox);
+		Assert.That(outputBox.Enabled, Is.True);
+		Assert.That(outputBox.State, Is.EqualTo(OutputBox.OutputState.Error));
+    }
+
+	[Test]
+	public void TestGetsAllPatients()
+	{
+		List<PatientModel> patientCollection =
+		[
+			new PatientModel() { PAT_User = new UserModel() { USR_FirstName = "testUser" } },
+			new PatientModel() { PAT_User = new UserModel() { USR_FirstName = "testUser1" } },
+			new PatientModel() { PAT_User = new UserModel() { USR_FirstName = "testUser2" } },
+			new PatientModel() { PAT_User = new UserModel() { USR_FirstName = "testUser3" } },
+		];
+
+        mockRepository.Setup(x => x.Get(It.IsAny<string[]>()))
+			.Returns(patientCollection);
+
+		allPatientsView.OnBecomeActive();
+
+		var outputBox = allPatientsView.Q<OutputBox>("patient-details-outputBox");
+		Assert.NotNull(outputBox);
+		Assert.That(outputBox.Enabled, Is.False);
+
+		var table = allPatientsView.Q<TableView<PatientModel>>("Patients");
+		Assert.That(table.Rows, Is.EqualTo(patientCollection));
+	}
+}
+
+
 internal class SpecificDoctorViewTest
 {
 	SpecificDoctorView specificDoctorView;
@@ -18,10 +79,6 @@ internal class SpecificDoctorViewTest
     [SetUp]
 	public void Setup()
 	{
-		var mockEnvironment = new Mock<IEnvironment>();
-		var user = new UserModel() { USR_FirstName = "Test", USR_LastName = "LastName" };
-		mockEnvironment.Setup(x => x.CurrentUser).Returns(user);
-
 		mockRepository = new Mock<IRepository<DoctorModel>>();
 
 		var unitOfWorkFactory = new Mock<IUnitOfWorkFactory>();

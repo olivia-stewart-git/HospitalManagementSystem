@@ -38,8 +38,8 @@ public class ListAllPatientsView : View
 	public override void OnBecomeActive()
 	{
 		var unitOfWork = unitOfWorkFactory.CreateUnitOfWork();
-		var doctorRepository = unitOfWork.GetRepository<PatientModel>();
-		var patients = doctorRepository.Get(includedProperties: [nameof(PatientModel.PAT_User)]).ToList();
+		var patientRepository = unitOfWork.GetRepository<PatientModel>();
+		var patients = patientRepository.Get([nameof(PatientModel.PAT_User)]).ToList();
 
 		if (patients.Count > 0)
 		{
@@ -48,7 +48,7 @@ public class ListAllPatientsView : View
 		else
 		{
 			outputBox.Enabled = true;
-			outputBox.SetState("No Patients found in system", OutputBox.OutputState.Warn);
+			outputBox.SetState("No Patients found in system", OutputBox.OutputState.Error);
 			tableView.Enabled = false;
 		}
 	}
