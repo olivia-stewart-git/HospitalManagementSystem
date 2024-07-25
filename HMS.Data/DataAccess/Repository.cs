@@ -7,7 +7,7 @@ namespace HMS.Data.DataAccess;
 /// Generic access layer for db entities
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class Repository<T> : IRepository<T> where T : class, IDbModel
+public sealed class Repository<T> : IRepository<T> where T : class, IDbModel
 {
 	readonly HMSDbContext dbContext;
 	readonly DbSet<T> entitySet;
