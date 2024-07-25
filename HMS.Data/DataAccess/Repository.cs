@@ -7,7 +7,7 @@ namespace HMS.Data.DataAccess;
 /// Generic access layer for db entities
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public sealed class Repository<T> : IRepository<T> where T : class, IDbModel
+public class Repository<T> : IRepository<T> where T : class, IDbModel
 {
 	readonly HMSDbContext dbContext;
 	readonly DbSet<T> entitySet;
@@ -26,9 +26,8 @@ public sealed class Repository<T> : IRepository<T> where T : class, IDbModel
 	}
 
 
-	public IEnumerable<T> GetWhere(Expression<Func<T, bool>> predicate, int rowCount = -1)
-		=> GetWhere(predicate, null, rowCount);
-
+	public IEnumerable<T> GetWhere(Expression<Func<T, bool>> predicate)
+		=> GetWhere(predicate, null);
 
 	/// <summary>
 	/// Use predicate to filter entities.
@@ -38,16 +37,11 @@ public sealed class Repository<T> : IRepository<T> where T : class, IDbModel
 	/// <param name="includedProperties"></param>
 	/// <param name="rowCount"></param>
 	/// <returns></returns>
-    public IEnumerable<T> GetWhere(Expression<Func<T, bool>> predicate, string[]? includedProperties, int rowCount = -1)
+    public IEnumerable<T> GetWhere(Expression<Func<T, bool>> predicate, string[]? includedProperties)
 	{
 		ArgumentNullException.ThrowIfNull(predicate);
 		IQueryable<T> queryable = entitySet;
 		queryable = queryable.Where(predicate);
-
-		if (rowCount > 0)
-		{
-			queryable = queryable.Take(rowCount);
-		}
 
 		if (includedProperties != null)
 		{
@@ -62,15 +56,11 @@ public sealed class Repository<T> : IRepository<T> where T : class, IDbModel
 	/// </summary>
 	/// <param name="rowCount"></param>
 	/// <returns></returns>
-	public IEnumerable<T> Get(int rowCount = -1) => Get(null, rowCount);
+	public IEnumerable<T> Get() => Get(null);
 
-    public IEnumerable<T> Get(string[]? includedProperties, int rowCount = -1)
+    public IEnumerable<T> Get(string[]? includedProperties)
 	{
 		IQueryable<T> queryable = entitySet;
-        if (rowCount > 0)
-		{
-			queryable = queryable.Take(rowCount);
-		}
 
 		if (includedProperties != null)
 		{

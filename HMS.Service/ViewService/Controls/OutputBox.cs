@@ -6,6 +6,7 @@
 public class OutputBox : ViewControl
 {
 	public string Contents { get; private set; }
+	public OutputState State { get; private set; }
 	ConsoleColor outputColor = PageConstants.DefaultColor;
 
 	public OutputBox(string contents, string? name = null) : base(name ?? string.Empty)
@@ -16,6 +17,7 @@ public class OutputBox : ViewControl
 	public void SetState(string newContents, OutputState state)
 	{
 		Contents = newContents;
+		State = state;
 		outputColor = state switch
 		{
 			OutputState.Info => ConsoleColor.Black,

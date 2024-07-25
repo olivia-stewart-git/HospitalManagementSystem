@@ -15,7 +15,7 @@ public class TableView<T> : ViewControl
 	public bool CullPropertyPrefix { get; init; } = true;
 	public int CalculatedWidth => PageConstants.PageWidth - Padding;
 
-	IEnumerable<T> rows = [];
+	public IEnumerable<T> Rows { get; private set; } = [];
 	IEnumerable<TableViewRow<T>> renderRows = [];
 
 	public TableView(string name, IEnumerable<TableViewColumn<T>> tableColumns) : base(name)
@@ -39,13 +39,13 @@ public class TableView<T> : ViewControl
 
     public void Update(IEnumerable<T> updatedValues)
 	{
-		rows = updatedValues;
+		Rows = updatedValues;
 
 		RemoveChildren(renderRows);
 
 		var rowList = new List<TableViewRow<T>>();
 		int index = 0;
-		foreach (var row in rows)
+		foreach (var row in Rows)
 		{
 			if (index >= MaxRows - 1)
 			{

@@ -27,7 +27,7 @@ internal class LogonServiceTest
 		var mockRepository = new Mock<IRepository<UserModel>>();
 		var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-		mockRepository.Setup(x => x.GetWhere(It.IsAny<Expression<Func<UserModel, bool>>>(), It.IsAny<int>())).Returns([mockUser]);
+		mockRepository.Setup(x => x.GetWhere(It.IsAny<Expression<Func<UserModel, bool>>>())).Returns([mockUser]);
 		unitOfWorkFactory.Setup(x => x.CreateUnitOfWork()).Returns(mockUnitOfWork.Object);
 
 		mockUnitOfWork.Setup(x => x.GetRepository<UserModel>()).Returns(mockRepository.Object);
@@ -63,7 +63,7 @@ internal class LogonServiceTest
 		var mockRepository = new Mock<IRepository<UserModel>>();
 		var mockUnitOfWork = new Mock<IUnitOfWork>();
 
-		mockRepository.Setup(x => x.GetWhere(It.IsAny<Expression<Func<UserModel, bool>>>(), It.IsAny<int>())).Returns([mockUser]);
+		mockRepository.Setup(x => x.GetWhere(It.IsAny<Expression<Func<UserModel, bool>>>())).Returns([mockUser]);
 		unitOfWorkFactory.Setup(x => x.CreateUnitOfWork()).Returns(mockUnitOfWork.Object);
 
 		mockUnitOfWork.Setup(x => x.GetRepository<UserModel>()).Returns(mockRepository.Object);

@@ -8,8 +8,7 @@ namespace HMS.Data.Models;
 [PrimaryKey("USR_PK")]
 public class UserModel : IDbModel, IUser
 {
-	[Key]
-	public Guid USR_PK { get; set; }
+	[Key] public Guid USR_PK { get; set; } = Guid.NewGuid();
 
 	[Required]
 	[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -17,33 +16,33 @@ public class UserModel : IDbModel, IUser
 
 	[Required]
 	[MaxLength(100)]
-	public string USR_Password { get; set; }
+	public string USR_Password { get; set; } = string.Empty;
 
-	[MaxLength(50)]
-    public string USR_FirstName { get; set; }
+    [MaxLength(50)]
+    public string USR_FirstName { get; set; } = string.Empty;
 
-	[MaxLength(50)]
-    public string USR_LastName { get; set; }
+    [MaxLength(50)]
+    public string USR_LastName { get; set; } = string.Empty;
 
-	[MaxLength(20)]
-    public string USR_PhoneNumber { get; set; }
+    [MaxLength(20)]
+    public string USR_PhoneNumber { get; set; } = string.Empty;
 
-	[MaxLength(100)]
-    public string USR_Email { get; set; }
+    [MaxLength(100)]
+    public string USR_Email { get; set; } = string.Empty;
 
-	[MaxLength(100)]
-    public string USR_Address_State { get; set; }
+    [MaxLength(100)]
+    public string USR_Address_State { get; set; } = string.Empty;
 
-	[MaxLength(20)]
-    public string USR_Address_Postcode { get; set; }
-
-	[MaxLength(100)]
-    public string USR_Address_Line1 { get; set; }
+    [MaxLength(20)]
+    public string USR_Address_Postcode { get; set; } = string.Empty;
 
 	[MaxLength(100)]
-    public string USR_Address_Line2 { get; set; }
+    public string USR_Address_Line1 { get; set; } = string.Empty;
 
-	[NotMapped]
+    [MaxLength(100)]
+    public string USR_Address_Line2 { get; set; } = string.Empty;
+
+    [NotMapped]
 	public string USR_FullName => USR_FirstName + " " + USR_LastName;
 
 	[NotMapped]

@@ -108,8 +108,7 @@ public class BookAppointmentView : View
 
 		var patient = patientRepository.GetWhere(
 			x => x.PAT_USR_ID == environment.CurrentUser.USR_PK,
-			includedProperties: [nameof(PatientModel.PAT_Doctor)],
-			rowCount: 1).SingleOrDefault();
+			[nameof(PatientModel.PAT_Doctor)]).SingleOrDefault();
 
 		if (patient == null)
 		{
@@ -127,7 +126,7 @@ public class BookAppointmentView : View
 			appointmentSettingsContainer.Enabled = true;
 		}
 
-		var doctors = doctorRepository.Get(includedProperties: [nameof(DoctorModel.DCT_User)], rowCount: 20);
+		var doctors = doctorRepository.Get([nameof(DoctorModel.DCT_User)]);
 
 		doctorTable.Update(doctors);
 	}
@@ -138,9 +137,8 @@ public class BookAppointmentView : View
 		var patientRepository = unitOfWork.GetRepository<PatientModel>();
 
 		var patient = patientRepository.GetWhere(
-			x => x.PAT_USR_ID == environment.CurrentUser.USR_PK, 
-			rowCount: 1,
-			includedProperties: [nameof(PatientModel.PAT_Doctor), nameof(PatientModel.PAT_Doctor) + "." + nameof(DoctorModel.User)]).SingleOrDefault();
+			x => x.PAT_USR_ID == environment.CurrentUser.USR_PK,
+			[nameof(PatientModel.PAT_Doctor), nameof(PatientModel.PAT_Doctor) + "." + nameof(DoctorModel.User)]).SingleOrDefault();
 
 		if (patient == null)
 		{

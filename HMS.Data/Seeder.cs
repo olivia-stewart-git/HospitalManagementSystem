@@ -38,7 +38,7 @@ public class Seeder : ISeeder
 		var unitOfWork = unitOfWorkFactory.CreateUnitOfWork();
 		var stmDataRepository = unitOfWork.GetRepository<STMDataModel>();
 
-		var stmData = stmDataRepository.Get(1);
+		var stmData = stmDataRepository.Get();
 		if (stmData.Any())
 		{
 			return !stmData.First().STM_HasSeeded;

@@ -19,7 +19,7 @@ public class DoctorMenuView : View
 	{
 		viewBuilder
 			.AddControl(new PageHeader("DOTNET Hospital Management System", "Doctor Menu"))
-			.AddControl(new Label($"Welcome to DOTNET Hospital Management System {environment.CurrentUser.USR_FullName}"))
+			.AddControl(new Label($"Welcome to DOTNET Hospital Management System {environment.CurrentUser.USR_FullName}", "main-label"))
 			.AddControl(new NewLine())
 			.AddControl(new OptionsList("doctor-menu-options", "Please Choose An Option",
 				new SelectionOption("List Doctor Details", OnListDoctorDetails),

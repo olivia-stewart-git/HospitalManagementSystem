@@ -48,7 +48,7 @@ public class LogonService : ILogonService
 		}
 #endif
 
-        var targetUser = userRepository.GetWhere(x => x.USR_ID == userId, 1).FirstOrDefault();
+        var targetUser = userRepository.GetWhere(x => x.USR_ID == userId).FirstOrDefault();
 		if (targetUser == null || targetUser.USR_Password != password)
 		{
 			user = null;
@@ -76,14 +76,14 @@ public class LogonService : ILogonService
 				return true;
 			case "testAdmin":
 				var adminRepository = unitOfWork.GetRepository<AdministratorModel>();
-				var targetAdminUserId = adminRepository.Get(1).First().ADM_USR_ID;
+				var targetAdminUserId = adminRepository.Get().First().ADM_USR_ID;
 
 				overrideUser = userRepository.GetById(targetAdminUserId)
 					?? throw new InvalidOperationException("Could not find override admin");
                 return true;
 			case "testPatient":
 				var patientRepository = unitOfWork.GetRepository<PatientModel>();
-				var targetPatientId = patientRepository.Get(1).First().PAT_USR_ID;
+				var targetPatientId = patientRepository.Get().First().PAT_USR_ID;
 
 				overrideUser = userRepository.GetById(targetPatientId)
 					?? throw new InvalidOperationException("Could not find override patient");

@@ -40,7 +40,7 @@ public class PatientDetailsView : View
 		var patientRepository = unitOfWork.GetRepository<PatientModel>();
 		var patientDetailsField = Q<ObjectDataField<PatientModel>>("patient-details-data");
 
-		var targetPatient = patientRepository.GetWhere(x => x.PAT_USR_ID == environment.CurrentUser.USR_PK, includedProperties: [nameof(PatientModel.PAT_User)], 1).FirstOrDefault();
+		var targetPatient = patientRepository.GetWhere(x => x.PAT_USR_ID == environment.CurrentUser.USR_PK, [nameof(PatientModel.PAT_User)]).FirstOrDefault();
 		if (targetPatient != null)
 		{
 			patientDetailsField.Set(targetPatient);

@@ -39,7 +39,7 @@ public class DoctorDetailsView : View
 
 		var detailsTable = Q<TableView<DoctorModel>>("Doctor Details");
 		var doctor = doctorRepository
-			.GetWhere(x => x.DCT_USR_ID == environment.CurrentUser.USR_PK, includedProperties: [nameof(DoctorModel.DCT_User)], rowCount: 1)
+			.GetWhere(x => x.DCT_USR_ID == environment.CurrentUser.USR_PK, [nameof(DoctorModel.DCT_User)])
 			.FirstOrDefault();
 
 		if (doctor != null)

@@ -40,13 +40,11 @@ public class PatientDoctorMenuView : View
 		var detailsTable = Q<TableView<DoctorModel>>("Doctor Details");
 
 		var patient = patientRepository.GetWhere(x => x.PAT_USR_ID == environment.CurrentUser.USR_PK,
-				rowCount: 1,
-				includedProperties:
 				[
 					nameof(PatientModel.PAT_Doctor),
 					nameof(PatientModel.PAT_Doctor) + "." + nameof(DoctorModel.DCT_User)
 				])
-			.SingleOrDefault();
+				.SingleOrDefault();
 
 		if (patient == null)
 		{

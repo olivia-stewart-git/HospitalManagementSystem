@@ -6,11 +6,11 @@ namespace HMS.Data;
 public interface IRepository<T> : IChangePropagator<IEnumerable<T>> where T : class
 {
 	T? GetById(Guid id);
-	IEnumerable<T> GetWhere(Expression<Func<T, bool>> predicate, int rowCount = -1);
-    IEnumerable<T> GetWhere(Expression<Func<T, bool>> predicate, string[]? includedProperties, int rowCount = -1);
+	IEnumerable<T> GetWhere(Expression<Func<T, bool>> predicate);
+    IEnumerable<T> GetWhere(Expression<Func<T, bool>> predicate, string[]? includedProperties);
 
-	IEnumerable<T> Get(int rowCount = -1);
-    IEnumerable<T> Get(string[]? includedProperties, int rowCount = -1);
+	IEnumerable<T> Get();
+    IEnumerable<T> Get(string[]? includedProperties);
 	bool Exists(Expression<Func<T, bool>> predicate);
 	void InsertRange(IEnumerable<T> entities);
 	void InsertRange(params T[] entities);
