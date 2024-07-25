@@ -28,12 +28,14 @@ public abstract class View
 		}
 	}
 
+	//Adds a control
 	public void AddControl(ViewControl control)
 	{
 		Root.AddChild(control);
 		RegenControlCache();
 	}
 
+	//We keep a cache of controls mapped to their name
 	void RegenControlCache()
 	{
 		NavControls.Clear();
@@ -49,8 +51,19 @@ public abstract class View
 		}
 	}
 
+	/// <summary>
+	/// Overridable method to access view builder to construct app page
+	/// </summary>
+	/// <param name="viewBuilder"></param>
 	public abstract void BuildView(ViewBuilder viewBuilder);
 
+	/// <summary>
+	/// Query view for elements by name
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="key"></param>
+	/// <returns></returns>
+	/// <exception cref="ArgumentNullException"></exception>
 	public T Q<T>(string key) where T : ViewControl
 	{
 		var typeKey = typeof(T).Name + '_' + key;
@@ -58,6 +71,7 @@ public abstract class View
 			?? throw new ArgumentNullException(nameof(key));
 	}
 
+	//Renders elements by rendering each element, expect when they are disabled
 	public IList<RenderElement> Render()
 	{
 		var renderOutput = new List<RenderElement>();
@@ -74,6 +88,7 @@ public abstract class View
 				renderOutput.Add(baseRender);
 				control.YPosition = yPosition;
 
+				//For controlling cursor position, now obsolete
 				var lineCount = baseRender.Contents.Split(System.Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Length + 1;
 				yPosition += lineCount;
 			}
@@ -82,6 +97,7 @@ public abstract class View
 	}
 
 #region View Events
+//Overridable methods
 	public virtual void OnBecomeActive()
 	{
 	}

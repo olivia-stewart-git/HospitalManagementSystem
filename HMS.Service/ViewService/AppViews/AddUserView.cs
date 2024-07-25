@@ -48,6 +48,7 @@ public class AddUserView<T> : View where T : class, IUser, IDbModel
 			.Setup<Button>(x => x.Interacted += AddUser);
 	}
 
+	//Users bound properties from the input field to create a new user
 	void AddUser(object? sender, EventArgs e)
 	{
 		var unitOfWork = unitOfWorkFactory.CreateUnitOfWork();
