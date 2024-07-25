@@ -45,7 +45,7 @@ public class AdministratorMenuView : View
 
 	void OnCheckPatientDetails(SelectionOption option)
 	{
-		throw new NotImplementedException();
+		viewService.SwitchView<SpecificPatientView>();
 	}
 
 	void OnListAllPatients(SelectionOption option)
@@ -55,7 +55,8 @@ public class AdministratorMenuView : View
 
 	void OnCheckDoctorDetails(SelectionOption option)
 	{
-    }
+		viewService.SwitchView<SpecificDoctorView>();
+	}
 
 	void OnListAllDoctors(SelectionOption option)
 	{
