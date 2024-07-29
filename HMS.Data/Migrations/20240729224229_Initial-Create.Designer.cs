@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HMS.Data.Migrations
 {
     [DbContext(typeof(HMSDbContext))]
-    [Migration("20240729063749_InitialCreate")]
+    [Migration("20240729224229_Initial-Create")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -153,7 +153,6 @@ namespace HMS.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("USR_ID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("USR_LastName")

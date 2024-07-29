@@ -37,7 +37,7 @@ public class TableViewRow<T> : ViewControl
 			try
 			{
 				var compiledResult = compiledExpression(value);
-				resultant = compiledResult.ToString();
+				resultant = compiledResult.ToString() ?? string.Empty;
 			}
 			catch
 			{

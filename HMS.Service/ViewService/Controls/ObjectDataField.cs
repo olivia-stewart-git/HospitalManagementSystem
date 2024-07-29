@@ -40,6 +40,6 @@ public class ObjectDataField<T> : ViewControl
 	public void Set(T value)
 	{
 		currentValue = value;
-		DoChange();
+		RegisterChanged();
 	}
 }

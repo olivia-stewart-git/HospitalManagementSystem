@@ -7,7 +7,7 @@
 public interface IChangePropagator<T>
 {
     public EventHandler<T> OnChange { get; set; }
-    public void DoChange();
+    public void RegisterChanged();
 }
 
 /// <summary>
@@ -36,13 +36,13 @@ public class ObservableProperty<T> : IChangePropagator<T>
 			_value = value;
 			if (!lastValue.Equals(_value))
 			{
-				DoChange();
+				RegisterChanged();
 			}
         }
 	}
 
     public EventHandler<T> OnChange { get; set; }
-    public void DoChange()
+    public void RegisterChanged()
     {
         OnChange?.Invoke(this, _value);
     }

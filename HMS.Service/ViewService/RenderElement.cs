@@ -1,7 +1,8 @@
 ﻿namespace HMS.Service.ViewService;
 
 /// <summary>
-/// An individual unit to be rendered 
+/// An individual unit to be rendered
+/// Has color and contexts
 /// </summary>
 public class RenderElement
 {

@@ -15,7 +15,7 @@ public class Button : ViewControl, INavControl, IInputSubscriber
 		set
 		{
 			isInteractable = value;
-			DoChange();
+			RegisterChanged();
 		}
 	}
 

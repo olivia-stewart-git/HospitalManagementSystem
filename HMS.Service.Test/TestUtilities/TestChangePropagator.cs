@@ -13,12 +13,12 @@ public class TestChangePropagator : IChangePropagator<IEnumerable<TestModel>>
 		set
 		{
 			this.value = value;
-			DoChange();
+			RegisterChanged();
 		}
 	}
 
 	public EventHandler<IEnumerable<TestModel>>? OnChange { get; set; }
-	public void DoChange()
+	public void RegisterChanged()
 	{
 		OnChange?.Invoke(this, Values);
 	}

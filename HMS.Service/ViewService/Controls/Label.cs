@@ -12,7 +12,7 @@ public class Label : ViewControl
 		set
 		{
 			text = value; 
-			DoChange();
+			RegisterChanged();
 		}
 	}
 

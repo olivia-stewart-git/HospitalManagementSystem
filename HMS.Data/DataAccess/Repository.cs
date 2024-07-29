@@ -146,7 +146,7 @@ public class Repository<T> : IRepository<T> where T : class, IDbModel
 	//More of an experimental idea than one that actually gets used
 	//In theory you could bind to return values
 	public EventHandler<IEnumerable<T>> OnChange { get; set; }
-	public void DoChange()
+	public void RegisterChanged()
 	{
 		if (!hasChanges)
 		{

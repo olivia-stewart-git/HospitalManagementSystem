@@ -53,7 +53,7 @@ public class InputService : IInputService
         });
 	}
 
-	readonly ConsoleKey[] specialKeys = [ConsoleKey.Enter, ConsoleKey.Backspace, ConsoleKey.Escape, ConsoleKey.UpArrow, ConsoleKey.DownArrow];
+	readonly ConsoleKey[] specialKeys = [ConsoleKey.Enter, ConsoleKey.Backspace, ConsoleKey.Escape, ConsoleKey.UpArrow, ConsoleKey.DownArrow, ConsoleKey.LeftArrow, ConsoleKey.RightArrow];
 
 	//Core loop to manage the reading of input
 	void ThreadAction()
@@ -72,9 +72,17 @@ public class InputService : IInputService
 					else if (keyValue.Key == ConsoleKey.Enter)
 					{
 						EnterForFill();
+					} 
+					else if (keyValue.Key == ConsoleKey.LeftArrow)
+					{
+						LeftArrowForFill();
+					}
+					else if (keyValue.Key == ConsoleKey.RightArrow)
+					{
+						RightArrowForFill();
 					}
 
-					SpecialKeyAction(keyValue);
+                    SpecialKeyAction(keyValue);
 				}
 				else
 				{
@@ -97,6 +105,7 @@ public class InputService : IInputService
 		}
 	}
 
+	//Invokes for registered subscribers
 	void SpecialKeyAction(ConsoleKeyInfo keyInfo)
 	{
 		if (keyActionMap.TryGetValue(keyInfo.Key, out var actionSubscribers))
@@ -155,6 +164,22 @@ public class InputService : IInputService
 			inputSubscriber.OnEnterInput();
 		}
     }
+
+	void RightArrowForFill()
+	{
+		if (currentInputTarget is IAddInputSubscriber addInput)
+		{
+			addInput.OnRightArrow();
+		}
+    }
+
+	void LeftArrowForFill()
+	{
+		if (currentInputTarget is IAddInputSubscriber addInput)
+		{
+			addInput.OnLeftArrow();
+		}
+	}
 
 	public void ClearFill()
 	{

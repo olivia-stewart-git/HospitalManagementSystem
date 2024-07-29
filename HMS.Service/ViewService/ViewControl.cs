@@ -73,7 +73,7 @@ public abstract class ViewControl : IChangePropagator<ViewControl>, IPropertyBin
     }
 
     public EventHandler<ViewControl> OnChange { get; set; }
-	public void DoChange() => OnChange?.Invoke(this, this);
+	public void RegisterChanged() => OnChange?.Invoke(this, this);
 
 	readonly Dictionary<string, PropertyInfo> propertiesBindingCache = [];
 	readonly Dictionary<PropertyInfo, List<Action<object>>> bindingTargets = [];

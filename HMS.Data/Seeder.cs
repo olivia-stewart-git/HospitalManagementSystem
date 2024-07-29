@@ -4,7 +4,7 @@ using HMS.Data.Models;
 namespace HMS.Data;
 
 /// <summary>
-/// Seeds data from csv file generated using Mockaroo.com
+/// Seeds data from csv file
 /// </summary>
 public class Seeder : ISeeder
 {

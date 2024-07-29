@@ -150,7 +150,6 @@ namespace HMS.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("USR_ID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("USR_LastName")

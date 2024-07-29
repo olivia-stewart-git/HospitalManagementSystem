@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using HMS.Data.Models;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using HMS.Data.Models;
 
 namespace HMS.Data;
 
@@ -13,14 +8,12 @@ namespace HMS.Data;
 /// </summary>
 public class SeedingDataRepository
 {
+	//we consume embedded resource csv file.
 	public static IEnumerable<UserModel> ConsumeUsers()
 	{
 		var assembly = Assembly.GetExecutingAssembly();
-		using Stream stream = assembly.GetManifestResourceStream("HMS.Data.Resources.MockUserData.csv");
-		if (stream == null)
-		{
-			return [];
-		}
+		using Stream stream = assembly.GetManifestResourceStream("HMS.Data.Resources.MockUserData.csv")
+			?? throw new InvalidOperationException("Could not find seeding resource");
 
 		string[] states = ["NSW", "ACT", "VIC", "WA", "TAS"];
 		var rand = new Random();
@@ -85,6 +78,10 @@ public class SeedingDataRepository
 		var endDate = DateTime.Now.AddMonths(6);
 
 		var range = (endDate - startDate).Days;
-		return startDate.AddDays(RandomGenerator.Next(range));
-    }
+		
+		startDate = startDate.AddDays(RandomGenerator.Next(range));
+		startDate = startDate.AddHours(RandomGenerator.Next(12));
+		startDate = startDate.AddSeconds(RandomGenerator.Next(60));
+        return startDate;
+	}
 }

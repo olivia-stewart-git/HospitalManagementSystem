@@ -23,7 +23,7 @@ public class InputField : ViewControl, INavControl, IInputFiller, IInputSubscrib
 		set
 		{
 			contents = value;
-			DoChange();
+			RegisterChanged();
 		}
 	}
 

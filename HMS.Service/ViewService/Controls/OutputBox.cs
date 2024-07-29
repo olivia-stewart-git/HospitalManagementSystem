@@ -26,7 +26,7 @@ public class OutputBox : ViewControl
 			OutputState.Success => ConsoleColor.DarkGreen,
 			_ => throw new ArgumentOutOfRangeException(nameof(state), state, null)
 		};
-		DoChange();
+		RegisterChanged();
 	}
 
 	public enum OutputState

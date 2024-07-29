@@ -1,7 +1,6 @@
-﻿using System.Reflection;
-using HMS.Data.Models;
+﻿using HMS.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+using System.Reflection;
 
 namespace HMS.Data;
 

@@ -12,6 +12,7 @@ public class ViewWriter : IViewWriter
 		Console.Clear();
 	}
 
+	//we use class color context to make it easier to control console colors
 	public void Write(RenderElement renderElement)
 	{
 		using var backGroundContext = ColorContext.UseBackGround(renderElement.BackGroundColor);

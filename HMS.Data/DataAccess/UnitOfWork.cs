@@ -24,7 +24,7 @@ public class UnitOfWork : IUnitOfWork
 		}
 
 		var repositoryInstance = new Repository<T>(dbContext);
-		commited += (_, _) => repositoryInstance.DoChange();
+		commited += (_, _) => repositoryInstance.RegisterChanged();
 		repositoryMap[typeof(T)] = repositoryInstance;
 		return repositoryInstance;
 	}
