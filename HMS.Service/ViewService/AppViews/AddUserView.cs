@@ -27,6 +27,10 @@ public class AddUserView<T> : View where T : class, IUser, IDbModel
 		this.unitOfWorkFactory = unitOfWorkFactory;
 	}
 
+	/// <summary>
+	/// We override builder, to provide implementation of build view. Using view builder we can add properties
+	/// </summary>
+	/// <param name="viewBuilder"></param>
 	public override void BuildView(ViewBuilder viewBuilder)
 	{
 		viewBuilder

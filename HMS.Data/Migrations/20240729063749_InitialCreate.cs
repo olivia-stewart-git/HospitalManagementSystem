@@ -15,8 +15,8 @@ namespace HMS.Data.Migrations
                 name: "StmData",
                 columns: table => new
                 {
-                    STM_PK = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    STM_HasSeeded = table.Column<bool>(type: "bit", nullable: false)
+                    STM_PK = table.Column<Guid>(type: "TEXT", nullable: false),
+                    STM_HasSeeded = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,18 +27,17 @@ namespace HMS.Data.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    USR_PK = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    USR_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    USR_Password = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    USR_FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    USR_LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    USR_PhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    USR_Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    USR_Address_State = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    USR_Address_Postcode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    USR_Address_Line1 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    USR_Address_Line2 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    USR_PK = table.Column<Guid>(type: "TEXT", nullable: false),
+                    USR_ID = table.Column<int>(type: "INTEGER", nullable: false),
+                    USR_Password = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    USR_FirstName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    USR_LastName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    USR_PhoneNumber = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
+                    USR_Email = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    USR_Address_State = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    USR_Address_Postcode = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
+                    USR_Address_Line1 = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    USR_Address_Line2 = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -49,8 +48,8 @@ namespace HMS.Data.Migrations
                 name: "Administrators",
                 columns: table => new
                 {
-                    ADM_PK = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ADM_USR_ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ADM_PK = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ADM_USR_ID = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,8 +66,8 @@ namespace HMS.Data.Migrations
                 name: "Doctors",
                 columns: table => new
                 {
-                    DCT_PK = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DCT_USR_ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    DCT_PK = table.Column<Guid>(type: "TEXT", nullable: false),
+                    DCT_USR_ID = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -85,9 +84,9 @@ namespace HMS.Data.Migrations
                 name: "Patients",
                 columns: table => new
                 {
-                    PAT_PK = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PAT_USR_ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PAT_DCT_ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    PAT_PK = table.Column<Guid>(type: "TEXT", nullable: false),
+                    PAT_USR_ID = table.Column<Guid>(type: "TEXT", nullable: false),
+                    PAT_DCT_ID = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -109,11 +108,11 @@ namespace HMS.Data.Migrations
                 name: "AppointmentModels",
                 columns: table => new
                 {
-                    APT_PK = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    APT_AppointmentTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    APT_DCT_ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    APT_PAT_ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    APT_Description = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false)
+                    APT_PK = table.Column<Guid>(type: "TEXT", nullable: false),
+                    APT_AppointmentTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    APT_DCT_ID = table.Column<Guid>(type: "TEXT", nullable: false),
+                    APT_PAT_ID = table.Column<Guid>(type: "TEXT", nullable: false),
+                    APT_Description = table.Column<string>(type: "TEXT", maxLength: 400, nullable: false)
                 },
                 constraints: table =>
                 {

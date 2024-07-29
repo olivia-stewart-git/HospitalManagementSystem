@@ -1,4 +1,5 @@
-﻿using HMS.Data.Models;
+﻿using System.Reflection;
+using HMS.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
@@ -17,7 +18,12 @@ public class HMSDbContext : DbContext
 	public DbSet<AdministratorModel> Administrators { get; set; }
 	public DbSet<AppointmentModel> AppointmentModels { get; set; }
 
+	string DbPath => Path.Combine(Directory.GetParent(Assembly.GetExecutingAssembly().Location).Parent.Parent.Parent.Parent.FullName, "Database");
+
 	protected override void OnConfiguring(DbContextOptionsBuilder options)
-		=> options
-			.UseSqlServer($"Server=localhost;Initial Catalog=HospitalDb;Integrated Security=SSPI;TrustServerCertificate=True");
+	{
+		options
+			.UseSqlite($"DataSource={DbPath}");
+	}
+	//.UseSqlServer($"Server=localhost;Initial Catalog=HospitalDb;Integrated Security=SSPI;TrustServerCertificate=True");
 }

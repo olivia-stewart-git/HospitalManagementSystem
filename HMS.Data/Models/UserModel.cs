@@ -11,8 +11,7 @@ public class UserModel : IDbModel, IUser
 	[Key] public Guid USR_PK { get; set; } = Guid.NewGuid();
 
 	[Required]
-	[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int USR_ID { get; set; }
+	public int USR_ID { get; set; }
 
 	[Required]
 	[MaxLength(100)]

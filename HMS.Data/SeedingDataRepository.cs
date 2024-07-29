@@ -26,11 +26,12 @@ public class SeedingDataRepository
 		var rand = new Random();
 		var users = new List<UserModel>();
 		using StreamReader reader = new StreamReader(stream);
+		int i = 0;
 		while (!reader.EndOfStream)
 		{
 			string line = reader.ReadLine();
 			string[] values = line.Split(',');
-
+			i++;
             var model = new UserModel
             {
                 USR_PK = Guid.NewGuid(),
@@ -43,6 +44,7 @@ public class SeedingDataRepository
 				USR_Address_State = states[rand.Next(states.Length)],
 				USR_Address_Postcode = values[6],
                 USR_PhoneNumber = values[7],
+				USR_ID = i,
             };
 
 			users.Add(model);
