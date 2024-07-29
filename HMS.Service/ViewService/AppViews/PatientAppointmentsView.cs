@@ -46,7 +46,7 @@ public class PatientAppointmentsView : View
 				nameof(AppointmentModel.APT_Patient),
 				nameof(AppointmentModel.APT_Patient) + "." + nameof(AppointmentModel.APT_Patient.PAT_User)
 			])
-			.ToList();
+			.OrderBy(x => x.APT_AppointmentTime).ToList();
 
 		if (appointments.Count > 0)
 		{
