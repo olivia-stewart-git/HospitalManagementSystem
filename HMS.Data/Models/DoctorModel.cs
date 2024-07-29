@@ -9,7 +9,7 @@ namespace HMS.Data.Models;
 public class DoctorModel : IDbModel, IUser
 {
 	[Key]
-	public Guid DCT_PK { get; set; }
+	public Guid DCT_PK { get; set; } = Guid.NewGuid();
 
 	[ForeignKey("DCT_USR_ID")]
 	public UserModel DCT_User { get; set; }
