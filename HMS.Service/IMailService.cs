@@ -2,5 +2,5 @@
 
 public interface IMailService
 {
-	void SendEmail(string receiver, string subject, string content);
+	bool TrySendEmail(string receiver, string subject, string content);
 }

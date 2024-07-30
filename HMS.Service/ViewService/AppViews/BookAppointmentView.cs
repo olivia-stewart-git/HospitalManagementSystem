@@ -138,7 +138,7 @@ public class BookAppointmentView : View
 
 		var patient = patientRepository.GetWhere(
 			x => x.PAT_USR_ID == environment.CurrentUser.USR_PK,
-			[nameof(PatientModel.PAT_Doctor), nameof(PatientModel.PAT_Doctor) + "." + nameof(DoctorModel.User)]).SingleOrDefault();
+			[nameof(PatientModel.PAT_Doctor), nameof(PatientModel.PAT_Doctor) + "." + nameof(DoctorModel.DCT_User)]).SingleOrDefault();
 
 		if (patient == null)
 		{
@@ -186,7 +186,11 @@ public class BookAppointmentView : View
 		var contents = $"You have booked an appointment with {doctorName} on {inputDatetime.Value}" +
 			$"Description: {inputDescription}";
 
-		mailService.SendEmail(patient.PAT_User.USR_Email, emailSubject, contents);
+		if (!mailService.TrySendEmail(patient.PAT_User.USR_Email, emailSubject, contents))
+		{
+			outputBox.Enabled = true;
+			outputBox.SetState("Unable to send confirmation email. Possible invalid email input", OutputBox.OutputState.Error);
+        }
 
         unitOfWork.Commit();
 	}

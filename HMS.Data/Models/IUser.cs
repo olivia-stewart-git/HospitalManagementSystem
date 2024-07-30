@@ -5,5 +5,5 @@
 /// </summary>
 public interface IUser
 {
-    public UserModel User { get; set; }
+    public UserModel? User { get; set; }
 }

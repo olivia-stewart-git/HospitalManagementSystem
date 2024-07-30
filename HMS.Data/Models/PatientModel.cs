@@ -9,7 +9,7 @@ namespace HMS.Data.Models;
 public class PatientModel : IDbModel, IUser
 {
 	[Key]
-	public Guid PAT_PK { get; set; }
+	public Guid PAT_PK { get; set; } = Guid.NewGuid();
 
 	[ForeignKey("PAT_USR_ID")]
 	public UserModel PAT_User { get; set; }
@@ -21,7 +21,7 @@ public class PatientModel : IDbModel, IUser
 	[DeleteBehavior(DeleteBehavior.NoAction)]
 	[ForeignKey("PAT_DCT_ID")]
 	public DoctorModel? PAT_Doctor { get; set; }
-	public Guid PAT_DCT_ID;
+	public Guid? PAT_DCT_ID;
 
 	[NotMapped]
     public UserModel User { get => PAT_User; set => PAT_User = value; }

@@ -12,7 +12,7 @@ public class DoctorModel : IDbModel, IUser
 	public Guid DCT_PK { get; set; } = Guid.NewGuid();
 
 	[ForeignKey("DCT_USR_ID")]
-	public UserModel DCT_User { get; set; }
+	public UserModel? DCT_User { get; set; }
 	public Guid DCT_USR_ID { get; set; }
 
 	[InverseProperty(nameof(AppointmentModel.APT_Doctor))]
@@ -22,5 +22,5 @@ public class DoctorModel : IDbModel, IUser
 	public ICollection<PatientModel> DCT_Patients { get; set; } = [];
 
 	[NotMapped]
-    public UserModel User { get => DCT_User; set => DCT_User = value; }
+    public UserModel? User { get => DCT_User; set => DCT_User = value; }
 }

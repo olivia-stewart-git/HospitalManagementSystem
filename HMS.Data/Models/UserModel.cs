@@ -10,8 +10,8 @@ public class UserModel : IDbModel, IUser
 {
 	[Key] public Guid USR_PK { get; set; } = Guid.NewGuid();
 
-	[Required]
-	public int USR_ID { get; set; }
+	[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+	public int USR_ID { get; set; } = 0;
 
 	[Required]
 	[MaxLength(100)]

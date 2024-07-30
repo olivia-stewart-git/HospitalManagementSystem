@@ -73,8 +73,18 @@ public class AddUserView<T> : View where T : class, IUser, IDbModel
 			return;
 		}
 
-		var user = new UserModel()
+		if (!ValidateEmail(email))
 		{
+			outputBox.Enabled = true;
+			outputBox.SetState("Make sure email is in the correct format", OutputBox.OutputState.Warn);
+            return;
+		}
+
+		var random = new Random();
+		var i = random.Next();
+        var user = new UserModel()
+		{
+			USR_ID = i,
 			USR_FirstName = firstName,
 			USR_LastName = lastName,
 			USR_Password = password,
@@ -94,6 +104,11 @@ public class AddUserView<T> : View where T : class, IUser, IDbModel
 
 		outputBox.Enabled = true;
 		outputBox.SetState($"Added new user {firstName} + {lastName}", OutputBox.OutputState.Success);
+	}
+
+	bool ValidateEmail(string email)
+	{
+		return email.Contains('@') && email.EndsWith(".com");
 	}
 
 	public override void OnEscapePressed()
