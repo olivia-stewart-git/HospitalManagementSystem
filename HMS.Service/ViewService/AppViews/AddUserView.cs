@@ -80,6 +80,13 @@ public class AddUserView<T> : View where T : class, IUser, IDbModel
             return;
 		}
 
+		if (password.Length < 6)
+		{
+			outputBox.Enabled = true;
+			outputBox.SetState("Password is too simple.", OutputBox.OutputState.Warn);
+			return;
+        }
+
 		var random = new Random();
 		var i = random.Next();
         var user = new UserModel()
@@ -103,7 +110,7 @@ public class AddUserView<T> : View where T : class, IUser, IDbModel
 		unitOfWork.Commit();
 
 		outputBox.Enabled = true;
-		outputBox.SetState($"Added new user {firstName} + {lastName}", OutputBox.OutputState.Success);
+		outputBox.SetState($"Added new user {firstName} {lastName}", OutputBox.OutputState.Success);
 	}
 
 	bool ValidateEmail(string email)
